@@ -16,7 +16,10 @@ Autoría del proyecto: **MarcoAntonioDamianOrtiz**. Producción asistida por Cod
 | Recogedor trapezoidal | `FairArtPass.Tray` | Carrito |
 | Rueda facetada, mango y vaso hueco | `FairArtPass` | Objetos de la escena |
 | Carrito, escoba y paño | `Assets/Feria/Prefabs/` | Composición visual reutilizable |
-| Audio de roce, recogida y campanilla | `FairGame.MakeSound` | Síntesis local |
+| Audio de roce, recogida y campanilla | `Presentation/FairAudio.Sound` | Síntesis local |
+| Cielo de amanecer | `Assets/Feria/Art/Original/Amanecer.shader` | Gradiente y sol procedurales |
+| Rótulo arqueado, follaje, faroles y tejados | `FairVisualPolish.cs` | Mallas originales del entorno |
+| Ambiente completo | `Assets/Feria/Prefabs/AmbienteFeria.prefab` | Escenografía reutilizable |
 
 Las ilustraciones son diseños geométricos originales y reproducibles, no imágenes de referencia reutilizadas. `FairArtPass` genera PNG de 512 × 512 y los SVG correspondientes. El resto de la escena combina geometría básica de Unity mediante composiciones diseñadas para este juego.
 

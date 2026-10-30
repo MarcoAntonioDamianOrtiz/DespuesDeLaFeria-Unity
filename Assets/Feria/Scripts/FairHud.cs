@@ -11,14 +11,14 @@ namespace Feria
         public FairGame game;
         public TMP_FontAsset font;
         public Sprite broomIcon, clothIcon, emblem;
-        TextMeshProUGUI progress, prompt, notice, tool, menuTitle;
+        TextMeshProUGUI progress, prompt, notice, tool, menuTitle, practiceLabel, sessionLabel;
         GameObject menu, crosshair;
         bool started;
         Color ink = new Color(.13f, .22f, .24f);
         void Start()
         {
             var canvas = gameObject.AddComponent<Canvas>(); canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            var scaler = gameObject.AddComponent<CanvasScaler>(); scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize; scaler.referenceResolution = new Vector2(1600, 900); scaler.matchWidthOrHeight = .5f;
+            var scaler = gameObject.AddComponent<CanvasScaler>(); scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize; scaler.referenceResolution = new Vector2(1600, 900); scaler.matchWidthOrHeight = 1f;
             gameObject.AddComponent<GraphicRaycaster>();
             var eventSystem = new GameObject("Input UI", typeof(EventSystem), typeof(InputSystemUIInputModule));
             var top = Panel("Objetivos", transform, new Vector2(310, 116), new Vector2(28, -26), new Vector2(0, 1), new Vector2(0, 1), new Color(.96f, .94f, .85f, .94f));
@@ -39,9 +39,11 @@ namespace Feria
             Label("Controles", card, "WASD  Caminar     Ratón  Mirar\nClic mantenido  Usar herramienta\n1  Escoba     2  Paño     E  Interactuar\nTab  Localizar tarea     F5  Guardar\n\nAcerca el carrito y barre hacia su recogedor amarillo.\nUsa el paño sobre las manchas del mostrador.", 21, ink, new Vector2(610, 235), new Vector2(40, -264), new Vector2(0, 1), new Vector2(0, 1));
             SettingSlider("Volumen", card, 225, 0, 1, PlayerPrefs.GetFloat("feria.volume",.7f), game.SetVolume);
             SettingSlider("Sensibilidad", card, 160, .035f, .18f, PlayerPrefs.GetFloat("feria.sensitivity",.095f), game.SetSensitivity);
-            Button("Comenzar", card, "Entrar · Enter", new Vector2(40, 78), () => { started = true; game.SetPaused(false); });
-            Button("Guardar", card, "Guardar partida", new Vector2(355, 78), () => game.Save());
-            Label("Estado", card, "VERSIÓN 0.2 · Arte original · Guardado local automático", 16, new Color(.38f, .42f, .4f), new Vector2(610, 35), new Vector2(40, 22), new Vector2(0, 0), new Vector2(0, 0));
+            Button("Comenzar", card, "Entrar · Enter", new Vector2(40, 78), () => { started = true; game.SetPaused(false); },190);
+            Button("Guardar", card, "Guardar", new Vector2(250, 78), () => game.Save(),190);
+            Button("Practica", card, "Limpieza libre", new Vector2(460, 78), game.TogglePractice,190);
+            practiceLabel=card.Find("Practica/Texto").GetComponent<TextMeshProUGUI>();
+            sessionLabel=Label("Estado", card, "VERSIÓN 0.3 · Arte original · Guardado local automático", 16, new Color(.38f, .42f, .4f), new Vector2(610, 35), new Vector2(40, 22), new Vector2(0, 0), new Vector2(0, 0));
             Icon("Emblema",card,emblem,new Vector2(573,-78),new Vector2(74,74),new Vector2(0,1),new Vector2(0,1));
             Icon("Icono escoba",lower,broomIcon,new Vector2(15,0),new Vector2(39,39),new Vector2(0,.5f),new Vector2(0,.5f));
             tool.rectTransform.anchoredPosition=new Vector2(50,0); tool.rectTransform.sizeDelta=new Vector2(610,48);
@@ -52,6 +54,8 @@ namespace Feria
             if(!game.Paused) started=true;
             menu.SetActive(game.Paused); crosshair.SetActive(!game.Paused);
             menuTitle.text = started ? "Una pequeña pausa" : "Después de la feria";
+            practiceLabel.text=game.InPractice?"Volver a partida":"Limpieza libre";
+            sessionLabel.text=game.InPractice?"LIMPIEZA LIBRE · Tu partida se conserva · "+game.Metrics.Summary:"VERSIÓN 0.3 · Arte original · Guardado local automático";
             int clean = Mathf.RoundToInt(game.CleanProgress * 100);
             progress.text = $"Suelo: {Mathf.RoundToInt(100f * game.Collected / game.litter.Length)}% despejado\nMostrador: {clean}% limpio\nCartel: {(game.SignFixed ? "colocado" : "por colocar")}";
             tool.text = game.MovingCart ? "MOVIENDO CARRITO   ·   E para estacionar" : (game.Tool == 0 ? "1  ESCOBA   ·   2  Paño   ·   Tab  Ayuda" : "1  Escoba   ·   2  PAÑO   ·   Tab  Ayuda");
@@ -67,11 +71,11 @@ namespace Feria
             var go = new GameObject(name, typeof(RectTransform), typeof(TextMeshProUGUI)); var rt = go.GetComponent<RectTransform>(); rt.SetParent(parent, false); rt.anchorMin = rt.anchorMax = anchor; rt.pivot = pivot; rt.sizeDelta = dimensions; rt.anchoredPosition = position;
             var label = go.GetComponent<TextMeshProUGUI>(); label.font = font; label.text = text; label.fontSize = size; label.color = color; label.raycastTarget = false; label.overflowMode = TextOverflowModes.Overflow; return label;
         }
-        void Button(string name, Transform parent, string text, Vector2 position, UnityEngine.Events.UnityAction action)
+        void Button(string name, Transform parent, string text, Vector2 position, UnityEngine.Events.UnityAction action,float width=285)
         {
-            var rt = Panel(name, parent, new Vector2(285, 53), position, Vector2.zero, Vector2.zero, new Color(.13f, .4f, .39f));
+            var rt = Panel(name, parent, new Vector2(width, 53), position, Vector2.zero, Vector2.zero, new Color(.13f, .4f, .39f));
             var button = rt.gameObject.AddComponent<UnityEngine.UI.Button>(); button.onClick.AddListener(action);
-            var label = Label("Texto", rt, text, 22, Color.white, new Vector2(285, 53), Vector2.zero, new Vector2(.5f, .5f), new Vector2(.5f, .5f)); label.alignment = TextAlignmentOptions.Center;
+            var label = Label("Texto", rt, text, 20, Color.white, new Vector2(width, 53), Vector2.zero, new Vector2(.5f, .5f), new Vector2(.5f, .5f)); label.alignment = TextAlignmentOptions.Center;
         }
         void Icon(string name,Transform parent,Sprite sprite,Vector2 position,Vector2 size,Vector2 anchor,Vector2 pivot)
         {

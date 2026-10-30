@@ -4,15 +4,18 @@ Juego independiente para un jugador, desarrollado con **Unity 6.3 LTS / C# / URP
 
 Recupera una pequeña feria al amanecer: barre confeti, lleva los residuos al carrito, limpia el mostrador y devuelve un cartel a su sitio. Cuando terminas, el puesto recupera sus luces y puedes soltar una canica en su mecanismo.
 
-![Primera zona con arte original](docs/images/feria-v02.png)
+![Primera zona con ambiente de amanecer](docs/images/feria-v03.png)
 
-## Estado: primera zona jugable, versión 0.2
+## Estado: primera zona jugable, versión 0.3
 
 - Movimiento en primera persona y dos herramientas.
 - Barrido con área visible y recogida mediante un carrito movible.
 - Ayuda contextual con Tab para encontrar trabajo pendiente.
 - Ajustes de sensibilidad y volumen guardados localmente.
 - Modelos y gráficos originales: toldo festoneado, banderines, carrito, escoba, paño, carteles e iconos.
+- Ambiente de amanecer con cielo propio, faroles, vegetación, casetas lejanas y fachada arqueada.
+- Limpieza libre para repetir la zona sin sustituir el progreso guardado.
+- Sistemas de residuos, carrito, restauración, presentación y persistencia separados; reglas en una definición de zona.
 - Guardado JSON local con respaldo, recuperación y formato versionado.
 - Sin servidores, cuentas de jugador, multijugador ni conexión obligatoria.
 
@@ -45,12 +48,13 @@ Coloca el recogedor amarillo del carrito delante de los montones. Limpia el most
 
 Las fuentes vectoriales editables están en `ArtSources/`. Los PNG, materiales y mallas están en `Assets/Feria/Art/Original/`, y los prefabs visuales en `Assets/Feria/Prefabs/`.
 
-El generador `Assets/Feria/Editor/FairArtPass.cs` documenta la construcción de estos elementos. No se utilizaron paquetes de modelos ni ilustraciones descargados para el arte de esta versión. Consulta [ART_PROVENANCE.md](ART_PROVENANCE.md) para distinguir nuestro contenido de las dependencias de Unity y las fuentes tipográficas.
+Los generadores `FairArtPass.cs` y `FairVisualPolish.cs` documentan la construcción de objetos y ambiente. No se utilizaron paquetes de modelos ni ilustraciones descargados para el arte de esta versión. Consulta [ART_PROVENANCE.md](ART_PROVENANCE.md) para distinguir nuestro contenido de las dependencias de Unity y las fuentes tipográficas.
 
 ## Documentación
 
 - [Diseño de la primera zona](docs/DISENO.md).
 - [Arquitectura y guardado](docs/ARQUITECTURA.md).
+- [Prueba de sesión de hasta diez minutos](docs/PRUEBA-DE-SESION.md).
 - [Cambios y validación](CHANGELOG.md).
 
 ## Derechos

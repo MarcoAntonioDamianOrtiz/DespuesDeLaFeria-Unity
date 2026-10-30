@@ -48,13 +48,13 @@ public static class FairVerification
             Check(Mathf.Abs(PlayerPrefs.GetFloat("feria.volume")-.34f)<.001f && Mathf.Abs(PlayerPrefs.GetFloat("feria.sensitivity")-.11f)<.001f,"Preferencias guardadas"); reports.Add("PASS · Volumen y sensibilidad");
             Check(game.hud.broomIcon && game.hud.clothIcon && game.hud.emblem && game.player.cloth,"Referencias del arte original");
             Check(game.feedbackMaterial && game.feedbackMaterial.shader,"Material serializado del indicador de barrido");
-            var meshes=AssetDatabase.FindAssets("t:Mesh",new[]{"Assets/Feria/Art/Original/Meshes"}); Check(meshes.Length==6,"Seis mallas originales");
+            var meshes=AssetDatabase.FindAssets("t:Mesh",new[]{"Assets/Feria/Art/Original/Meshes"}); Check(meshes.Length>=11,"Mallas originales de objetos y ambiente");
             foreach(string guid in meshes)
             {
                 var mesh=AssetDatabase.LoadAssetAtPath<Mesh>(AssetDatabase.GUIDToAssetPath(guid)); int nonzero=0; foreach(var normal in mesh.normals) if(normal.sqrMagnitude>.1f) nonzero++;
                 Check(nonzero>mesh.vertexCount*.9f,"Normales válidas: "+mesh.name);
             }
-            reports.Add("PASS · Iconos, paño y seis mallas con normales válidas");
+            reports.Add("PASS · Iconos, paño y mallas de objetos y ambiente con normales válidas");
             string directory=Path.GetFullPath("../../work/verification-v02"); Directory.CreateDirectory(directory);
             string path=Path.Combine(directory,"save-"+Guid.NewGuid().ToString("N")+".json");
             var store=new LocalSaveStore(path); store.Write(baseline); store.Write(baseline);

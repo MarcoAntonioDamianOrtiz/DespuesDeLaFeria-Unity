@@ -1,39 +1,23 @@
-# Después de la feria · Versión 0.2
+# Después de la feria · Versión 0.3
 
-La documentación actual está en [README.md](README.md). Esta versión añade arte original, ayuda con Tab y ajustes de volumen y sensibilidad. La compilación actual para Windows está en la carpeta hermana `Feria-Windows-v0.2`.
+La documentación principal está en [README.md](README.md), y la arquitectura completa en [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
 
-Proyecto de Unity 6.3 LTS (6000.3.24f1), Universal 3D / URP.
+## Jugar
 
-## Abrir y jugar
+La versión para Windows está en la carpeta hermana `Feria-Windows-v0.3`. Abre `DespuesDeLaFeria.exe` y conserva las carpetas que lo acompañan.
 
-Abre este directorio desde Unity Hub. Abre `Assets/Feria/Scenes/PrimeraManana.unity`, pulsa Play y elige **Entrar a la feria**.
+En Unity Hub, abre este proyecto con 6000.3.24f1 y la escena `Assets/Feria/Scenes/PrimeraManana.unity`.
 
-También puedes pulsar Enter para entrar o reanudar. La versión independiente para Windows está en la carpeta hermana `Feria-Windows`: abre `DespuesDeLaFeria.exe` y conserva junto al ejecutable las demás carpetas de esa versión.
+WASD: caminar. Ratón: mirar. Clic mantenido: usar herramienta. 1/2: escoba/paño. E: interactuar. Tab: ayuda. Esc: pausa. Enter: reanudar. F5: guardar.
 
-- WASD: caminar. Ratón: mirar.
-- Mantener clic izquierdo: usar la herramienta.
-- 1: escoba. 2: paño. Rueda: cambiar herramienta.
-- E: colocar cartel, mover/estacionar carrito, encender puesto o soltar canica, según lo que estés mirando.
-- Esc: pausa. F5: guardar.
+## Repetir sin perder progreso
 
-Acerca el carrito a un montón. Su recogedor amarillo recibe los residuos: barre hacia él. Limpia las manchas del mostrador con el paño, coloca el cartel caído y acciona el interruptor del lado derecho del puesto. Cuando vuelva la luz, acércate a la canica para probar el mecanismo.
+En el menú elige **Limpieza libre** para empezar la zona de nuevo. Tu partida anterior se conserva. Desde la pausa puedes usar **Volver a partida**. La limpieza libre no escribe sobre el guardado de campaña.
 
-## Alcance
+El [protocolo de sesión](docs/PRUEBA-DE-SESION.md) permite observar la comodidad y diversión durante un máximo orientativo de diez minutos.
 
-Una zona pequeña y arte provisional modelado con formas simples. Incluye movimiento en primera persona, barrido, recogida con carrito, limpieza de mostrador, cartel, reactivación de luces y una animación de canica. Audio generado localmente; no requiere descargas durante la partida.
+## Guardado y alcance
 
-Esta versión permite evaluar los controles y el ciclo de trabajo. No está validado que sostenga diez minutos de diversión. No incluye todavía campaña, economía, mejoras, separación de residuos, reasignación de controles ni sincronización con Steam.
+Progreso local en JSON v1, con respaldo y recuperación; compatible con la primera prueba. Volumen y sensibilidad en PlayerPrefs. No incluye campaña completa, economía, mejoras, multijugador ni integración de Steam todavía.
 
-## Guardado
-
-Se guarda automáticamente cada 25 segundos de juego, al estacionar el carrito y completar ciertas interacciones, y al salir. Usa `Application.persistentDataPath` bajo la empresa **FeriaIndie** y producto **Despues de la feria**. Archivo `feria-slot-1.json`, respaldo `.bak`, versión 1. El archivo temporal se reemplaza de forma atómica. Si el principal no puede leerse, se intenta el respaldo.
-
-## Organización
-
-- `Assets/Feria/Scripts/FairPlayer.cs`: movimiento, vista y controles.
-- `Assets/Feria/Scripts/FairGame.cs`: residuos, tareas, audio y guardado.
-- `Assets/Feria/Scripts/FairHud.cs`: interfaz y pausa.
-- `Assets/Feria/Editor/FairSceneBuilder.cs`: construcción reproducible de la escena. El menú **Feria > Crear primera zona** recrea la escena; úsalo únicamente para regenerarla, pues sustituye su contenido actual.
-- `Assets/Feria/Art`: materiales, fuente y ambiente.
-
-No se ha publicado en servicios externos ni creado un repositorio remoto.
+Código y arte editable se versionan en el repositorio público del proyecto. Las partidas, cachés y registros locales no forman parte del repositorio.

@@ -12,7 +12,7 @@ namespace Feria
         public FairGame game;
         public float sensitivity = .095f;
         CharacterController controller;
-        float pitch = 25f;
+        float pitch = 20f;
         float verticalSpeed;
         Vector3 broomRest;
         public bool Active => game != null && !game.Paused;
@@ -43,7 +43,7 @@ namespace Feria
             verticalSpeed = controller.isGrounded ? -2 : verticalSpeed - 18 * Time.deltaTime;
             controller.Move(((transform.right * movement.x + transform.forward * movement.y) * (game.MovingCart ? 2.6f : 3.7f) + Vector3.up * verticalSpeed) * Time.deltaTime);
             var p = transform.position;
-            p.x = Mathf.Clamp(p.x, -6.5f, 6.5f); p.z = Mathf.Clamp(p.z, -8.3f, 7.6f);
+            p.x = Mathf.Clamp(p.x, game.definition.playerMin.x, game.definition.playerMax.x); p.z = Mathf.Clamp(p.z, game.definition.playerMin.y, game.definition.playerMax.y);
             transform.position = p;
             if (kb.digit1Key.wasPressedThisFrame) game.Tool = 0;
             if (kb.digit2Key.wasPressedThisFrame) game.Tool = 1;
@@ -68,6 +68,7 @@ namespace Feria
         {
             if (controller == null) controller = GetComponent<CharacterController>();
             controller.enabled = false; transform.SetPositionAndRotation(position, Quaternion.Euler(0, yaw, 0)); controller.enabled = true;
+            pitch=20;verticalSpeed=0;if(view)view.transform.localRotation=Quaternion.Euler(pitch,0,0);
         }
     }
 }
