@@ -1,5 +1,16 @@
 # Cambios
 
+## 0.4.0 — Papel, escoba y canicas
+
+- Cinco formas de confeti original con curvatura y aleteo visual separado del guardado.
+- Escoba artesanal biselada, mango y remaches; fibras flexibles y pasada más suave.
+- Tablero nuevo con carriles, apoyos, dianas numeradas y veta de canica.
+- Minijuego de timing con vista cercana, puntuación, notas por curva y revancha sin dinero ni desbloqueos adicionales.
+- Récord local en partida normal, protegido durante limpieza libre.
+- Servicio MarbleGame separado; vista y recorrido configurables por zona.
+- Guardados v1 e índices de residuos conservados.
+- Pruebas específicas de minijuego/cámara/representación y ciclo completo de limpieza.
+
 ## 0.3.0 — Ambiente, arquitectura y limpieza libre
 
 - Cielo de amanecer propio, vegetación tallada, faroles, casetas lejanas y rótulo arqueado.

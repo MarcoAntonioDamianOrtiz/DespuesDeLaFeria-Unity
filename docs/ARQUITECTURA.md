@@ -1,4 +1,4 @@
-# Arquitectura de Después de la feria — v0.3
+# Arquitectura de Después de la feria — v0.4
 
 Esta es la arquitectura ejecutable de la primera zona y el diseño de ampliación del juego completo. La campaña, economía y Steam todavía no están implementados; se distinguen abajo de los sistemas que ya funcionan.
 
@@ -21,6 +21,8 @@ flowchart TD
     App --> Surface[SurfaceCleaning]
     App --> Cart[CartMotor]
     App --> World[RestorationState]
+    World --> Toy[MarbleGame]
+    Toy -. notas y resultado .-> App
     App --> Feedback[FairFeedback]
     App --> Sound[FairAudio]
     App --> Metrics[PlaySessionMetrics]
@@ -40,7 +42,7 @@ flowchart TD
 | Raíz | `FairGame`, `FairPlayer`, `FairHud` | Composición, entrada, cámara y UI |
 | `Configuration` | `FairZoneDefinition` | Identidad, límites, herramientas, recogida, finalización y recorrido de canica |
 | `Simulation` | `LitterSimulation`, `SurfaceCleaning`, `CartMotor` | Residuos, manchas y movimiento del carrito |
-| `World` | `RestorationState` | Cartel, condiciones de reactivación, luces y canica |
+| `World` | `RestorationState`, `MarbleGame` | Restauración y juego de canicas independiente de entrada/UI |
 | `Presentation` | `FairFeedback`, `FairAudio` | Indicadores y audio; liberación de recursos temporales |
 | `Persistence` | `FairSave`, `SaveValidation`, `LocalSaveStore` | Datos, validación y archivos |
 | `Diagnostics` | `PlaySessionMetrics` | Medidas de la sesión en memoria |
@@ -85,7 +87,11 @@ El recogedor acepta elementos desde su boca. La pared trasera del carro no recog
 
 `CartMotor` suaviza el seguimiento, respeta límites y comprueba obstáculos con una consulta de caja reutilizable. No tiene combustible, capacidad ni viajes obligatorios para descargar.
 
-`SurfaceCleaning` controla las 16 manchas del mostrador. `RestorationState` exige suelo, mostrador y cartel; después activa la luz y permite liberar una canica que sigue los puntos definidos en el asset de zona.
+El papel conserva su raíz como posición persistente; un hijo visual lleva el aleteo y la inclinación. No se serializa su altura animada. Los índices de los 720 residuos permanecen intactos.
+
+`SurfaceCleaning` controla las 16 manchas del mostrador. `RestorationState` exige suelo, mostrador y cartel; después activa la luz y habilita el juego de canicas.
+
+`MarbleGame` mantiene las fases `Idle → Aiming → Rolling → Result`. Confirmar durante el apuntado fija la llegada; confirmar mientras rueda no reinicia la bola. El recorrido usa los puntos de la definición de zona y termina en una de cinco dianas (10/50/100). `FairPlayer` guarda la pose de cámara y el campo de visión al entrar, ofrece una vista cercana y los restaura al salir. La pausa detiene el medidor y el recorrido. El movimiento de cámara y los controles no pertenecen al servicio. `RailTouched` y `Finished` alimentan el sonido y la presentación.
 
 ## Persistencia y compatibilidad
 
@@ -95,7 +101,7 @@ La partida contiene posiciones, residuos retirados, limpieza, tareas, carrito, p
 
 `LocalSaveStore` escribe un temporal y sustituye el principal conservando `.bak`. Prueba principal y respaldo por orden; una recuperación válida repara el principal. Las pruebas usan una carpeta aislada.
 
-Las preferencias de volumen y sensibilidad usan PlayerPrefs, separadas del progreso. No se guardan rutas del equipo ni datos personales en el repositorio. Las métricas de sesión permanecen en memoria y no se envían por Internet.
+Las preferencias de volumen, sensibilidad y mejor puntuación de canicas usan PlayerPrefs, separadas del JSON. Solo un resultado terminado en partida normal actualiza el récord; la limpieza libre no lo modifica. Los intentos y el lanzamiento en curso son efímeros. No se guardan rutas del equipo ni datos personales en el repositorio. Las métricas de sesión permanecen en memoria y no se envían por Internet.
 
 ## Arquitectura de ampliación del juego completo
 
@@ -116,10 +122,14 @@ Estos sistemas están diseñados como puntos de extensión, no presentados como 
 
 `FairSceneBuilder` construye la zona base; sustituye la escena y debe usarse deliberadamente. `FairArtPass` aplica los objetos e ilustraciones originales. `FairVisualPolish` añade un entorno identificado por su propia raíz, un cielo propio y la definición de zona, conservando los objetos jugables y sus índices.
 
+`FairDetailPolish` se aplica al final para sustituir la representación del papel y la escoba y construir el tablero. Cada pasada es repetible sobre sus propios objetos. Orden de regeneración: base → arte v0.2 → ambiente v0.3 → detalles v0.4. Regenerar la base sustituye la escena; no es necesario para abrir ni jugar.
+
 Los SVG editables están en `ArtSources`. Las mallas, PNG y materiales en `Assets/Feria/Art/Original`; los prefabs en `Assets/Feria/Prefabs`. La fuente y dependencias de Unity conservan sus avisos de terceros.
 
 ## Verificación y límites
 
 `FairVerification` comprueba los sistemas y la recuperación del guardado. `FairJourneyVerification` ejecuta barrido y recogida hasta completar el suelo, exige las tareas restantes, comprueba la canica y la protección de la partida al ensayar.
+
+`FairDetailVerification` cubre la separación de aleteo/guardado, entrada/salida, pausa, puntuaciones, repetición, protección del récord y animación de herramienta.
 
 Esta simulación técnica no equivale a una partida humana ni demuestra diez minutos de diversión. El protocolo de observación y sus criterios están en `PRUEBA-DE-SESION.md`.

@@ -10,6 +10,7 @@ namespace Feria
         public Vector3 placedSign=new Vector3(-2.95f,1.3f,3.85f);
         public Vector3[] marbleWaypoints=new Vector3[0];
         public float marbleSeconds=8;
+        public Vector3 marbleViewPosition=new Vector3(0,2.4f,3.0f),marbleViewTarget=new Vector3(0,1.65f,5.05f);
         [Range(.4f,1.5f)] public float sweepRadius=.9f;
         [Range(1,6)] public float sweepStrength=3.4f;
         [Range(2,12)] public float friction=7;

@@ -29,6 +29,9 @@ namespace Feria
         public bool CounterDone=>counter.Complete;
         public float CleanProgress=>counter.Progress;
         public bool InPractice {get;private set;}
+        public MarbleGame Marble=>restoration.Marble;
+        public bool MinigameActive=>Marble.Active;
+        public int MarbleBest=>PlayerPrefs.GetInt("feria.marble.best",0);
         public PlaySessionMetrics Metrics {get;private set;}=new PlaySessionMetrics();
         public string Notice {get;private set;}="";
         public string SavePath=>saveStore!=null?saveStore.Path:Path.Combine(Application.persistentDataPath,"feria-slot-1.json");
@@ -55,6 +58,8 @@ namespace Feria
             floor.PickedUp+=amount=>{sound.Pickup(amount);Metrics.Pickup(amount);};
             floor.FloorCompleted+=()=>Tell("¡Explanada despejada! Recuperaste los colores del suelo.");
             restoration.Chime+=sound.Bell;
+            Marble.RailTouched+=sound.MarbleNote;
+            Marble.Finished+=score=>{sound.MarbleNote(score==100?9:7);if(!InPractice&&score>MarbleBest){PlayerPrefs.SetInt("feria.marble.best",score);PlayerPrefs.Save();}};
             AudioListener.volume=PlayerPrefs.GetFloat("feria.volume",.7f);
             initialState=Snapshot();Load();SetPaused(true);lastPlayer=player.transform.position;
         }
@@ -71,7 +76,7 @@ namespace Feria
         }
         public void UseTool(bool working)
         {
-            if(!working||Paused){hasSweep=false;toolHeld=false;return;}
+            if(!working||Paused||MinigameActive){hasSweep=false;toolHeld=false;return;}
             bool first=!toolHeld;toolHeld=true;
             var ray=player.view.ViewportPointToRay(new Vector3(.5f,.5f));
             if(Tool==0)
@@ -115,19 +120,21 @@ namespace Feria
         }
         public string Prompt()
         {
+            if(MinigameActive)return Marble.State==MarbleGame.Phase.Aiming?"E · Lanzar al pasar por el centro   ·   Esc · Salir":Marble.State==MarbleGame.Phase.Rolling?"Sigue tu canica…   ·   Esc · Salir":"E o R · Otra canica   ·   Esc · Volver a la feria";
             if(MovingCart)return "E · Estacionar carrito";
             if(!SignFixed&&LookingAt(sign,3.5f))return "E · Colocar cartel";
             if(LookingAt(switchBox,3.5f))return Restored?"El puesto vuelve a brillar":(FloorDone&&CounterDone&&SignFixed?"E · ¡Encender el puesto!":"Termina las tres tareas para encender");
-            if(Restored&&LookingAt(marble,4))return "E · Soltar una canica";
+            if(Restored&&LookingAt(marble,4))return "E · Jugar a las canicas";
             if(LookingAt(cart,3.4f))return "E · Mover carrito";
             return Tool==0?"Mantén clic · Barrer hacia el recogedor":"Mantén clic · Limpiar el mostrador";
         }
         public void Interact()
         {
+            if(MinigameActive){Marble.Confirm();return;}
             if(MovingCart){cartMotor.Stop();Save(false);return;}
             if(!SignFixed&&LookingAt(sign,3.5f)){FixSign();Save(false);return;}
             if(LookingAt(switchBox,3.5f)){if(!TryRestore())Tell("Falta despejar, limpiar o colocar el cartel.");return;}
-            if(Restored&&LookingAt(marble,4)){ReleaseMarble();return;}
+            if(Restored&&LookingAt(marble,4)){Marble.Begin();return;}
             if(LookingAt(cart,3.4f)){cartMotor.Toggle();Metrics.cartMoves++;Tell("Acerca el recogedor al montón. E para estacionar.");}
         }
         public void FixSign(){restoration.FixSign();sound.Pickup();}
@@ -139,7 +146,7 @@ namespace Feria
         public void ReleaseMarble(){restoration.Release();}
         public void SetVolume(float value){AudioListener.volume=Mathf.Clamp01(value);PlayerPrefs.SetFloat("feria.volume",AudioListener.volume);}
         public void SetSensitivity(float value){player.sensitivity=Mathf.Clamp(value,.035f,.18f);PlayerPrefs.SetFloat("feria.sensitivity",player.sensitivity);}
-        public void TogglePause(){SetPaused(!Paused);}
+        public void TogglePause(){if(MinigameActive&&!Paused){Marble.Exit();return;}SetPaused(!Paused); }
         public void SetPaused(bool paused)
         {
             Paused=paused;Cursor.lockState=paused?CursorLockMode.None:CursorLockMode.Locked;Cursor.visible=paused;

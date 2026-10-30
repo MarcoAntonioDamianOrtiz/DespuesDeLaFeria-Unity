@@ -2,12 +2,16 @@
 
 Juego independiente para un jugador, desarrollado con **Unity 6.3 LTS / C# / URP**.
 
-Recupera una pequeña feria al amanecer: barre confeti, lleva los residuos al carrito, limpia el mostrador y devuelve un cartel a su sitio. Cuando terminas, el puesto recupera sus luces y puedes soltar una canica en su mecanismo.
+Recupera una pequeña feria al amanecer: barre confeti, lleva los residuos al carrito, limpia el mostrador y devuelve un cartel a su sitio. Cuando terminas, el puesto recupera sus luces y puedes jugar a encestar una canica eligiendo el momento de lanzamiento.
 
-![Primera zona con ambiente de amanecer](docs/images/feria-v03.png)
+![Primera zona con ambiente de amanecer](docs/images/feria-v04.png)
 
-## Estado: primera zona jugable, versión 0.3
+## Estado: primera zona jugable, versión 0.4
 
+- Confeti original de cinco formas, curvatura y aleteo al barrer; posiciones de guardado estables.
+- Escoba con madera biselada, mango, remaches y fibras flexibles.
+- Canicas con vista cercana, medidor, cinco dianas, puntuaciones 10/50/100, notas por curva y revancha.
+- Récord de canicas local; la limpieza libre no lo modifica.
 - Movimiento en primera persona y dos herramientas.
 - Barrido con área visible y recogida mediante un carrito movible.
 - Ayuda contextual con Tab para encontrar trabajo pendiente.
@@ -37,7 +41,9 @@ Los paquetes se restauran desde `Packages/manifest.json` y `Packages/packages-lo
 | Caminar / mirar | WASD / ratón |
 | Barrer o limpiar | Mantener clic izquierdo |
 | Escoba / paño | 1 / 2, o rueda |
-| Mover carrito, colocar cartel, encender, soltar canica | E |
+| Mover carrito, colocar cartel, encender, jugar a canicas | E |
+| Lanzar / otra ronda de canicas | E / E o R |
+| Volver de las canicas a la feria | Esc |
 | Localizar tarea pendiente | Tab |
 | Pausa / reanudar | Esc / Enter |
 | Guardar | F5 |
@@ -48,14 +54,14 @@ Coloca el recogedor amarillo del carrito delante de los montones. Limpia el most
 
 Las fuentes vectoriales editables están en `ArtSources/`. Los PNG, materiales y mallas están en `Assets/Feria/Art/Original/`, y los prefabs visuales en `Assets/Feria/Prefabs/`.
 
-Los generadores `FairArtPass.cs` y `FairVisualPolish.cs` documentan la construcción de objetos y ambiente. No se utilizaron paquetes de modelos ni ilustraciones descargados para el arte de esta versión. Consulta [ART_PROVENANCE.md](ART_PROVENANCE.md) para distinguir nuestro contenido de las dependencias de Unity y las fuentes tipográficas.
+Los generadores `FairArtPass.cs`, `FairVisualPolish.cs` y `FairDetailPolish.cs` documentan la construcción de objetos y ambiente. No se utilizaron paquetes de modelos ni ilustraciones descargados para el arte de esta versión. Consulta [ART_PROVENANCE.md](ART_PROVENANCE.md) para distinguir nuestro contenido de las dependencias de Unity y las fuentes tipográficas.
 
 ## Documentación
 
 - [Diseño de la primera zona](docs/DISENO.md).
 - [Arquitectura y guardado](docs/ARQUITECTURA.md).
 - [Prueba de sesión de hasta diez minutos](docs/PRUEBA-DE-SESION.md).
-- [Cambios y validación](CHANGELOG.md).
+- [Cambios](CHANGELOG.md) y [validación de v0.4](docs/VALIDACION-v0.4.md).
 
 ## Derechos
 

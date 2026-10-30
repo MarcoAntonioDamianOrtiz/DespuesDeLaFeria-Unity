@@ -14,8 +14,9 @@ namespace Feria
         }
         public void Brush(float volume){brush.volume=volume;}
         public void Tick(float dt){brush.volume=Mathf.MoveTowards(brush.volume,0,dt*.2f);}
-        public void Pickup(int count=1){fx.PlayOneShot(pickup,Mathf.Min(.7f,.12f+count*.03f));}
-        public void Bell(){fx.PlayOneShot(bell);}
+        public void Pickup(int count=1){fx.pitch=1;fx.PlayOneShot(pickup,Mathf.Min(.7f,.12f+count*.03f));}
+        public void Bell(){fx.pitch=1;fx.PlayOneShot(bell);}
+        public void MarbleNote(int step){fx.pitch=Mathf.Pow(1.059463f,Mathf.Clamp(step,0,12)-5);fx.PlayOneShot(pickup,.65f); }
         static AudioClip Sound(string name,float seconds,float frequency,bool noise)
         {
             const int rate=22050;var data=new float[(int)(rate*seconds)];var random=new System.Random(74);float smooth=0;

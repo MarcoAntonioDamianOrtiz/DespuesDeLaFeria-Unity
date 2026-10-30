@@ -12,7 +12,9 @@ namespace Feria
         public TMP_FontAsset font;
         public Sprite broomIcon, clothIcon, emblem;
         TextMeshProUGUI progress, prompt, notice, tool, menuTitle, practiceLabel, sessionLabel;
-        GameObject menu, crosshair;
+        GameObject menu, crosshair,marblePanel;
+        TextMeshProUGUI marbleTitle,marbleResult;
+        RectTransform marbleCursor;
         bool started;
         Color ink = new Color(.13f, .22f, .24f);
         void Start()
@@ -43,7 +45,14 @@ namespace Feria
             Button("Guardar", card, "Guardar", new Vector2(250, 78), () => game.Save(),190);
             Button("Practica", card, "Limpieza libre", new Vector2(460, 78), game.TogglePractice,190);
             practiceLabel=card.Find("Practica/Texto").GetComponent<TextMeshProUGUI>();
-            sessionLabel=Label("Estado", card, "VERSIÓN 0.3 · Arte original · Guardado local automático", 16, new Color(.38f, .42f, .4f), new Vector2(610, 35), new Vector2(40, 22), new Vector2(0, 0), new Vector2(0, 0));
+            sessionLabel=Label("Estado", card, "VERSIÓN 0.4 · Arte original · Guardado local automático", 16, new Color(.38f, .42f, .4f), new Vector2(610, 35), new Vector2(40, 22), new Vector2(0, 0), new Vector2(0, 0));
+            var marbleCard=Panel("Canicas",transform,new Vector2(540,126),new Vector2(0,-20),new Vector2(.5f,1),new Vector2(.5f,1),new Color(.97f,.94f,.85f,.97f));marblePanel=marbleCard.gameObject;
+            marbleTitle=Label("Turno",marbleCard,"APUNTA AL CENTRO",21,ink,new Vector2(500,32),new Vector2(20,-10),new Vector2(0,1),new Vector2(0,1));marbleTitle.alignment=TextAlignmentOptions.Center;
+            var meter=Panel("Medidor",marbleCard,new Vector2(440,16),new Vector2(50,-53),new Vector2(0,1),new Vector2(0,1),new Color(.28f,.5f,.5f));
+            Panel("Zona de 50",meter,new Vector2(322,16),Vector2.zero,new Vector2(.5f,.5f),new Vector2(.5f,.5f),new Color(.86f,.51f,.40f));
+            Panel("Zona de 100",meter,new Vector2(102,16),Vector2.zero,new Vector2(.5f,.5f),new Vector2(.5f,.5f),new Color(.94f,.74f,.30f));
+            marbleCursor=Panel("Aguja",meter,new Vector2(5,30),Vector2.zero,new Vector2(0,.5f),new Vector2(.5f,.5f),ink);
+            marbleResult=Label("Resultado",marbleCard,"",18,ink,new Vector2(510,35),new Vector2(15,-82),new Vector2(0,1),new Vector2(0,1));marbleResult.alignment=TextAlignmentOptions.Center;marblePanel.SetActive(false);
             Icon("Emblema",card,emblem,new Vector2(573,-78),new Vector2(74,74),new Vector2(0,1),new Vector2(0,1));
             Icon("Icono escoba",lower,broomIcon,new Vector2(15,0),new Vector2(39,39),new Vector2(0,.5f),new Vector2(0,.5f));
             tool.rectTransform.anchoredPosition=new Vector2(50,0); tool.rectTransform.sizeDelta=new Vector2(610,48);
@@ -52,15 +61,24 @@ namespace Feria
         {
             if (menu == null) return;
             if(!game.Paused) started=true;
-            menu.SetActive(game.Paused); crosshair.SetActive(!game.Paused);
+            menu.SetActive(game.Paused); crosshair.SetActive(!game.Paused&&!game.MinigameActive);
             menuTitle.text = started ? "Una pequeña pausa" : "Después de la feria";
             practiceLabel.text=game.InPractice?"Volver a partida":"Limpieza libre";
-            sessionLabel.text=game.InPractice?"LIMPIEZA LIBRE · Tu partida se conserva · "+game.Metrics.Summary:"VERSIÓN 0.3 · Arte original · Guardado local automático";
+            sessionLabel.text=game.InPractice?"LIMPIEZA LIBRE · Tu partida se conserva · "+game.Metrics.Summary:"VERSIÓN 0.4 · Arte original · Guardado local automático";
             int clean = Mathf.RoundToInt(game.CleanProgress * 100);
             progress.text = $"Suelo: {Mathf.RoundToInt(100f * game.Collected / game.litter.Length)}% despejado\nMostrador: {clean}% limpio\nCartel: {(game.SignFixed ? "colocado" : "por colocar")}";
             tool.text = game.MovingCart ? "MOVIENDO CARRITO   ·   E para estacionar" : (game.Tool == 0 ? "1  ESCOBA   ·   2  Paño   ·   Tab  Ayuda" : "1  Escoba   ·   2  PAÑO   ·   Tab  Ayuda");
+            if(game.MinigameActive)tool.text="CANICAS   ·   E Lanzar / Repetir   ·   Esc Volver";
+            marblePanel.SetActive(game.MinigameActive&&!game.Paused);
+            if(game.MinigameActive)
+            {
+                var toy=game.Marble;bool aiming=toy.State==MarbleGame.Phase.Aiming;
+                marbleCursor.parent.gameObject.SetActive(aiming);marbleCursor.anchoredPosition=new Vector2(toy.Meter*440,0);
+                marbleTitle.text=aiming?"E · LANZA EN LA FRANJA DORADA":toy.State==MarbleGame.Phase.Rolling?"ESCUCHA CÓMO BAJA…":toy.Score==100?"¡JUSTO EN EL CENTRO!":"¡UNA MÁS!";
+                marbleResult.text=aiming?"Centro 100   ·   Cerca 50   ·   Laterales 10":toy.State==MarbleGame.Phase.Rolling?"Cada curva tiene su nota":$"{toy.Score} puntos   ·   Intentos: {toy.Attempts}   ·   Mejor local: {game.MarbleBest}";
+            }
             var icon=transform.Find("Herramientas/Icono escoba"); if(icon) icon.GetComponent<UnityEngine.UI.Image>().sprite=game.Tool==0?broomIcon:clothIcon;
-            prompt.text = game.Paused ? "" : game.Prompt(); notice.text = game.Notice;
+            prompt.text = game.Paused ? "" : game.Prompt(); notice.text = game.MinigameActive?"":game.Notice;
         }
         RectTransform Panel(string name, Transform parent, Vector2 size, Vector2 position, Vector2 anchor, Vector2 pivot, Color color)
         {

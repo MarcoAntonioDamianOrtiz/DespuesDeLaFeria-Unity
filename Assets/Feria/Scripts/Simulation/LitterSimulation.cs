@@ -10,13 +10,21 @@ namespace Feria
         readonly bool[] removed;
         readonly Vector3[] velocities;
         readonly FairZoneDefinition rules;
+        readonly Transform[] visuals;
+        readonly float[] flutter;
+        readonly Quaternion[] restRotations;
+        float time;
         public int Collected { get; private set; }
         public int Contacts { get; private set; }
         public bool Complete=>Collected==pieces.Length;
         public event Action<int> PickedUp;
         public event Action FloorCompleted;
         public LitterSimulation(Transform[] pieces,FairZoneDefinition rules)
-        { this.pieces=pieces; this.rules=rules; removed=new bool[pieces.Length]; velocities=new Vector3[pieces.Length]; }
+        {
+            this.pieces=pieces;this.rules=rules;removed=new bool[pieces.Length];velocities=new Vector3[pieces.Length];
+            visuals=new Transform[pieces.Length];flutter=new float[pieces.Length];restRotations=new Quaternion[pieces.Length];
+            for(int i=0;i<pieces.Length;i++){visuals[i]=pieces[i].Find("Papel artesanal");restRotations[i]=pieces[i].rotation;}
+        }
         public int Sweep(Vector3 point,Vector3 movement,Vector3 forward,float dt)
         {
             if(dt<=0) return 0;
@@ -34,20 +42,29 @@ namespace Feria
                 Vector3 inward=point-pieces[i].position; inward.y=0;
                 float falloff=1-distance/(rules.sweepRadius+.15f);
                 velocities[i]=Vector3.ClampMagnitude(velocities[i]+(direction*strength+inward*.3f)*falloff*Mathf.Min(dt,.05f)*17,4.5f);
-                count++;
+                flutter[i]=Mathf.Min(1,flutter[i]+dt*8);count++;
             }
             Contacts+=count; return count;
         }
         public void Tick(float dt,Vector3 mouth,Vector3 mouthForward)
         {
-            int gained=0; bool wasComplete=Complete;
+            if(dt<=0)return;time+=dt;int gained=0; bool wasComplete=Complete;
             for(int i=0;i<pieces.Length;i++)
             {
                 if(removed[i]) continue;
                 var p=pieces[i].position;
                 p+=velocities[i]*dt;
                 p.x=Mathf.Clamp(p.x,rules.litterMin.x,rules.litterMax.x); p.z=Mathf.Clamp(p.z,rules.litterMin.y,rules.litterMax.y);
-                pieces[i].position=p; velocities[i]*=Mathf.Exp(-rules.friction*dt);
+                pieces[i].position=p;
+                float speed=velocities[i].magnitude;
+                if(visuals[i])
+                {
+                    flutter[i]=Mathf.MoveTowards(flutter[i],0,dt*2.2f);
+                    visuals[i].localPosition=new Vector3(0,Mathf.Abs(Mathf.Sin(time*16+i*1.7f))*flutter[i]*.022f,0);
+                    visuals[i].localRotation=Quaternion.Euler(Mathf.Sin(time*19+i)*flutter[i]*16,0,Mathf.Cos(time*13+i)*flutter[i]*12);
+                    pieces[i].Rotate(0,Mathf.Min(speed,3)*dt*(i%2==0?45:-45),0,Space.World);
+                }
+                velocities[i]*=Mathf.Exp(-rules.friction*dt);
                 // Pickup is only through the tray, never through the rear wall of the cart.
                 var delta=p-mouth; delta.y=0;
                 if(delta.magnitude<rules.pickupRadius && Vector3.Dot(delta,mouthForward)>-.34f) {Remove(i);gained++;}
@@ -69,7 +86,7 @@ namespace Feria
         public void Restore(Vector3[] positions,bool[] deleted)
         {
             Collected=0;
-            for(int i=0;i<pieces.Length;i++){pieces[i].position=positions[i];removed[i]=deleted[i];velocities[i]=Vector3.zero;pieces[i].gameObject.SetActive(!deleted[i]);if(deleted[i])Collected++;}
+            for(int i=0;i<pieces.Length;i++){pieces[i].position=positions[i];removed[i]=deleted[i];velocities[i]=Vector3.zero;flutter[i]=0;pieces[i].rotation=restRotations[i];if(visuals[i]){visuals[i].localPosition=Vector3.zero;visuals[i].localRotation=Quaternion.identity;}pieces[i].gameObject.SetActive(!deleted[i]);if(deleted[i])Collected++;}
         }
         public static float FlatDistance(Vector3 a,Vector3 b) {a.y=b.y=0;return Vector3.Distance(a,b);}
     }

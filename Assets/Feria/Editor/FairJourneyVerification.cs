@@ -39,8 +39,8 @@ public static class FairJourneyVerification
             Check(!game.TryRestore(),"Todavía exige mostrador y cartel");
             foreach(var patch in game.dirtPatches)game.CleanAt(patch.transform.position,2);
             game.FixSign();Check(game.TryRestore(),"La secuencia completa reactiva el puesto");
-            game.ReleaseMarble();for(int i=0;i<410;i++)game.Tick(dt);
-            Check(Vector3.Distance(game.marble.position,game.definition.marbleWaypoints[game.definition.marbleWaypoints.Length-1])<.05f,"Canica alcanza el final de sus rampas");
+            game.ReleaseMarble();for(int i=0;i<450;i++)game.Tick(dt);
+            Check(game.Marble.State==MarbleGame.Phase.Result&&game.Marble.Score==100&&Vector3.Distance(game.marble.position,game.Marble.Landing)<.01f,"Canica recorre rampas y alcanza la diana central");
             game.Save();
             byte[] diskAfter=File.Exists(game.SavePath)?File.ReadAllBytes(game.SavePath):null;
             Check(Equal(diskBefore,diskAfter),"La sesión de prueba no modifica la partida en disco");
