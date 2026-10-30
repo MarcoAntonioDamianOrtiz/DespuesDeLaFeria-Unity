@@ -1,0 +1,45 @@
+# Unity generated data
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Bb]uild/
+/[Bb]uilds/
+/MemoryCaptures/
+/Recordings/
+/Artifacts/
+/.vs/
+/.idea/
+/.vscode/
+/.codex/
+*.csproj
+*.sln
+*.slnx
+*.user
+*.suo
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.log
+*.tmp
+*.bak
+sysinfo.txt
+crash.dmp
+.DS_Store
+Thumbs.db
+.env
+.env.*
+*.pfx
+*.key
+# Local playtest captures; curated screenshots belong in docs/images instead.
+/Assets/Screenshots/
+/Assets/Screenshots.meta
+/Assets/ArtPreview/
+/Assets/ArtPreview.meta
+# Generated tools and local package caches
+/Packages/com.unity.pipeline/Temp/

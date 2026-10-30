@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><g transform="translate(0 512) scale(1 -1)">
+<rect x="0" y="0" width="512" height="512" fill="#F3E2BC"/>
+<rect x="24" y="24" width="464" height="464" fill="#397F80"/>
+<rect x="39" y="39" width="434" height="434" fill="#F3E2BC"/>
+<rect x="46" y="415" width="28" height="51" fill="#CE715B"/>
+<rect x="106" y="415" width="28" height="51" fill="#F4C963"/>
+<rect x="166" y="415" width="28" height="51" fill="#CE715B"/>
+<rect x="226" y="415" width="28" height="51" fill="#F4C963"/>
+<rect x="286" y="415" width="28" height="51" fill="#CE715B"/>
+<rect x="346" y="415" width="28" height="51" fill="#F4C963"/>
+<rect x="406" y="415" width="28" height="51" fill="#CE715B"/>
+<circle cx="256" cy="277" r="133" fill="#397F80"/>
+<circle cx="256" cy="277" r="117" fill="#F4C963"/>
+<circle cx="270" cy="265" r="92" fill="#CE715B"/>
+<circle cx="232" cy="310" r="40" fill="#F3E2BC"/>
+<path d="M 83 102 L 429 102" stroke="#397F80" stroke-width="15" stroke-linecap="round"/>
+<path d="M 110 76 L 402 76" stroke="#CE715B" stroke-width="7" stroke-linecap="round"/>
+<circle cx="125" cy="148" r="12" fill="#397F80"/>
+<circle cx="212" cy="148" r="12" fill="#397F80"/>
+<circle cx="299" cy="148" r="12" fill="#397F80"/>
+<circle cx="386" cy="148" r="12" fill="#397F80"/>
+</g></svg>

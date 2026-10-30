@@ -1,0 +1,25 @@
+* text=auto eol=lf
+*.cs text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.svg text eol=lf
+*.unity text eol=lf whitespace=-trailing-space
+*.prefab text eol=lf whitespace=-trailing-space
+*.asset text eol=lf whitespace=-trailing-space
+*.mat text eol=lf whitespace=-trailing-space
+*.meta text eol=lf whitespace=-trailing-space
+*.png binary
+*.ttf binary
+*.otf binary
+*.wav binary
+
+# BEGIN unity vcs merge-setup
+# Unity scene and prefab merging. Managed block: edits here are overwritten.
+*.anim merge=unityyamlmerge
+*.asset merge=unityyamlmerge
+*.controller merge=unityyamlmerge
+*.mat merge=unityyamlmerge
+*.physicMaterial merge=unityyamlmerge
+*.prefab merge=unityyamlmerge
+*.unity merge=unityyamlmerge
+# END unity vcs merge-setup
