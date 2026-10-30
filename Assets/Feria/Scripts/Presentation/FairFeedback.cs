@@ -21,6 +21,7 @@ namespace Feria
             var hint=new GameObject("Ayuda contextual");hint.transform.SetParent(root.transform,false);marker=hint.AddComponent<TextMeshPro>();
             marker.font=game.hud.font;marker.text="↓";marker.fontSize=7;marker.color=new Color(1,.82f,.32f);marker.alignment=TextAlignmentOptions.Center;hint.SetActive(false);
         }
+        public void SetVisible(bool visible){root.SetActive(visible);}
         public void ShowHint(Vector3 point){marker.transform.position=point+Vector3.up*.55f;hintSeconds=6;}
         public void Tick(float dt)
         {

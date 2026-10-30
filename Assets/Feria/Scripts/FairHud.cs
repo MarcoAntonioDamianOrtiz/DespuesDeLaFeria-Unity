@@ -9,11 +9,12 @@ namespace Feria
     public sealed class FairHud : MonoBehaviour
     {
         public FairGame game;
+        public ParkSession park;
         public TMP_FontAsset font;
         public Sprite broomIcon, clothIcon, emblem;
         TextMeshProUGUI progress, prompt, notice, tool, menuTitle, practiceLabel, sessionLabel;
         GameObject menu, crosshair,marblePanel;
-        TextMeshProUGUI marbleTitle,marbleResult;
+        TextMeshProUGUI marbleTitle,marbleResult,zoneTitle,startLabel;
         RectTransform marbleCursor;
         UnityEngine.UI.Image fade;
         UnityEngine.UI.Button travelButton;
@@ -26,7 +27,7 @@ namespace Feria
             gameObject.AddComponent<GraphicRaycaster>();
             var eventSystem = new GameObject("Input UI", typeof(EventSystem), typeof(InputSystemUIInputModule));
             var top = Panel("Objetivos", transform, new Vector2(310, 116), new Vector2(28, -26), new Vector2(0, 1), new Vector2(0, 1), new Color(.96f, .94f, .85f, .94f));
-            Label("Puesto", top, game.definition.displayName.ToUpperInvariant(), 18, ink, new Vector2(284, 26), new Vector2(14, -12), new Vector2(0, 1), new Vector2(0, 1));
+            zoneTitle=Label("Puesto", top, game.definition.displayName.ToUpperInvariant(), 18, ink, new Vector2(284, 26), new Vector2(14, -12), new Vector2(0, 1), new Vector2(0, 1));
             progress = Label("Tareas", top, "", 18, ink, new Vector2(284, 75), new Vector2(14, -42), new Vector2(0, 1), new Vector2(0, 1));
             var lower = Panel("Herramientas", transform, new Vector2(680, 58), new Vector2(0, 25), new Vector2(.5f, 0), new Vector2(.5f, 0), new Color(.08f, .16f, .18f, .9f));
             tool = Label("Herramienta", lower, "", 20, Color.white, new Vector2(650, 48), new Vector2(15, 0), new Vector2(0, .5f), new Vector2(0, .5f));
@@ -36,20 +37,21 @@ namespace Feria
             var cross = Label("Punto", transform, "+", 23, new Color(1, 1, 1, .85f), new Vector2(22, 28), Vector2.zero, new Vector2(.5f, .5f), new Vector2(.5f, .5f)); cross.alignment = TextAlignmentOptions.Center; crosshair = cross.gameObject;
             menu = Panel("Pausa", transform, new Vector2(1600, 900), Vector2.zero, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.035f, .09f, .11f, .85f)).gameObject;
             var overlay = menu.GetComponent<RectTransform>(); overlay.anchorMin = Vector2.zero; overlay.anchorMax = Vector2.one; overlay.offsetMin = overlay.offsetMax = Vector2.zero;
-            var card = Panel("Tarjeta", menu.transform, new Vector2(690, 850), Vector2.zero, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.97f, .94f, .85f));
+            var card = Panel("Tarjeta", menu.transform, new Vector2(690, park?790:850), Vector2.zero, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.97f, .94f, .85f));
             Label("Antetitulo", card, "UNA MAÑANA PARA DEVOLVER EL COLOR", 18, new Color(.54f, .31f, .16f), new Vector2(610, 32), new Vector2(40, -35), new Vector2(0, 1), new Vector2(0, 1));
             menuTitle = Label("Titulo", card, "Después de la feria", 47, ink, new Vector2(610, 80), new Vector2(40, -78), new Vector2(0, 1), new Vector2(0, 1));
-            Label("Descripcion", card, "Barre el confeti, recupera el puesto y vuelve a encender sus luces.", 23, ink, new Vector2(610, 74), new Vector2(40, -171), new Vector2(0, 1), new Vector2(0, 1));
+            Label("Descripcion", card, park?"Recorre los caminos y devuelve la luz a los puestos, a tu ritmo.":"Barre el confeti, recupera el puesto y vuelve a encender sus luces.", 23, ink, new Vector2(610, 74), new Vector2(40, -171), new Vector2(0, 1), new Vector2(0, 1));
             Label("Controles", card, "WASD  Caminar     Ratón  Mirar\nClic mantenido  Usar herramienta\n1  Escoba     2  Paño     E  Interactuar\nTab  Localizar tarea     F5  Guardar\n\nAcerca el carrito y barre hacia su recogedor amarillo.\nUsa el paño sobre las manchas del mostrador.", 21, ink, new Vector2(610, 235), new Vector2(40, -264), new Vector2(0, 1), new Vector2(0, 1));
-            SettingSlider("Volumen", card, 290, 0, 1, PlayerPrefs.GetFloat("feria.volume",.7f), game.SetVolume);
-            SettingSlider("Sensibilidad", card, 225, .035f, .18f, PlayerPrefs.GetFloat("feria.sensitivity",.095f), game.SetSensitivity);
-            Button("Visitar",card,"Visitar "+game.NextZoneName,new Vector2(40,155),game.Travel,610);
-            travelButton=card.Find("Visitar").GetComponent<UnityEngine.UI.Button>();
+            SettingSlider("Volumen", card, park?225:290, 0, 1, PlayerPrefs.GetFloat("feria.volume",.7f), game.SetVolume);
+            SettingSlider("Sensibilidad", card, park?160:225, .035f, .18f, PlayerPrefs.GetFloat("feria.sensitivity",.095f), game.SetSensitivity);
+            if(!park){Button("Visitar",card,"Visitar "+game.NextZoneName,new Vector2(40,155),game.Travel,610);
+            travelButton=card.Find("Visitar").GetComponent<UnityEngine.UI.Button>();}
             Button("Comenzar", card, "Entrar · Enter", new Vector2(40, 78), () => { started = true; game.SetPaused(false); },190);
             Button("Guardar", card, "Guardar", new Vector2(250, 78), () => game.Save(),190);
             Button("Practica", card, "Limpieza libre", new Vector2(460, 78), game.TogglePractice,190);
+            startLabel=card.Find("Comenzar/Texto").GetComponent<TextMeshProUGUI>();
             practiceLabel=card.Find("Practica/Texto").GetComponent<TextMeshProUGUI>();
-            sessionLabel=Label("Estado", card, "VERSIÓN 0.5 · Arte original · Guardado local automático", 16, new Color(.38f, .42f, .4f), new Vector2(610, 35), new Vector2(40, 22), new Vector2(0, 0), new Vector2(0, 0));
+            sessionLabel=Label("Estado", card, "VERSIÓN 0.6 · Arte original · Guardado local automático", 16, new Color(.38f, .42f, .4f), new Vector2(610, 35), new Vector2(40, 22), new Vector2(0, 0), new Vector2(0, 0));
             var marbleCard=Panel("Canicas",transform,new Vector2(540,126),new Vector2(0,-20),new Vector2(.5f,1),new Vector2(.5f,1),new Color(.97f,.94f,.85f,.97f));marblePanel=marbleCard.gameObject;
             marbleTitle=Label("Turno",marbleCard,"APUNTA AL CENTRO",21,ink,new Vector2(500,32),new Vector2(20,-10),new Vector2(0,1),new Vector2(0,1));marbleTitle.alignment=TextAlignmentOptions.Center;
             var meter=Panel("Medidor",marbleCard,new Vector2(440,16),new Vector2(50,-53),new Vector2(0,1),new Vector2(0,1),new Color(.28f,.5f,.5f));
@@ -65,14 +67,18 @@ namespace Feria
         void Update()
         {
             if (menu == null) return;
-            fade.color=new Color(.96f,.91f,.78f,game.Fade);fade.raycastTarget=game.ChangingZones;fade.gameObject.SetActive(game.Fade>0);travelButton.interactable=!game.ChangingZones;
+            if(park)game=park.CurrentGame;
+            float fadeAmount=park?0:game.Fade;fade.color=new Color(.96f,.91f,.78f,fadeAmount);fade.raycastTarget=game.ChangingZones;fade.gameObject.SetActive(fadeAmount>0);if(travelButton)travelButton.interactable=!game.ChangingZones;
             if(!game.Paused) started=true;
             menu.SetActive(game.Paused); crosshair.SetActive(!game.Paused&&!game.MinigameActive);
+            startLabel.text=started?"Continuar · Enter":"Comenzar · Enter";
             menuTitle.text = started ? "Una pequeña pausa" : "Después de la feria";
             practiceLabel.text=game.InPractice?"Volver a partida":"Limpieza libre";
-            sessionLabel.text=game.InPractice?"LIMPIEZA LIBRE · Tu partida se conserva · "+game.Metrics.Summary:"VERSIÓN 0.5 · Arte original · Guardado local automático";
+            sessionLabel.text=game.InPractice?"LIMPIEZA LIBRE · Tu partida se conserva · "+game.Metrics.Summary:"VERSIÓN 0.6 · Arte original · Guardado local automático";
+            if(park){sessionLabel.text=park.InPractice?"LIMPIEZA LIBRE · Tu partida se conserva":$"PARQUE · {park.RestoredCount}/{park.zones.Length} puestos recuperados · Guardado automático";zoneTitle.text=park.District.ToUpperInvariant();}
             int clean = Mathf.RoundToInt(game.CleanProgress * 100);
             progress.text = $"Suelo: {Mathf.RoundToInt(100f * game.Collected / game.litter.Length)}% despejado\nMostrador: {clean}% limpio\nCartel: {(game.SignFixed ? "colocado" : "por colocar")}";
+            if(park&&!park.ActiveZone)progress.text=$"{park.RestoredCount} de {park.zones.Length} puestos recuperados\nSigue las señales del paseo\nTab · Orientación";
             tool.text = game.MovingCart ? "MOVIENDO CARRITO   ·   E para estacionar" : (game.Tool == 0 ? "1  ESCOBA   ·   2  Paño   ·   Tab  Ayuda" : "1  Escoba   ·   2  PAÑO   ·   Tab  Ayuda");
             if(game.MinigameActive)tool.text="CANICAS   ·   E Lanzar / Repetir   ·   Esc Volver";
             if(game.MinigameActive&&game.IsDucks)tool.text="PATITOS · Ratón Apuntar · Clic Lanzar · Esc Volver";

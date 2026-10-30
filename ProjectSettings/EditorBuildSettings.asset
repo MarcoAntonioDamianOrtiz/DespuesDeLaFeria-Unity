@@ -6,11 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Feria/Scenes/PrimeraManana.unity
-    guid: ddf7a4ae5c53e0c4f868ad5f7822b211
-  - enabled: 1
-    path: Assets/Feria/Scenes/GaleriaPatitos.unity
-    guid: bb9e1e08fd08f0243960ab75f1de48fa
+    path: Assets/Feria/Scenes/ParquePrincipal.unity
+    guid: 51803f8347536ce4ab8efa11dcdc0281
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

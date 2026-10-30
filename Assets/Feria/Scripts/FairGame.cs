@@ -10,6 +10,13 @@ namespace Feria
     public sealed class FairGame : MonoBehaviour
     {
         public FairPlayer player;
+        public ParkSession park;
+        public Transform origin;
+        public Vector3 Entrance=>World(definition.entryPoint);
+        public Vector3 World(Vector3 point)=>origin?origin.TransformPoint(point):point;
+        public Vector3 Local(Vector3 point)=>origin?origin.InverseTransformPoint(point):point;
+        public FairSave InitialState=>initialState;
+        public bool ContainsPlayer(float margin=0){var p=Local(player.transform.position);return p.x>definition.areaMin.x-margin&&p.x<definition.areaMax.x+margin&&p.z>definition.areaMin.y-margin&&p.z<definition.areaMax.y+margin;}
         public Transform cart,sign,switchBox,marble,broomHead;
         public Transform[] litter;
         public Transform[] duckTargets;
@@ -23,9 +30,11 @@ namespace Feria
         public FairHud hud;
         public FairZoneDefinition definition;
         public bool suppressSave;
-        public bool Paused {get;private set;}=true;
-        public bool MovingCart=>cartMotor!=null&&cartMotor.Moving;
-        public int Tool {get;set;}
+        bool paused=true;
+        public bool Paused=>park?park.Paused:paused;
+        public bool MovingCart=>park?park.MovingCart:cartMotor!=null&&cartMotor.Moving;
+        int tool;
+        public int Tool {get=>park?park.Tool:tool;set{if(park)park.Tool=value;else tool=value;}}
         public bool SignFixed=>restoration.SignFixed;
         public bool Restored=>restoration.Restored;
         public float PlaySeconds {get;private set;}
@@ -34,7 +43,8 @@ namespace Feria
         public bool FloorDone=>floor.Complete;
         public bool CounterDone=>counter.Complete;
         public float CleanProgress=>counter.Progress;
-        public bool InPractice {get;private set;}
+        bool inPractice;
+        public bool InPractice=>park?park.InPractice:inPractice;
         public MarbleGame Marble=>restoration.Marble;
         public DuckGame Ducks {get;private set;}
         public bool IsDucks=>definition.activity==FairActivity.Ducks;
@@ -46,8 +56,9 @@ namespace Feria
         Transform ActivityTarget=>IsDucks&&activityAnchor?activityAnchor:marble;
         public int MarbleBest=>PlayerPrefs.GetInt("feria.marble.best",0);
         public PlaySessionMetrics Metrics {get;private set;}=new PlaySessionMetrics();
-        public string Notice {get;private set;}="";
-        public string SavePath=>campaignStore!=null?campaignStore.Path:Path.Combine(FairSavePaths.Directory,"feria-campaign.json");
+        string notice="";
+        public string Notice=>park?park.Notice:notice;
+        public string SavePath=>park?park.SavePath:campaignStore!=null?campaignStore.Path:Path.Combine(FairSavePaths.Directory,"feria-campaign.json");
         CampaignSaveStore campaignStore;
         CampaignSave campaign;
         bool saveBlocked;
@@ -67,10 +78,10 @@ namespace Feria
             if(!definition)definition=ScriptableObject.CreateInstance<FairZoneDefinition>();
             if(!catalog)throw new InvalidOperationException("Falta el catálogo de puestos de la escena.");
             campaignStore=new CampaignSaveStore(Path.Combine(FairSavePaths.Directory,"feria-campaign.json"),Path.Combine(FairSavePaths.Directory,"feria-slot-1.json"),catalog);
-            Ducks=new DuckGame(duckTargets,aimRing,flyingRing);
-            floor=new LitterSimulation(litter,definition);counter=new SurfaceCleaning(dirtPatches);
-            cartMotor=new CartMotor(cart,player.transform,definition);
-            restoration=new RestorationState(sign,marble,fairLights,bulbs,litBulb,definition);
+            Ducks=new DuckGame(duckTargets,aimRing,flyingRing,origin);
+            floor=new LitterSimulation(litter,definition,origin);counter=new SurfaceCleaning(dirtPatches);
+            if(!park)cartMotor=new CartMotor(cart,player.transform,definition);
+            restoration=new RestorationState(sign,marble,fairLights,bulbs,litBulb,definition,origin);
             sound=new FairAudio(gameObject);feedback=new FairFeedback(this);
             floor.PickedUp+=amount=>{sound.Pickup(amount);Metrics.Pickup(amount);};
             floor.FloorCompleted+=()=>Tell("¡Explanada despejada! Recuperaste los colores del suelo.");
@@ -80,23 +91,23 @@ namespace Feria
             Ducks.Landed+=score=>{if(score>0)sound.MarbleNote(score==100?9:5);else sound.Pickup();};
             Ducks.Finished+=score=>{if(!InPractice&&score>DuckBest){PlayerPrefs.SetInt("feria.ducks.best",score);PlayerPrefs.Save();}};
             AudioListener.volume=PlayerPrefs.GetFloat("feria.volume",.7f);
-            initialState=Snapshot();Load();SetPaused(true);lastPlayer=player.transform.position;
+            initialState=Snapshot();if(!park){Load();SetPaused(true);}lastPlayer=player.transform.position;
         }
-        void Start(){if(!Application.isEditor&&campaign!=null&&campaign.activeZone!=definition.zoneId)BeginTravel(campaign.activeZone,false);}
-        void Update(){if(!ChangingZones)Fade=Mathf.MoveTowards(Fade,0,Time.unscaledDeltaTime*4);Tick(Time.deltaTime);}
+        void Start(){if(park)return;if(!Application.isEditor&&campaign!=null&&campaign.activeZone!=definition.zoneId)BeginTravel(campaign.activeZone,false);}
+        void Update(){if(park)return;if(!ChangingZones)Fade=Mathf.MoveTowards(Fade,0,Time.unscaledDeltaTime*4);Tick(Time.deltaTime);}
         public void Tick(float elapsed)
         {
-            if(noticeTime>0){noticeTime-=elapsed;if(noticeTime<=0)Notice="";}
-            feedback.Tick(elapsed);if(Paused)return;
+            if(noticeTime>0){noticeTime-=elapsed;if(noticeTime<=0)notice="";}
+            bool show=!park||park.CurrentGame==this;feedback.SetVisible(show);if(show)feedback.Tick(elapsed);if(Paused){sound.Brush(0);return;}
             float dt=Mathf.Min(elapsed,.05f);
-            PlaySeconds+=elapsed;Metrics.seconds+=elapsed;
+            if(!park||park.ActiveZone==this){PlaySeconds+=elapsed;Metrics.seconds+=elapsed;}
             Metrics.walkingMetres+=Vector3.Distance(player.transform.position,lastPlayer);lastPlayer=player.transform.position;
-            cartMotor.Tick(dt);floor.Tick(dt,cartMotor.Mouth,cartMotor.Forward);restoration.Tick(dt);if(Restored&&IsDucks)Ducks.Tick(dt);sound.Tick(dt);
-            autosave+=elapsed;if(autosave>=definition.autosaveSeconds){autosave=0;Save(false);}
+            if(!park)cartMotor.Tick(dt);floor.Tick(dt,cart.position+cart.forward*.95f,cart.forward);restoration.Tick(dt);if(Restored&&IsDucks)Ducks.Tick(dt);sound.Tick(dt);
+            if(park)return;autosave+=elapsed;if(autosave>=definition.autosaveSeconds){autosave=0;Save(false);}
         }
         public void UseTool(bool working)
         {
-            if(!working||Paused||MinigameActive){hasSweep=false;toolHeld=false;return;}
+            if(!working||Paused||MinigameActive||(park&&park.ActiveZone!=this)){hasSweep=false;toolHeld=false;return;}
             bool first=!toolHeld;toolHeld=true;
             var ray=player.view.ViewportPointToRay(new Vector3(.5f,.5f));
             if(Tool==0)
@@ -117,14 +128,14 @@ namespace Feria
         public int CleanAt(Vector3 point,float dt){int count=counter.Clean(point,dt);if(count>0)sound.Brush(.09f);return count;}
         public bool TrySweepPoint(out Vector3 point)
         {
-            point=default;var ray=player.view.ViewportPointToRay(new Vector3(.5f,.5f));var plane=new Plane(Vector3.up,new Vector3(0,.04f,0));
+            point=default;if(park&&park.ActiveZone!=this)return false;var ray=player.view.ViewportPointToRay(new Vector3(.5f,.5f));var plane=new Plane(origin?origin.up:Vector3.up,World(new Vector3(0,.04f,0)));
             if(!plane.Raycast(ray,out float distance)||distance<0||distance>5)return false;
             if(Physics.Raycast(ray,out var hit,distance)&&hit.collider.gameObject.name!="Explanada")return false;
-            point=ray.GetPoint(distance);return point.x>definition.litterMin.x-.2f&&point.x<definition.litterMax.x+.2f&&point.z>definition.litterMin.y-.2f&&point.z<definition.litterMax.y+.1f;
+            point=ray.GetPoint(distance);var local=Local(point);return local.x>definition.litterMin.x-.2f&&local.x<definition.litterMax.x+.2f&&local.z>definition.litterMin.y-.2f&&local.z<definition.litterMax.y+.1f;
         }
         public Vector3 RequestHint()
         {
-            Metrics.hints++;Vector3 target=switchBox.position;
+            Metrics.hints++;if(park&&park.ActiveZone!=this){var entrance=park.NextEntrance();feedback.ShowHint(entrance);Tell("Sigue el paseo hasta el próximo puesto.");return entrance;}Vector3 target=switchBox.position;
             string text="Acércate al interruptor del puesto.";
             if(!FloorDone){target=floor.Nearest(player.transform.position);text="Barre estos residuos hacia el recogedor amarillo.";}
             else if(!CounterDone){target=counter.Pending();text="Usa el paño (2) sobre esta mancha del mostrador.";}
@@ -143,7 +154,9 @@ namespace Feria
             if(MinigameActive&&IsDucks)return Ducks.State==DuckGame.Phase.Aiming?"Ratón · Apuntar   ·   Clic o E · Lanzar aro   ·   Esc · Volver":Ducks.State==DuckGame.Phase.Throwing?"¡Ahí va el aro!   ·   Esc · Volver":"E o R · Otros tres aros   ·   Esc · Volver a la feria";
             if(MinigameActive)return Marble.State==MarbleGame.Phase.Aiming?"E · Lanzar al pasar por el centro   ·   Esc · Salir":Marble.State==MarbleGame.Phase.Rolling?"Sigue tu canica…   ·   Esc · Salir":"E o R · Otra canica   ·   Esc · Volver a la feria";
             if(MovingCart)return "E · Estacionar carrito";
-            if(travelSign&&LookingAt(travelSign,3.5f))return "E · Visitar "+NextZoneName;
+            if(!park&&travelSign&&LookingAt(travelSign,3.5f))return "E · Visitar "+NextZoneName;
+            if(LookingAt(cart,3.4f))return "E · Mover carrito";
+            if(park&&park.ActiveZone!=this)return "Recorre los caminos · Tab para orientarte";
             if(!SignFixed&&LookingAt(sign,3.5f))return "E · Colocar cartel";
             if(LookingAt(switchBox,3.5f))return Restored?"El puesto vuelve a brillar":(FloorDone&&CounterDone&&SignFixed?"E · ¡Encender el puesto!":"Termina las tres tareas para encender");
             if(Restored&&LookingAt(ActivityTarget,4))return IsDucks?"E · Jugar a los patitos":"E · Jugar a las canicas";
@@ -153,8 +166,10 @@ namespace Feria
         public void Interact()
         {
             if(MinigameActive){if(IsDucks)Ducks.Confirm();else Marble.Confirm();return;}
-            if(MovingCart){cartMotor.Stop();Save(false);return;}
-            if(travelSign&&LookingAt(travelSign,3.5f)){Travel();return;}
+            if(MovingCart){if(park)park.ToggleCart();else{cartMotor.Stop();Save(false);}return;}
+            if(park&&LookingAt(cart,3.4f)){park.ToggleCart();return;}
+            if(park&&park.ActiveZone!=this)return;
+            if(!park&&travelSign&&LookingAt(travelSign,3.5f)){Travel();return;}
             if(!SignFixed&&LookingAt(sign,3.5f)){FixSign();Save(false);return;}
             if(LookingAt(switchBox,3.5f)){if(!TryRestore())Tell("Falta despejar, limpiar o colocar el cartel.");return;}
             if(Restored&&LookingAt(ActivityTarget,4)){if(IsDucks)Ducks.Begin();else Marble.Begin();return;}
@@ -172,26 +187,28 @@ namespace Feria
         public void TogglePause(){if(MinigameActive&&!Paused){Marble.Exit();Ducks.Exit();return;}SetPaused(!Paused); }
         public void SetPaused(bool paused)
         {
-            Paused=paused;Cursor.lockState=paused?CursorLockMode.None:CursorLockMode.Locked;Cursor.visible=paused;
+            if(park){park.SetPaused(paused);return;}this.paused=paused;Cursor.lockState=paused?CursorLockMode.None:CursorLockMode.Locked;Cursor.visible=paused;
             if(paused){sound?.Brush(0);PlayerPrefs.Save();}
         }
-        public void Tell(string message){Notice=message;noticeTime=7;}
-        public FairSave Snapshot()=>new FairSave {zoneId=definition.zoneId,litter=floor.CapturePositions(),removed=floor.CaptureRemoved(),dirt=counter.Capture(),cart=cart.position,cartYaw=cart.eulerAngles.y,player=player.transform.position,playerYaw=player.transform.eulerAngles.y,signFixed=SignFixed,restored=Restored,playSeconds=PlaySeconds};
+        public void Tell(string message){if(park){park.Tell(message);return;}notice=message;noticeTime=7;}
+        public FairSave Snapshot()=>new FairSave {zoneId=definition.zoneId,litter=floor.CapturePositions(),removed=floor.CaptureRemoved(),dirt=counter.Capture(),cart=park?definition.localCart:cart.position,cartYaw=park?0:cart.eulerAngles.y,player=park?definition.localSpawn:player.transform.position,playerYaw=park?0:player.transform.eulerAngles.y,signFixed=SignFixed,restored=Restored,playSeconds=PlaySeconds};
         public void Apply(FairSave data)
         {
             SaveValidation.Validate(data,litter.Length,dirtPatches.Length,definition);
-            floor.Restore(data.litter,data.removed);counter.Restore(data.dirt);cartMotor.Stop();
-            cart.SetPositionAndRotation(data.cart,Quaternion.Euler(0,data.cartYaw,0));player.Place(data.player,data.playerYaw);
+            floor.Restore(data.litter,data.removed);counter.Restore(data.dirt);if(!park){cartMotor.Stop();
+            cart.SetPositionAndRotation(data.cart,Quaternion.Euler(0,data.cartYaw,0));player.Place(data.player,data.playerYaw);}
             restoration.Restore(data.signFixed,data.restored);Ducks.Reset();PlaySeconds=data.playSeconds;lastPlayer=player.transform.position;hasSweep=false;toolHeld=false;
         }
         public void TogglePractice()
         {
-            if(InPractice){Apply(practiceReturn);practiceReturn=null;InPractice=false;Metrics=new PlaySessionMetrics();SetPaused(true);Tell("Has vuelto a tu partida guardada.");return;}
-            Save(false);practiceReturn=Snapshot();Apply(initialState);InPractice=true;Metrics=new PlaySessionMetrics();Tool=0;SetPaused(false);
+            if(park){park.TogglePractice();return;}
+            if(InPractice){Apply(practiceReturn);practiceReturn=null;inPractice=false;Metrics=new PlaySessionMetrics();SetPaused(true);Tell("Has vuelto a tu partida guardada.");return;}
+            Save(false);practiceReturn=Snapshot();Apply(initialState);inPractice=true;Metrics=new PlaySessionMetrics();Tool=0;SetPaused(false);
             Tell("Limpieza libre: puedes repetir esta zona sin cambiar tu partida.");
         }
         public bool Save(bool notify=true,string activeZone=null)
         {
+            if(park)return park.Save(notify);
             if(suppressSave||InPractice||saveBlocked){if(notify)Tell(InPractice?"La limpieza libre no modifica tu partida guardada.":saveBlocked?"Se conserva el archivo de campaña para recuperarlo.":"Sesión de verificación: guardado desactivado.");return false;}
             try{campaignStore.Upsert(CampaignMapping.Capture(Snapshot(),litterIds,surfaceIds),activeZone);if(notify)Tell("Partida guardada en este equipo.");return true;}
             catch(Exception e){Debug.LogWarning("No se pudo guardar: "+e.Message);Tell("No se pudo guardar. Se conserva el progreso anterior.");return false;}
@@ -204,7 +221,7 @@ namespace Feria
             if(saveBlocked)Tell("No se pudo recuperar la campaña. Su archivo se conserva sin cambios.");
             else if(recovered)Tell("Campaña recuperada desde el respaldo.");else if(migrated)Tell("Tu primera zona se conserva al ampliar la feria.");
         }
-        public void Travel(){BeginTravel(definition.nextZoneId,true);}
+        public void Travel(){if(park){Tell("Sigue las señales y camina hasta el siguiente puesto.");return;}BeginTravel(definition.nextZoneId,true);}
         void BeginTravel(string zoneId,bool saveCurrent)
         {
             if(ChangingZones||!catalog)return;var next=catalog.Find(zoneId);
@@ -218,8 +235,8 @@ namespace Feria
             while(Fade<1){Fade=Mathf.MoveTowards(Fade,1,Time.unscaledDeltaTime*4);yield return null;}
             var operation=SceneManager.LoadSceneAsync(sceneName);while(!operation.isDone)yield return null;
         }
-        void OnApplicationQuit(){if(floor!=null)Save(false);PlayerPrefs.Save();Cursor.lockState=CursorLockMode.None;}
-        void OnApplicationFocus(bool focus){if(!focus&&!Paused)SetPaused(true);}
+        void OnApplicationQuit(){if(!park&&floor!=null)Save(false);PlayerPrefs.Save();Cursor.lockState=CursorLockMode.None;}
+        void OnApplicationFocus(bool focus){if(!park&&!focus&&!Paused)SetPaused(true);}
         void OnDestroy(){feedback?.Dispose();sound?.Dispose();}
     }
 }

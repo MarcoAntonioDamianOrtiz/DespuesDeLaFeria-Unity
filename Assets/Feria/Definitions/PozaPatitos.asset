@@ -19,6 +19,11 @@ MonoBehaviour:
   activity: 1
   litterCount: 480
   surfaceCount: 16
+  areaMin: {x: -7.5, y: -9.5}
+  areaMax: {x: 7.5, y: 8.5}
+  entryPoint: {x: 0, y: 0.05, z: -8.7}
+  localSpawn: {x: 0, y: 0.05, z: -7.7}
+  localCart: {x: 2.7, y: 0, z: -4.4}
   placedSign: {x: -2.95, y: 1.3, z: 3.85}
   marbleWaypoints:
   - {x: 0.88, y: 1.915, z: 5.85}

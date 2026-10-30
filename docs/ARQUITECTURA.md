@@ -1,94 +1,95 @@
-# Arquitectura de Después de la feria — v0.5
+# Arquitectura — parque continuo v0.6
 
-Dos puestos ejecutables, dos actividades y campaña local. La economía, mejoras y publicación comercial siguen pendientes.
+El ejecutable abre una única escena, ParquePrincipal. Canicas y patitos son atracciones dentro del mismo mundo. Las escenas anteriores se conservan como kits y para regresión; no son destinos del recorrido del parque.
 
-## Composición
-
-FairGame compone los servicios al abrir cada escena. FairPlayer gestiona entrada, movimiento, herramientas y cámara; FairHud presenta el estado. No hay singleton de campaña ni servicio online.
+## Responsabilidades
 
 ```mermaid
 flowchart TD
-    Input[FairPlayer] --> Game[FairGame]
-    UI[FairHud] --> Game
-    Catalog[FairZoneCatalog / FairZoneDefinition] --> Game
-    Game --> Floor[LitterSimulation]
-    Game --> Surface[SurfaceCleaning]
-    Game --> Cart[CartMotor]
-    Game --> Restore[RestorationState]
-    Restore --> Marble[MarbleGame]
-    Game --> Ducks[DuckGame]
-    Game --> Feedback[FairFeedback / FairAudio]
-    Game --> Map[CampaignMapping]
-    Map --> Validation[SaveValidation]
-    Game --> Store[CampaignSaveStore]
-    Store --> JSON[Campaña principal / temporal / respaldo]
+    Input[FairPlayer: un jugador] --> Session[ParkSession]
+    HUD[FairHud: una interfaz] --> Session
+    Plan[ParkDefinition: plano y parcelas] --> Session
+    Catalog[FairZoneCatalog] --> Session
+    Session --> Cart[CartMotor global]
+    Session --> ZoneA[FairGame: canicas]
+    Session --> ZoneB[FairGame: patitos]
+    ZoneA --> CleanA[Limpieza / restauración / MarbleGame]
+    ZoneB --> CleanB[Limpieza / restauración / DuckGame]
+    Session --> Store[ParkSaveStore v3]
+    Store --> Legacy[Lectura y migración v2 / v1]
+    ZoneA --> IDs[CampaignMapping: progreso local por ID]
+    ZoneB --> IDs
 ```
 
-| Carpeta en Assets/Feria/Scripts | Responsabilidad |
-|---|---|
-| Raíz | Composición, entrada, HUD y transición |
-| Configuration | Catálogo, identidad de zona, escena, actividad, límites y cámaras |
-| Simulation | Residuos, superficies y seguimiento del carrito |
-| World | Reactivación, canicas y lanzamiento de aros |
-| Presentation | Indicadores y audio sintetizado |
-| Persistence | DTO v1, campaña v2, mapping por IDs, validación y escritura |
-| Diagnostics | Métricas en memoria, sin telemetría |
+ParkSession crea el motor del carrito, asocia los contextos de atracción al jugador/HUD compartidos y carga el parque después de inicializar sus servicios. Tiene orden temprano de ejecución para que los contextos reciban esas referencias antes de Awake.
 
-## Zonas y recorrido
+FairGame conserva sus servicios de residuos, superficies, restauración, audio y actividad. Al pertenecer a un parque delega pausa, guardado, herramienta, práctica y carrito a ParkSession. Las escenas fuente pueden ejecutarse todavía con el comportamiento anterior para verificar compatibilidad.
 
-FeriaCatalog.asset contiene RinconCanicas y PozaPatitos. Cada definición incluye zoneId, sceneName, nextZoneId, tipo de actividad, cantidad de residuos/superficies, reglas físicas y pose de cámara. Las escenas son PrimeraManana y GaleriaPatitos. Ambas están incluidas en la compilación.
+FairPlayer conserva movimiento y entrada. Sus límites son los globales del parque; no se vuelve a colocar al cambiar de área. FairHud consulta la región actual, mantiene los controles comunes y no crea el botón Visitar en el parque.
 
-Visitar desde el menú o mirar el cartel de paseo y pulsar E llama a Travel. Si había limpieza libre, restaura la instantánea de campaña. Se guarda el puesto actual y se registra el destino en la misma escritura. Si falla el guardado, se cancela el viaje. Se cubre la pantalla con una transición marfil y se carga la escena siguiente.
+## Coordenadas y atracciones
 
-En Windows el primer arranque lee la zona activa y continúa allí. En el Editor se respeta la escena que el desarrollador abrió. El destino debe estar registrado antes de cargarlo para evitar que el arranque devuelva al jugador al puesto anterior.
+Cada atracción tiene una raíz origin, con escala 1 y una pose propia en el mapa. La primera está desplazada al oeste y girada -12 grados; la segunda al este y girada 12 grados.
 
-Cada zona captura su estado inicial antes de cargar progreso. El ensayo de limpieza libre usa esa instantánea; al terminarlo recupera la de campaña. No guarda residuos, tareas ni récords del ensayo.
+- LitterSimulation convierte posiciones a coordenadas locales para límites y guardado; la simulación y recogida se representan en el mundo.
+- RestorationState coloca el cartel mediante el origen de su puesto.
+- MarbleGame transforma los puntos del recorrido y la diana al mundo. La puntuación usa el desplazamiento local, no la X global.
+- DuckGame mantiene apuntado, aterrizaje y trayectorias locales; blancos, guía y aro se representan en el mundo.
+- FairPlayer transforma la pose de enfoque y restaura su cámara al salir. El cuerpo no cambia de posición al jugar.
 
-## Limpieza
+FairZoneDefinition contiene rectángulo de activación, entrada, anclas locales de compatibilidad, reglas, límites y cámara. Por eso una atracción futura puede tener otras dimensiones sin cambiar el controlador del parque.
 
-LitterSimulation usa posiciones, velocidades, rozamiento y límites, sin un Rigidbody por papel. Las pasadas mantienen una ligera cohesión del montón y el carrito recoge desde la boca. Un umbral de finalización retira los últimos fragmentos para evitar búsquedas minuciosas. La primera zona tiene 720 elementos y la segunda 480.
+## Recorrido y áreas
 
-El aleteo y la inclinación del papel viven en un hijo visual; no se guardan como altura del residuo. SurfaceCleaning lleva las 16 manchas de cada mostrador. CartMotor suaviza el movimiento y consulta obstáculos con una caja reutilizable. RestorationState exige suelo, mostrador y cartel antes de encender luces y habilitar el juego.
+La entrada lleva a una plaza con kiosco. Los caminos frontales se bifurcan hacia los puestos y el paseo posterior los conecta con un descanso/merendero. Las puertas del perímetro son accesos físicos a las áreas reservadas.
 
-## Actividades
+RefreshArea comprueba la posición real del jugador en el marco local de las atracciones. Conserva un pequeño margen al abandonar el área para evitar alternar HUDs en el borde. Fuera de una atracción, la interfaz muestra atrio, plaza o paseo; Tab señala la entrada de un puesto pendiente.
 
-MarbleGame mantiene Idle → Aiming → Rolling → Result. El momento de confirmar determina la diana final. No permite reiniciar una bola en marcha; ofrece otra ronda al terminar.
+Cambiar de área solo cambia contexto y objetivos. No llama a LoadScene, no cubre la pantalla y no modifica pose ni cámara. El carrito mantiene su estado y sigue cruzando el parque, con velocidad de acercamiento limitada y comprobación de obstáculos.
 
-DuckGame mantiene Idle → Aiming → Throwing → Result. El ratón mueve una guía limitada al canal. Confirmar fija el destino y dibuja un arco de vuelo; los patitos continúan moviéndose. Al aterrizar, se comprueba la distancia en el plano del agua, se asignan 100 puntos al patito del gorro, 50 a los demás o 0 al agua. Se muestra brevemente el resultado del aro y el patito reacciona. Tras tres lanzamientos ofrece revancha. No hay reloj ni precio por intento.
+## Persistencia global
 
-Ambos servicios desconocen las teclas y la interfaz. FairPlayer guarda la pose y el campo de visión antes de la vista cercana y los restaura al salir. El estado de pausa detiene medidor, patitos y recorridos. El sonido responde a eventos de recogida, curva, acierto y finalización.
+feria-park.json tiene version=3 y parkId. Contiene:
 
-## Campaña v2 y compatibilidad
+- world: una posición y orientación de jugador, inclinación de cámara, posición/orientación de carrito y herramienta.
+- zones: registros de atracción con IDs de residuos/superficies, posiciones locales, retirada, limpieza, tareas y tiempo.
 
-feria-campaign.json contiene version=2, activeZone y una lista de registros de puesto. Cada registro tiene zona, residuos con ID/posición/retirada, superficies con ID/progreso, carrito, jugador, tareas y tiempo. CampaignMapping convierte el estado en memoria a registros y vuelve a ordenarlos según las identidades de la escena.
+Los campos históricos player/cart de cada registro de puesto se mantienen como anclas locales de compatibilidad. La posición física actual se toma exclusivamente de world.
 
-Los IDs se serializan junto a las referencias de la escena. Al editar o reordenar un array, cada ID debe seguir asociado a su objeto. Cambiar la cantidad o sustituir identidades requiere una migración de contenido; la versión actual rechaza una distribución incompatible en vez de aplicar progreso a otros objetos. Los generadores crean la distribución original y no deben usarse para renumerar una zona publicada modificada a mano.
+ParkSaveStore valida el parque, posiciones globales y registros de atracción. Escribe un temporal y reemplaza el principal conservando respaldo .bak. Prueba principal y respaldo al cargar. Una partida ilegible o de una versión posterior bloquea la escritura para conservar el original.
 
-Al no existir una campaña, se intenta importar feria-slot-1.json y su respaldo de la primera zona. Se valida el formato v1 de 720 residuos y 16 manchas y se asignan los IDs históricos. El archivo antiguo nunca se modifica ni se elimina. La primera escritura v2 conserva el registro importado y añade el nuevo puesto. Volver a ejecutar v0.4 no actualiza la campaña v2.
+Antes de aplicar una partida se convierten y validan todas las atracciones presentes. Después se restauran las tareas y se coloca una sola vez jugador/carrito globales. Un puesto nuevo sin registro usa su estado inicial. Los IDs deben permanecer asociados a sus objetos; cambiar cantidades o sustituir IDs publicados exige una migración de contenido.
 
-CampaignSaveStore vuelve a leer la campaña al guardar y sustituye solamente el puesto actual, conservando los demás. Escribe un temporal y reemplaza el principal con respaldo .bak. Si el principal está corrupto, intenta recuperar el respaldo completo. Si ninguno es legible, bloquea nuevas escrituras. Una versión posterior tampoco se rebaja automáticamente a un respaldo antiguo.
+## Migración
 
-La validación comprueba versión, catálogo, IDs únicos, cantidades, finitud, límites por definición, porcentajes y coherencia de tareas. Una incompatibilidad al aplicar el puesto bloquea su guardado. Los récords de cada actividad, volumen y sensibilidad usan PlayerPrefs. El lanzamiento en curso y los intentos no se persisten.
+Si no existe v3, se lee la campaña v2 o se importa el v1 de las canicas. Los residuos y superficies conservan sus IDs y coordenadas locales. El último puesto de v2 proporciona la pose histórica: se transforma mediante su nuevo origen para situar al jugador y al carrito en ese lugar del parque.
 
-FairSave permanece como instantánea interna y DTO legado. LocalSaveStore conserva la utilidad de lectura/escritura v1 para compatibilidad y pruebas; la campaña de juego usa CampaignSaveStore.
+La migración normal no sustituye los archivos antiguos. Las versiones v0.5 y v0.4 continúan escribiendo sus formatos, por lo que para seguir el parque se debe usar v0.6. Las preferencias y récords siguen en PlayerPrefs; no se guarda un lanzamiento en curso.
 
-## Arte y herramientas
+## Práctica
 
-Todo el nuevo arte está modelado o dibujado para este proyecto. Las fuentes SVG están en ArtSources; mallas, shaders, PNG y materiales en Assets/Feria/Art/Original; prefabs en Assets/Feria/Prefabs. Unity y las tipografías conservan sus licencias.
+Limpieza libre conserva una instantánea global y reinicia el progreso de las atracciones, manteniendo jugador y carrito donde están. El guardado y los récords quedan bloqueados durante el ensayo. Al volver se recuperan los puestos de la campaña y se mantiene la ubicación física actual.
 
-FairSceneBuilder sustituye la escena base y solo debe usarse deliberadamente. FairArtPass, FairVisualPolish y FairDetailPolish reproducen las pasadas anteriores. FairDuckZoneBuilder amplía la primera escena con catálogo/cartel y construye la segunda con el mismo kit, patitos, agua, aros y póster originales. Repetir el generador reconstruye sus objetos visuales.
+La pausa detiene la simulación, no la interfaz. No se usa Time.timeScale global para controlar el Editor.
 
-## Verificación y siguientes ampliaciones
+## Crecimiento
 
-FairVerification y FairDetailVerification comprueban los sistemas anteriores. FairJourneyVerification completa limpieza y actividad de ambas zonas mediante acciones simuladas, conservando los archivos de prueba. FairDuckVerification comprueba apuntado, pausa, aciertos/fallos, ronda, récord de práctica y cámara. FairCampaignVerification cubre migración, independencia de puestos, IDs, respaldo, datos inválidos y versiones posteriores.
+ParquePrincipal.asset define la envolvente global y cuatro ParkPlot con IDs, centros, tamaños y puntos de conexión. Los contextos de atracción se descubren bajo ParkSession al iniciar; la interfaz calcula el número total sin fijarlo a dos.
 
-Las pruebas de Play configuran FairSavePaths con una carpeta aislada mediante SessionState del Editor; esa ruta no existe en el ejecutable. La comprobación de Windows cubre navegación real y reapertura. La validación técnica no demuestra diez minutos de diversión: el protocolo de sesión sigue pendiente de observación humana.
+La v0.6 mantiene todas las atracciones presentes en una escena. Una futura partición por sectores necesita registro/desregistro de contextos, progreso retenido de sectores descargados, precarga y pruebas de memoria. Esa carga todavía no está implementada. No se debe desactivar o descargar una atracción publicada y guardar únicamente las restantes.
 
-| Ampliación pendiente | Condición |
-|---|---|
-| Más puestos y tareas, como despegar carteles | Evaluar comodidad de estas dos zonas |
-| Economía y mejoras | La interacción básica resulta satisfactoria sin premios |
-| Colección y personalización | Contenido original suficiente para coleccionar |
-| Cambios de cantidad/IDs en zonas publicadas | Migración de contenido explícita |
-| Controles reasignables y accesibilidad | Antes de la demo pública |
-| Steamworks y preparación comercial | Sin convertir Steam en requisito del guardado offline |
+Añadir otro tipo de minijuego requiere su lógica y presentación. Esta fase prepara el espacio, las coordenadas, la sesión y la persistencia del parque; no incorpora una biblioteca universal de actividades.
+
+## Construcción y arte
+
+ContinuousParkBuilder utiliza los dos kits existentes, extrae jugador/cart/HUD únicos, elimina sus cercas y fondos duplicados y coloca las raíces en el nuevo mapa. Construye entrada, caminos de malla continua, plaza, kiosco, señalética, vegetación, descanso y accesos de ampliación.
+
+El generador reconstruye la escena y se ejecuta deliberadamente. PolishPaths actúa sobre los caminos y la arboleda originales. La ampliación manual debe mantenerse en los assets/fuentes correspondientes; no se promete conservar ediciones manuales al reconstruir.
+
+Las mallas, materiales, shaders e ilustraciones son propios del proyecto; las fuentes tipográficas y dependencias de Unity conservan sus licencias.
+
+## Verificación
+
+ContinuousParkVerification mueve un CharacterController por el circuito, comprueba pasos de jugador/carrito, áreas y escena única; completa 1200 residuos mediante barrido/recogida, restaura los puestos y prueba las dos actividades giradas. Comprueba cámara, práctica, posición global, migración, respaldo y datos inválidos/versiones posteriores.
+
+Las pruebas de Play usan una carpeta aislada mediante FairSavePaths y SessionState del Editor. Se conservan las pruebas anteriores de v1/v2 y de las escenas fuente. Las medidas simuladas no equivalen a duración de juego humana ni demuestran diez minutos de diversión.

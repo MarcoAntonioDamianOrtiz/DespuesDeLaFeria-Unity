@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9f9db08cc6add140be0d03d81079d2b, type: 3}
+  m_Name: ParquePrincipal
+  m_EditorClassIdentifier: Assembly-CSharp::Feria.ParkDefinition
+  parkId: feria-manana
+  catalog: {fileID: 11400000, guid: ed6a3531748a9b54d9be01754ea760a7, type: 2}
+  worldMin: {x: -100, y: -20}
+  worldMax: {x: 100, y: 180}
+  entrance: {x: 0, y: 0.05, z: -3}
+  cartStart: {x: 2, y: 0, z: 9}
+  futurePlots:
+  - id: oeste
+    label: "Jard\xEDn del oeste"
+    center: {x: -76, y: 0, z: 45}
+    connection: {x: -52, y: 0, z: 45}
+    size: {x: 36, y: 32}
+  - id: este
+    label: "Jard\xEDn del este"
+    center: {x: 76, y: 0, z: 45}
+    connection: {x: 52, y: 0, z: 45}
+    size: {x: 36, y: 32}
+  - id: noroeste
+    label: Paseo norte
+    center: {x: -28, y: 0, z: 118}
+    connection: {x: -28, y: 0, z: 88}
+    size: {x: 36, y: 32}
+  - id: noreste
+    label: Paseo norte
+    center: {x: 28, y: 0, z: 118}
+    connection: {x: 28, y: 0, z: 88}
+    size: {x: 36, y: 32}

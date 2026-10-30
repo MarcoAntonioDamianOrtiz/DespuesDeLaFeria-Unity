@@ -39,3 +39,8 @@ Los resultados automáticos del recorrido están documentados por separado; no s
 ## Segunda zona: patitos
 
 Repetir la observación en La poza de los patitos. Evaluar primero las pasadas de escoba y el recogedor, y después la actividad de aros por separado: los puntos del minijuego no sustituyen la prueba de si limpiar resulta agradable. Registrar si se entiende la guía, si apetece anticipar el movimiento y si se desea otra ronda tras los tres aros. Anotar si viajar y volver conserva el sentido de progreso.
+
+
+## Parque continuo v0.6
+
+Caminar desde el atrio hasta ambos puestos y volver por el paseo posterior. Observar si las señales bastan para elegir camino, si hay tramos que se sienten vacíos y si el carrito gira con comodidad. La prueba de tamaño se hace a pie: no usar colocaciones de Editor. Comprobar después de reabrir que jugador y carrito están donde se dejaron. Evaluar el paseo y la limpieza por separado para que una actividad no oculte incomodidades de la otra.

@@ -1,15 +1,15 @@
-# Después de la feria · Versión 0.5
+# Después de la feria · Versión 0.6
 
-Abre el ejecutable de la carpeta hermana Feria-Windows-v0.5 o el proyecto con Unity 6000.3.24f1.
+Abre ParquePrincipal.unity con Unity 6000.3.24f1, o el ejecutable de Feria-Windows-v0.6.
 
-Ahora puedes visitar **La poza de los patitos** desde el botón Visitar del menú o el cartel de paseo (E). Puedes volver a las canicas y conservar el avance de cada puesto. El juego recuerda el último visitado.
+Ahora las dos atracciones pertenecen a un único parque. **Sal caminando del puesto y sigue las señales hasta la plaza o la otra atracción.** El menú ya no transporta entre zonas. E permite llevar el carrito contigo.
 
-Limpia la segunda zona, coloca el cartel y enciende el puesto. Mira el canal y pulsa E: mueve el ratón para colocar el aro y lanza con clic o E. Hay tres aros por ronda; el patito del gorro vale 100 puntos y los otros 50. E o R repite al terminar, Esc sale.
+Hay entrada, plaza, jardines, circuito posterior y merendero, más cuatro parcelas reservadas para ampliar el mapa. Las puertas de jardines en restauración marcan accesos futuros.
 
-WASD caminar; ratón mirar; mantener clic usar herramienta; 1/2 escoba/paño; E interactuar; Tab ayuda; Esc pausa; Enter reanudar; F5 guardar.
+WASD caminar; ratón mirar; clic mantenido usar herramienta; 1/2 herramientas; E interactuar; Tab orientación; Esc pausa; Enter continuar; F5 guardar.
 
-**Limpieza libre** repite la zona sin sustituir tu avance. Volver a partida lo recupera; cambiar de puesto termina la práctica y conserva la campaña. La práctica no modifica los récords.
+Canicas: E para lanzar al pasar por la franja dorada. Patitos: ratón para apuntar, clic o E para lanzar; tres aros por ronda. E o R repite y Esc vuelve a la vista normal. Las actividades se habilitan al recuperar sus puestos.
 
-Guardado local de campaña v2 con respaldo. El progreso v1 de las canicas se migra y su archivo original queda intacto. Las versiones antiguas siguen usando v1; para continuar ambos puestos utiliza v0.5.
+El guardado v3 conserva el progreso anterior y guarda un único jugador/carrito para todo el parque. Las partidas antiguas no se eliminan. Limpieza libre reinicia las atracciones para ensayar sin escribir sobre la campaña; volver restaura su progreso manteniendo tu ubicación.
 
-[Arquitectura](docs/ARQUITECTURA.md) · [Validación](docs/VALIDACION-v0.5.md) · [Arte](ART_PROVENANCE.md)
+[Arquitectura](docs/ARQUITECTURA.md) · [Ampliar el parque](docs/AMPLIAR-PARQUE.md) · [Validación](docs/VALIDACION-v0.6.md)

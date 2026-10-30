@@ -10,6 +10,9 @@ namespace Feria
         readonly bool[] removed;
         readonly Vector3[] velocities;
         readonly FairZoneDefinition rules;
+        readonly Transform origin;
+        Vector3 Local(Vector3 p)=>origin?origin.InverseTransformPoint(p):p;
+        Vector3 World(Vector3 p)=>origin?origin.TransformPoint(p):p;
         readonly Transform[] visuals;
         readonly float[] flutter;
         readonly Quaternion[] restRotations;
@@ -19,9 +22,9 @@ namespace Feria
         public bool Complete=>Collected==pieces.Length;
         public event Action<int> PickedUp;
         public event Action FloorCompleted;
-        public LitterSimulation(Transform[] pieces,FairZoneDefinition rules)
+        public LitterSimulation(Transform[] pieces,FairZoneDefinition rules,Transform origin=null)
         {
-            this.pieces=pieces;this.rules=rules;removed=new bool[pieces.Length];velocities=new Vector3[pieces.Length];
+            this.pieces=pieces;this.rules=rules;this.origin=origin;removed=new bool[pieces.Length];velocities=new Vector3[pieces.Length];
             visuals=new Transform[pieces.Length];flutter=new float[pieces.Length];restRotations=new Quaternion[pieces.Length];
             for(int i=0;i<pieces.Length;i++){visuals[i]=pieces[i].Find("Papel artesanal");restRotations[i]=pieces[i].rotation;}
         }
@@ -54,7 +57,7 @@ namespace Feria
                 if(removed[i]) continue;
                 var p=pieces[i].position;
                 p+=velocities[i]*dt;
-                p.x=Mathf.Clamp(p.x,rules.litterMin.x,rules.litterMax.x); p.z=Mathf.Clamp(p.z,rules.litterMin.y,rules.litterMax.y);
+                var local=Local(p);local.x=Mathf.Clamp(local.x,rules.litterMin.x,rules.litterMax.x);local.z=Mathf.Clamp(local.z,rules.litterMin.y,rules.litterMax.y);p=World(local);
                 pieces[i].position=p;
                 float speed=velocities[i].magnitude;
                 if(visuals[i])
@@ -82,11 +85,11 @@ namespace Feria
             return result;
         }
         public bool[] CaptureRemoved()=>(bool[])removed.Clone();
-        public Vector3[] CapturePositions() {var result=new Vector3[pieces.Length];for(int i=0;i<result.Length;i++)result[i]=pieces[i].position;return result;}
+        public Vector3[] CapturePositions() {var result=new Vector3[pieces.Length];for(int i=0;i<result.Length;i++)result[i]=Local(pieces[i].position);return result;}
         public void Restore(Vector3[] positions,bool[] deleted)
         {
             Collected=0;
-            for(int i=0;i<pieces.Length;i++){pieces[i].position=positions[i];removed[i]=deleted[i];velocities[i]=Vector3.zero;flutter[i]=0;pieces[i].rotation=restRotations[i];if(visuals[i]){visuals[i].localPosition=Vector3.zero;visuals[i].localRotation=Quaternion.identity;}pieces[i].gameObject.SetActive(!deleted[i]);if(deleted[i])Collected++;}
+            for(int i=0;i<pieces.Length;i++){pieces[i].position=World(positions[i]);removed[i]=deleted[i];velocities[i]=Vector3.zero;flutter[i]=0;pieces[i].rotation=restRotations[i];if(visuals[i]){visuals[i].localPosition=Vector3.zero;visuals[i].localRotation=Quaternion.identity;}pieces[i].gameObject.SetActive(!deleted[i]);if(deleted[i])Collected++;}
         }
         public static float FlatDistance(Vector3 a,Vector3 b) {a.y=b.y=0;return Vector3.Distance(a,b);}
     }

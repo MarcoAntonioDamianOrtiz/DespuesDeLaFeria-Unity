@@ -4,7 +4,7 @@ namespace Feria
 {
     public sealed class RestorationState
     {
-        readonly Transform sign,marble;
+        readonly Transform sign,marble,origin;
         readonly Light[] lights;
         readonly Renderer[] bulbs;
         readonly Material lit,unlit;
@@ -15,13 +15,13 @@ namespace Feria
         public bool SignFixed {get;private set;}
         public bool Restored {get;private set;}
         public event System.Action Chime;
-        public RestorationState(Transform sign,Transform marble,Light[] lights,Renderer[] bulbs,Material lit,FairZoneDefinition rules)
+        public RestorationState(Transform sign,Transform marble,Light[] lights,Renderer[] bulbs,Material lit,FairZoneDefinition rules,Transform origin=null)
         {
-            this.sign=sign;this.marble=marble;this.lights=lights;this.bulbs=bulbs;this.lit=lit;this.rules=rules;
-            Marble=new MarbleGame(marble,rules);
+            this.sign=sign;this.marble=marble;this.origin=origin;this.lights=lights;this.bulbs=bulbs;this.lit=lit;this.rules=rules;
+            Marble=new MarbleGame(marble,rules,origin);
             unlit=bulbs.Length>0?bulbs[0].sharedMaterial:lit;signStart=sign.position;signRotation=sign.rotation;marbleStart=marble.position;
         }
-        public void FixSign(){SignFixed=true;sign.SetPositionAndRotation(rules.placedSign,Quaternion.identity);}
+        public void FixSign(){SignFixed=true;sign.SetPositionAndRotation(origin?origin.TransformPoint(rules.placedSign):rules.placedSign,origin?origin.rotation:Quaternion.identity);}
         public bool Activate(bool floor,bool counter)
         {
             if(Restored)return true;if(!floor||!counter||!SignFixed)return false;

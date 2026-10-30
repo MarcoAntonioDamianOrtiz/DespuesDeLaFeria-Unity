@@ -10,6 +10,8 @@ namespace Feria
         readonly Transform ball;
         readonly FairZoneDefinition rules;
         readonly Vector3 start;
+        readonly Transform origin;
+        Vector3 World(Vector3 p)=>origin?origin.TransformPoint(p):p;
         float clock,rollTime,power;
         public Phase State {get;private set;}
         public bool Active=>State!=Phase.Idle;
@@ -17,11 +19,11 @@ namespace Feria
         public float Accuracy=>1-Mathf.Abs(power-.5f)*2;
         public int Score {get;private set;}
         public int Attempts {get;private set;}
-        public Vector3 Landing=>new Vector3(Mathf.Lerp(-.78f,.78f,power),1.55f,4.24f);
+        public Vector3 Landing=>World(new Vector3(Mathf.Lerp(-.78f,.78f,power),1.55f,4.24f));
         public event Action<int> Finished;
         public event Action<int> RailTouched;
         int lastRail;
-        public MarbleGame(Transform ball,FairZoneDefinition rules){this.ball=ball;this.rules=rules;start=ball.position;}
+        public MarbleGame(Transform ball,FairZoneDefinition rules,Transform origin=null){this.ball=ball;this.rules=rules;this.origin=origin;start=origin?origin.InverseTransformPoint(ball.position):ball.position;}
         public void Begin(){clock=-.65f;rollTime=0;Score=0;State=Phase.Aiming;ball.position=Waypoint(0);}
         public void Confirm(){if(State==Phase.Aiming)Drop(Meter);else if(State==Phase.Result)Begin();}
         public void Drop(float strength)
@@ -43,15 +45,15 @@ namespace Feria
             int rail=Mathf.FloorToInt(path/2);if(rail>lastRail){lastRail=rail;RailTouched?.Invoke(rail);}
             if(rollTime>=duration+.85f)
             {
-                ball.position=Landing;float offset=Mathf.Abs(Landing.x);Score=offset<=.18f?100:offset<=.57f?50:10;Attempts++;State=Phase.Result;Finished?.Invoke(Score);
+                ball.position=Landing;float offset=Mathf.Abs(Mathf.Lerp(-.78f,.78f,power));Score=offset<=.18f?100:offset<=.57f?50:10;Attempts++;State=Phase.Result;Finished?.Invoke(Score);
             }
         }
         Vector3 Waypoint(int i)
         {
-            if(rules.marbleWaypoints.Length>=2)return rules.marbleWaypoints[Mathf.Clamp(i,0,rules.marbleWaypoints.Length-1)];
-            int row=i/2;float x=i%2==0?.88f:-.88f;if(row%2==1)x=-x;return new Vector3(x,1.9f-row*.075f,5.85f-row*.22f);
+            if(rules.marbleWaypoints.Length>=2)return World(rules.marbleWaypoints[Mathf.Clamp(i,0,rules.marbleWaypoints.Length-1)]);
+            int row=i/2;float x=i%2==0?.88f:-.88f;if(row%2==1)x=-x;return World(new Vector3(x,1.9f-row*.075f,5.85f-row*.22f));
         }
-        public void Exit(){State=Phase.Idle;ball.position=start;}
+        public void Exit(){State=Phase.Idle;ball.position=World(start);}
         public void Reset(){Exit();Attempts=0;Score=0;clock=rollTime=0;}
     }
 }

@@ -17,6 +17,7 @@ namespace Feria
         Transform fibres;
         float normalFov;
         bool closeView;
+        public float Pitch=>pitch;
         public bool Active=>game!=null&&!game.Paused;
         void Awake()
         {
@@ -42,7 +43,7 @@ namespace Feria
             if(kb.wKey.isPressed)movement.y++;if(kb.sKey.isPressed)movement.y--;if(kb.dKey.isPressed)movement.x++;if(kb.aKey.isPressed)movement.x--;
             movement=Vector2.ClampMagnitude(movement,1);verticalSpeed=controller.isGrounded?-2:verticalSpeed-18*Time.deltaTime;
             controller.Move(((transform.right*movement.x+transform.forward*movement.y)*(game.MovingCart?2.6f:3.7f)+Vector3.up*verticalSpeed)*Time.deltaTime);
-            var p=transform.position;p.x=Mathf.Clamp(p.x,game.definition.playerMin.x,game.definition.playerMax.x);p.z=Mathf.Clamp(p.z,game.definition.playerMin.y,game.definition.playerMax.y);transform.position=p;
+            var min=game.park?game.park.definition.worldMin:game.definition.playerMin;var max=game.park?game.park.definition.worldMax:game.definition.playerMax;var p=transform.position;p.x=Mathf.Clamp(p.x,min.x,max.x);p.z=Mathf.Clamp(p.z,min.y,max.y);transform.position=p;
             if(kb.digit1Key.wasPressedThisFrame)game.Tool=0;if(kb.digit2Key.wasPressedThisFrame)game.Tool=1;
             if(mouse.scroll.ReadValue().y!=0)game.Tool=1-game.Tool;
             if(kb.eKey.wasPressedThisFrame)game.Interact();if(kb.f5Key.wasPressedThisFrame)game.Save();if(kb.tabKey.wasPressedThisFrame)game.RequestHint();
@@ -66,18 +67,18 @@ namespace Feria
             {
                 if(!closeView){normalCameraPosition=view.transform.localPosition;normalCameraRotation=view.transform.localRotation;normalFov=view.fieldOfView;closeView=true;}
                 float blend=1-Mathf.Exp(-Time.unscaledDeltaTime*7);
-                Vector3 position=game.definition.activityViewPosition,target=game.definition.activityViewTarget;
+                Vector3 position=game.World(game.definition.activityViewPosition),target=game.World(game.definition.activityViewTarget);
                 view.transform.position=Vector3.Lerp(view.transform.position,position,blend);
                 view.transform.rotation=Quaternion.Slerp(view.transform.rotation,Quaternion.LookRotation(target-position),blend);
                 view.fieldOfView=Mathf.Lerp(view.fieldOfView,53,blend);
             }
             else if(closeView){view.transform.localPosition=normalCameraPosition;view.transform.localRotation=normalCameraRotation;view.fieldOfView=normalFov;closeView=false;}
         }
-        public void Place(Vector3 position,float yaw)
+        public void Place(Vector3 position,float yaw,float cameraPitch=20)
         {
             if(closeView){view.transform.localPosition=normalCameraPosition;view.fieldOfView=normalFov;closeView=false;}
             if(!controller)controller=GetComponent<CharacterController>();controller.enabled=false;transform.SetPositionAndRotation(position,Quaternion.Euler(0,yaw,0));controller.enabled=true;
-            pitch=20;verticalSpeed=0;if(view)view.transform.localRotation=Quaternion.Euler(pitch,0,0);
+            pitch=Mathf.Clamp(cameraPitch,-55,78);verticalSpeed=0;if(view)view.transform.localRotation=Quaternion.Euler(pitch,0,0);
         }
     }
 }

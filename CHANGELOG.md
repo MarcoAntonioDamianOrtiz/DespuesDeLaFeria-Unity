@@ -1,5 +1,16 @@
 # Cambios
 
+## 0.6.0 — Parque continuo y base ampliable
+
+- Entrada, plaza con kiosco, plano, señales físicas, circuito posterior, merendero y jardines.
+- Canicas y patitos en una escena, conectados a pie; se elimina Visitar del menú del parque.
+- Un único jugador, carrito y HUD; detección de áreas con margen y progreso global.
+- Simulación y cámaras relativas al origen de cada atracción, incluidas raíces giradas.
+- Plano con cuatro parcelas y puntos de conexión para futuros juegos, con tamaños de áreas configurables.
+- Guardado v3 de posición global, herramienta y progreso por puesto; migración de v2/v1.
+- Limpieza libre sin desplazar al jugador o carrito.
+- Pruebas de paseo físico, ciclo completo de 1200 residuos, minijuegos girados y persistencia global.
+
 ## 0.5.0 — La poza de los patitos y campaña local
 
 - Segunda zona con 480 residuos, distribución propia y mosaico de ondas.
