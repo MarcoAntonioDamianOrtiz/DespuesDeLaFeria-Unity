@@ -6329,6 +6329,189 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &66636690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 66636691}
+  - component: {fileID: 66636693}
+  - component: {fileID: 66636692}
+  m_Layer: 0
+  m_Name: Destino
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &66636691
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66636690}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.044}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 599434430}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1.2, y: 0.48}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &66636692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66636690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshPro
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'VISITAR
+
+    LOS PATITOS'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 0.9647059, g: 0.90588236, b: 0.7764706, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: 0
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 1
+  m_fontSizeBase: 1
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 0
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 66636693}
+  m_maskType: 0
+--- !u!23 &66636693
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66636690}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &66678953
 GameObject:
   m_ObjectHideFlags: 0
@@ -55909,6 +56092,40 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 599167821}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &599434429
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 599434430}
+  m_Layer: 0
+  m_Name: Paseo al siguiente puesto
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &599434430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599434429}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.35, y: 1.2, z: -5.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1542847175}
+  - {fileID: 1165079740}
+  - {fileID: 66636691}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &599517710
 GameObject:
   m_ObjectHideFlags: 0
@@ -105179,6 +105396,96 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1161569283}
   m_Mesh: {fileID: 4300000, guid: 8725af5dd621bd04899e8c0c529f6fc7, type: 2}
+--- !u!1 &1165079739
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1165079740}
+  - component: {fileID: 1165079742}
+  - component: {fileID: 1165079741}
+  m_Layer: 0
+  m_Name: Flecha de paseo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1165079740
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165079739}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 0.62, z: 0.06}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 599434430}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1165079741
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165079739}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8c224b0cd69d315409471a8055777792, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1165079742
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165079739}
+  m_Mesh: {fileID: 4300000, guid: 82a0ca2133723b24eae5133ce583924a, type: 2}
 --- !u!1 &1165493272
 GameObject:
   m_ObjectHideFlags: 0
@@ -130192,6 +130499,750 @@ MonoBehaviour:
   - {fileID: 239747697}
   - {fileID: 679990089}
   - {fileID: 1484389319}
+  duckTargets: []
+  aimRing: {fileID: 0}
+  flyingRing: {fileID: 0}
+  activityAnchor: {fileID: 0}
+  travelSign: {fileID: 599434430}
+  catalog: {fileID: 11400000, guid: ed6a3531748a9b54d9be01754ea760a7, type: 2}
+  litterIds:
+  - litter-0000
+  - litter-0001
+  - litter-0002
+  - litter-0003
+  - litter-0004
+  - litter-0005
+  - litter-0006
+  - litter-0007
+  - litter-0008
+  - litter-0009
+  - litter-0010
+  - litter-0011
+  - litter-0012
+  - litter-0013
+  - litter-0014
+  - litter-0015
+  - litter-0016
+  - litter-0017
+  - litter-0018
+  - litter-0019
+  - litter-0020
+  - litter-0021
+  - litter-0022
+  - litter-0023
+  - litter-0024
+  - litter-0025
+  - litter-0026
+  - litter-0027
+  - litter-0028
+  - litter-0029
+  - litter-0030
+  - litter-0031
+  - litter-0032
+  - litter-0033
+  - litter-0034
+  - litter-0035
+  - litter-0036
+  - litter-0037
+  - litter-0038
+  - litter-0039
+  - litter-0040
+  - litter-0041
+  - litter-0042
+  - litter-0043
+  - litter-0044
+  - litter-0045
+  - litter-0046
+  - litter-0047
+  - litter-0048
+  - litter-0049
+  - litter-0050
+  - litter-0051
+  - litter-0052
+  - litter-0053
+  - litter-0054
+  - litter-0055
+  - litter-0056
+  - litter-0057
+  - litter-0058
+  - litter-0059
+  - litter-0060
+  - litter-0061
+  - litter-0062
+  - litter-0063
+  - litter-0064
+  - litter-0065
+  - litter-0066
+  - litter-0067
+  - litter-0068
+  - litter-0069
+  - litter-0070
+  - litter-0071
+  - litter-0072
+  - litter-0073
+  - litter-0074
+  - litter-0075
+  - litter-0076
+  - litter-0077
+  - litter-0078
+  - litter-0079
+  - litter-0080
+  - litter-0081
+  - litter-0082
+  - litter-0083
+  - litter-0084
+  - litter-0085
+  - litter-0086
+  - litter-0087
+  - litter-0088
+  - litter-0089
+  - litter-0090
+  - litter-0091
+  - litter-0092
+  - litter-0093
+  - litter-0094
+  - litter-0095
+  - litter-0096
+  - litter-0097
+  - litter-0098
+  - litter-0099
+  - litter-0100
+  - litter-0101
+  - litter-0102
+  - litter-0103
+  - litter-0104
+  - litter-0105
+  - litter-0106
+  - litter-0107
+  - litter-0108
+  - litter-0109
+  - litter-0110
+  - litter-0111
+  - litter-0112
+  - litter-0113
+  - litter-0114
+  - litter-0115
+  - litter-0116
+  - litter-0117
+  - litter-0118
+  - litter-0119
+  - litter-0120
+  - litter-0121
+  - litter-0122
+  - litter-0123
+  - litter-0124
+  - litter-0125
+  - litter-0126
+  - litter-0127
+  - litter-0128
+  - litter-0129
+  - litter-0130
+  - litter-0131
+  - litter-0132
+  - litter-0133
+  - litter-0134
+  - litter-0135
+  - litter-0136
+  - litter-0137
+  - litter-0138
+  - litter-0139
+  - litter-0140
+  - litter-0141
+  - litter-0142
+  - litter-0143
+  - litter-0144
+  - litter-0145
+  - litter-0146
+  - litter-0147
+  - litter-0148
+  - litter-0149
+  - litter-0150
+  - litter-0151
+  - litter-0152
+  - litter-0153
+  - litter-0154
+  - litter-0155
+  - litter-0156
+  - litter-0157
+  - litter-0158
+  - litter-0159
+  - litter-0160
+  - litter-0161
+  - litter-0162
+  - litter-0163
+  - litter-0164
+  - litter-0165
+  - litter-0166
+  - litter-0167
+  - litter-0168
+  - litter-0169
+  - litter-0170
+  - litter-0171
+  - litter-0172
+  - litter-0173
+  - litter-0174
+  - litter-0175
+  - litter-0176
+  - litter-0177
+  - litter-0178
+  - litter-0179
+  - litter-0180
+  - litter-0181
+  - litter-0182
+  - litter-0183
+  - litter-0184
+  - litter-0185
+  - litter-0186
+  - litter-0187
+  - litter-0188
+  - litter-0189
+  - litter-0190
+  - litter-0191
+  - litter-0192
+  - litter-0193
+  - litter-0194
+  - litter-0195
+  - litter-0196
+  - litter-0197
+  - litter-0198
+  - litter-0199
+  - litter-0200
+  - litter-0201
+  - litter-0202
+  - litter-0203
+  - litter-0204
+  - litter-0205
+  - litter-0206
+  - litter-0207
+  - litter-0208
+  - litter-0209
+  - litter-0210
+  - litter-0211
+  - litter-0212
+  - litter-0213
+  - litter-0214
+  - litter-0215
+  - litter-0216
+  - litter-0217
+  - litter-0218
+  - litter-0219
+  - litter-0220
+  - litter-0221
+  - litter-0222
+  - litter-0223
+  - litter-0224
+  - litter-0225
+  - litter-0226
+  - litter-0227
+  - litter-0228
+  - litter-0229
+  - litter-0230
+  - litter-0231
+  - litter-0232
+  - litter-0233
+  - litter-0234
+  - litter-0235
+  - litter-0236
+  - litter-0237
+  - litter-0238
+  - litter-0239
+  - litter-0240
+  - litter-0241
+  - litter-0242
+  - litter-0243
+  - litter-0244
+  - litter-0245
+  - litter-0246
+  - litter-0247
+  - litter-0248
+  - litter-0249
+  - litter-0250
+  - litter-0251
+  - litter-0252
+  - litter-0253
+  - litter-0254
+  - litter-0255
+  - litter-0256
+  - litter-0257
+  - litter-0258
+  - litter-0259
+  - litter-0260
+  - litter-0261
+  - litter-0262
+  - litter-0263
+  - litter-0264
+  - litter-0265
+  - litter-0266
+  - litter-0267
+  - litter-0268
+  - litter-0269
+  - litter-0270
+  - litter-0271
+  - litter-0272
+  - litter-0273
+  - litter-0274
+  - litter-0275
+  - litter-0276
+  - litter-0277
+  - litter-0278
+  - litter-0279
+  - litter-0280
+  - litter-0281
+  - litter-0282
+  - litter-0283
+  - litter-0284
+  - litter-0285
+  - litter-0286
+  - litter-0287
+  - litter-0288
+  - litter-0289
+  - litter-0290
+  - litter-0291
+  - litter-0292
+  - litter-0293
+  - litter-0294
+  - litter-0295
+  - litter-0296
+  - litter-0297
+  - litter-0298
+  - litter-0299
+  - litter-0300
+  - litter-0301
+  - litter-0302
+  - litter-0303
+  - litter-0304
+  - litter-0305
+  - litter-0306
+  - litter-0307
+  - litter-0308
+  - litter-0309
+  - litter-0310
+  - litter-0311
+  - litter-0312
+  - litter-0313
+  - litter-0314
+  - litter-0315
+  - litter-0316
+  - litter-0317
+  - litter-0318
+  - litter-0319
+  - litter-0320
+  - litter-0321
+  - litter-0322
+  - litter-0323
+  - litter-0324
+  - litter-0325
+  - litter-0326
+  - litter-0327
+  - litter-0328
+  - litter-0329
+  - litter-0330
+  - litter-0331
+  - litter-0332
+  - litter-0333
+  - litter-0334
+  - litter-0335
+  - litter-0336
+  - litter-0337
+  - litter-0338
+  - litter-0339
+  - litter-0340
+  - litter-0341
+  - litter-0342
+  - litter-0343
+  - litter-0344
+  - litter-0345
+  - litter-0346
+  - litter-0347
+  - litter-0348
+  - litter-0349
+  - litter-0350
+  - litter-0351
+  - litter-0352
+  - litter-0353
+  - litter-0354
+  - litter-0355
+  - litter-0356
+  - litter-0357
+  - litter-0358
+  - litter-0359
+  - litter-0360
+  - litter-0361
+  - litter-0362
+  - litter-0363
+  - litter-0364
+  - litter-0365
+  - litter-0366
+  - litter-0367
+  - litter-0368
+  - litter-0369
+  - litter-0370
+  - litter-0371
+  - litter-0372
+  - litter-0373
+  - litter-0374
+  - litter-0375
+  - litter-0376
+  - litter-0377
+  - litter-0378
+  - litter-0379
+  - litter-0380
+  - litter-0381
+  - litter-0382
+  - litter-0383
+  - litter-0384
+  - litter-0385
+  - litter-0386
+  - litter-0387
+  - litter-0388
+  - litter-0389
+  - litter-0390
+  - litter-0391
+  - litter-0392
+  - litter-0393
+  - litter-0394
+  - litter-0395
+  - litter-0396
+  - litter-0397
+  - litter-0398
+  - litter-0399
+  - litter-0400
+  - litter-0401
+  - litter-0402
+  - litter-0403
+  - litter-0404
+  - litter-0405
+  - litter-0406
+  - litter-0407
+  - litter-0408
+  - litter-0409
+  - litter-0410
+  - litter-0411
+  - litter-0412
+  - litter-0413
+  - litter-0414
+  - litter-0415
+  - litter-0416
+  - litter-0417
+  - litter-0418
+  - litter-0419
+  - litter-0420
+  - litter-0421
+  - litter-0422
+  - litter-0423
+  - litter-0424
+  - litter-0425
+  - litter-0426
+  - litter-0427
+  - litter-0428
+  - litter-0429
+  - litter-0430
+  - litter-0431
+  - litter-0432
+  - litter-0433
+  - litter-0434
+  - litter-0435
+  - litter-0436
+  - litter-0437
+  - litter-0438
+  - litter-0439
+  - litter-0440
+  - litter-0441
+  - litter-0442
+  - litter-0443
+  - litter-0444
+  - litter-0445
+  - litter-0446
+  - litter-0447
+  - litter-0448
+  - litter-0449
+  - litter-0450
+  - litter-0451
+  - litter-0452
+  - litter-0453
+  - litter-0454
+  - litter-0455
+  - litter-0456
+  - litter-0457
+  - litter-0458
+  - litter-0459
+  - litter-0460
+  - litter-0461
+  - litter-0462
+  - litter-0463
+  - litter-0464
+  - litter-0465
+  - litter-0466
+  - litter-0467
+  - litter-0468
+  - litter-0469
+  - litter-0470
+  - litter-0471
+  - litter-0472
+  - litter-0473
+  - litter-0474
+  - litter-0475
+  - litter-0476
+  - litter-0477
+  - litter-0478
+  - litter-0479
+  - litter-0480
+  - litter-0481
+  - litter-0482
+  - litter-0483
+  - litter-0484
+  - litter-0485
+  - litter-0486
+  - litter-0487
+  - litter-0488
+  - litter-0489
+  - litter-0490
+  - litter-0491
+  - litter-0492
+  - litter-0493
+  - litter-0494
+  - litter-0495
+  - litter-0496
+  - litter-0497
+  - litter-0498
+  - litter-0499
+  - litter-0500
+  - litter-0501
+  - litter-0502
+  - litter-0503
+  - litter-0504
+  - litter-0505
+  - litter-0506
+  - litter-0507
+  - litter-0508
+  - litter-0509
+  - litter-0510
+  - litter-0511
+  - litter-0512
+  - litter-0513
+  - litter-0514
+  - litter-0515
+  - litter-0516
+  - litter-0517
+  - litter-0518
+  - litter-0519
+  - litter-0520
+  - litter-0521
+  - litter-0522
+  - litter-0523
+  - litter-0524
+  - litter-0525
+  - litter-0526
+  - litter-0527
+  - litter-0528
+  - litter-0529
+  - litter-0530
+  - litter-0531
+  - litter-0532
+  - litter-0533
+  - litter-0534
+  - litter-0535
+  - litter-0536
+  - litter-0537
+  - litter-0538
+  - litter-0539
+  - litter-0540
+  - litter-0541
+  - litter-0542
+  - litter-0543
+  - litter-0544
+  - litter-0545
+  - litter-0546
+  - litter-0547
+  - litter-0548
+  - litter-0549
+  - litter-0550
+  - litter-0551
+  - litter-0552
+  - litter-0553
+  - litter-0554
+  - litter-0555
+  - litter-0556
+  - litter-0557
+  - litter-0558
+  - litter-0559
+  - litter-0560
+  - litter-0561
+  - litter-0562
+  - litter-0563
+  - litter-0564
+  - litter-0565
+  - litter-0566
+  - litter-0567
+  - litter-0568
+  - litter-0569
+  - litter-0570
+  - litter-0571
+  - litter-0572
+  - litter-0573
+  - litter-0574
+  - litter-0575
+  - litter-0576
+  - litter-0577
+  - litter-0578
+  - litter-0579
+  - litter-0580
+  - litter-0581
+  - litter-0582
+  - litter-0583
+  - litter-0584
+  - litter-0585
+  - litter-0586
+  - litter-0587
+  - litter-0588
+  - litter-0589
+  - litter-0590
+  - litter-0591
+  - litter-0592
+  - litter-0593
+  - litter-0594
+  - litter-0595
+  - litter-0596
+  - litter-0597
+  - litter-0598
+  - litter-0599
+  - litter-0600
+  - litter-0601
+  - litter-0602
+  - litter-0603
+  - litter-0604
+  - litter-0605
+  - litter-0606
+  - litter-0607
+  - litter-0608
+  - litter-0609
+  - litter-0610
+  - litter-0611
+  - litter-0612
+  - litter-0613
+  - litter-0614
+  - litter-0615
+  - litter-0616
+  - litter-0617
+  - litter-0618
+  - litter-0619
+  - litter-0620
+  - litter-0621
+  - litter-0622
+  - litter-0623
+  - litter-0624
+  - litter-0625
+  - litter-0626
+  - litter-0627
+  - litter-0628
+  - litter-0629
+  - litter-0630
+  - litter-0631
+  - litter-0632
+  - litter-0633
+  - litter-0634
+  - litter-0635
+  - litter-0636
+  - litter-0637
+  - litter-0638
+  - litter-0639
+  - litter-0640
+  - litter-0641
+  - litter-0642
+  - litter-0643
+  - litter-0644
+  - litter-0645
+  - litter-0646
+  - litter-0647
+  - litter-0648
+  - litter-0649
+  - litter-0650
+  - litter-0651
+  - litter-0652
+  - litter-0653
+  - litter-0654
+  - litter-0655
+  - litter-0656
+  - litter-0657
+  - litter-0658
+  - litter-0659
+  - litter-0660
+  - litter-0661
+  - litter-0662
+  - litter-0663
+  - litter-0664
+  - litter-0665
+  - litter-0666
+  - litter-0667
+  - litter-0668
+  - litter-0669
+  - litter-0670
+  - litter-0671
+  - litter-0672
+  - litter-0673
+  - litter-0674
+  - litter-0675
+  - litter-0676
+  - litter-0677
+  - litter-0678
+  - litter-0679
+  - litter-0680
+  - litter-0681
+  - litter-0682
+  - litter-0683
+  - litter-0684
+  - litter-0685
+  - litter-0686
+  - litter-0687
+  - litter-0688
+  - litter-0689
+  - litter-0690
+  - litter-0691
+  - litter-0692
+  - litter-0693
+  - litter-0694
+  - litter-0695
+  - litter-0696
+  - litter-0697
+  - litter-0698
+  - litter-0699
+  - litter-0700
+  - litter-0701
+  - litter-0702
+  - litter-0703
+  - litter-0704
+  - litter-0705
+  - litter-0706
+  - litter-0707
+  - litter-0708
+  - litter-0709
+  - litter-0710
+  - litter-0711
+  - litter-0712
+  - litter-0713
+  - litter-0714
+  - litter-0715
+  - litter-0716
+  - litter-0717
+  - litter-0718
+  - litter-0719
+  surfaceIds:
+  - surface-0000
+  - surface-0001
+  - surface-0002
+  - surface-0003
+  - surface-0004
+  - surface-0005
+  - surface-0006
+  - surface-0007
+  - surface-0008
+  - surface-0009
+  - surface-0010
+  - surface-0011
+  - surface-0012
+  - surface-0013
+  - surface-0014
+  - surface-0015
   dirtPatches:
   - {fileID: 387980337}
   - {fileID: 1953823317}
@@ -143079,6 +144130,96 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542128992}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1542847174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1542847175}
+  - component: {fileID: 1542847177}
+  - component: {fileID: 1542847176}
+  m_Layer: 0
+  m_Name: Poste de paseo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1542847175
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542847174}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.6, z: 0.05}
+  m_LocalScale: {x: 0.085, y: 1.2, z: 0.085}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 599434430}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1542847176
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542847174}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: aad53656692240241a82b8161c97b723, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1542847177
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542847174}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1543158247
 GameObject:
@@ -196452,3 +197593,4 @@ SceneRoots:
   - {fileID: 1868789997}
   - {fileID: 306008816}
   - {fileID: 720057206}
+  - {fileID: 599434430}

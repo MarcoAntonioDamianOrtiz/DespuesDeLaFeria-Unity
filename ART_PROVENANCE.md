@@ -22,6 +22,10 @@ Autoría del proyecto: **MarcoAntonioDamianOrtiz**. Producción asistida por Cod
 | Papel curvado, rombo, círculo, estrella y cinta | `FairDetailPolish.Paper` | Confeti con mallas de doble cara |
 | Cabezal biselado, fibras y veta de canica | `FairDetailPolish` | Modelos originales v0.4 |
 | Escoba artesanal y tablero de canicas | `Assets/Feria/Prefabs/` | Prefabs reutilizables v0.4 |
+| Patito tallado, pico, alas, gorro y ojos | `FairDuckZoneBuilder` | Mallas y composición originales v0.5 |
+| Aro de cuerda, flecha y poza | `FairDuckZoneBuilder` | Modelos originales y prefab de puesto |
+| Cartel de patitos | `ArtSources/cartel-patitos.svg` y generador | Ilustración original y PNG de juego |
+| Agua pintada | `Assets/Feria/Art/Original/AguaDeFeria.shader` | Shader propio de ondas estilizadas |
 | Ambiente completo | `Assets/Feria/Prefabs/AmbienteFeria.prefab` | Escenografía reutilizable |
 
 Las ilustraciones son diseños geométricos originales y reproducibles, no imágenes de referencia reutilizadas. `FairArtPass` genera PNG de 512 × 512 y los SVG correspondientes. El resto de la escena combina geometría básica de Unity mediante composiciones diseñadas para este juego.

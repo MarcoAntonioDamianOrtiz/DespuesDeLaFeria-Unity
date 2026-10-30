@@ -34,3 +34,8 @@ El menú de limpieza libre muestra tiempo activo, residuos recogidos y movimient
 Si el barrido o el carrito producen frustración, corregirlos antes de añadir puestos. Si la tarea agrada pero se agota pronto, probar variaciones del espacio y del trabajo antes de aumentar la cantidad de residuos. Si se disfruta únicamente de la recompensa final, revisar el núcleo manual.
 
 Los resultados automáticos del recorrido están documentados por separado; no sustituyen este registro humano.
+
+
+## Segunda zona: patitos
+
+Repetir la observación en La poza de los patitos. Evaluar primero las pasadas de escoba y el recogedor, y después la actividad de aros por separado: los puntos del minijuego no sustituyen la prueba de si limpiar resulta agradable. Registrar si se entiende la guía, si apetece anticipar el movimiento y si se desea otra ronda tras los tres aros. Anotar si viajar y volver conserva el sentido de progreso.

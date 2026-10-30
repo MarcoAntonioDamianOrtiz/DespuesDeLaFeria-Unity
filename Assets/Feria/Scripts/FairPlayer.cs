@@ -31,8 +31,9 @@ namespace Feria
             if(!Active)return;
             if(game.MinigameActive)
             {
-                if(kb.eKey.wasPressedThisFrame)game.Interact();
-                if(kb.rKey.wasPressedThisFrame&&game.Marble.State==MarbleGame.Phase.Result)game.Marble.Begin();
+                if(game.IsDucks){game.Ducks.Aim(mouse.delta.ReadValue());if(mouse.leftButton.wasPressedThisFrame||kb.eKey.wasPressedThisFrame)game.Interact();if(kb.rKey.wasPressedThisFrame&&game.Ducks.State==DuckGame.Phase.Result)game.Ducks.Begin();}
+                else if(kb.eKey.wasPressedThisFrame)game.Interact();
+                if(!game.IsDucks&&kb.rKey.wasPressedThisFrame&&game.Marble.State==MarbleGame.Phase.Result)game.Marble.Begin();
                 broom.gameObject.SetActive(false);if(cloth)cloth.gameObject.SetActive(false);return;
             }
             var delta=mouse.delta.ReadValue()*sensitivity;transform.Rotate(0,delta.x,0);pitch=Mathf.Clamp(pitch-delta.y,-55,78);
@@ -65,7 +66,7 @@ namespace Feria
             {
                 if(!closeView){normalCameraPosition=view.transform.localPosition;normalCameraRotation=view.transform.localRotation;normalFov=view.fieldOfView;closeView=true;}
                 float blend=1-Mathf.Exp(-Time.unscaledDeltaTime*7);
-                Vector3 position=game.definition.marbleViewPosition,target=game.definition.marbleViewTarget;
+                Vector3 position=game.definition.activityViewPosition,target=game.definition.activityViewTarget;
                 view.transform.position=Vector3.Lerp(view.transform.position,position,blend);
                 view.transform.rotation=Quaternion.Slerp(view.transform.rotation,Quaternion.LookRotation(target-position),blend);
                 view.fieldOfView=Mathf.Lerp(view.fieldOfView,53,blend);

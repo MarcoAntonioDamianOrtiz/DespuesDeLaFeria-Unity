@@ -1,25 +1,15 @@
-# Después de la feria · Versión 0.4
+# Después de la feria · Versión 0.5
 
-La documentación principal está en [README.md](README.md), y la arquitectura completa en [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
+Abre el ejecutable de la carpeta hermana Feria-Windows-v0.5 o el proyecto con Unity 6000.3.24f1.
 
-## Jugar
+Ahora puedes visitar **La poza de los patitos** desde el botón Visitar del menú o el cartel de paseo (E). Puedes volver a las canicas y conservar el avance de cada puesto. El juego recuerda el último visitado.
 
-La versión para Windows está en la carpeta hermana `Feria-Windows-v0.4`. Abre `DespuesDeLaFeria.exe` y conserva las carpetas que lo acompañan.
+Limpia la segunda zona, coloca el cartel y enciende el puesto. Mira el canal y pulsa E: mueve el ratón para colocar el aro y lanza con clic o E. Hay tres aros por ronda; el patito del gorro vale 100 puntos y los otros 50. E o R repite al terminar, Esc sale.
 
-En Unity Hub, abre este proyecto con 6000.4.24f1 y la escena `Assets/Feria/Scenes/PrimeraManana.unity`.
+WASD caminar; ratón mirar; mantener clic usar herramienta; 1/2 escoba/paño; E interactuar; Tab ayuda; Esc pausa; Enter reanudar; F5 guardar.
 
-WASD: caminar. Ratón: mirar. Clic mantenido: usar herramienta. 1/2: escoba/paño. E: interactuar. Tab: ayuda. Esc: pausa. Enter: reanudar. F5: guardar.
+**Limpieza libre** repite la zona sin sustituir tu avance. Volver a partida lo recupera; cambiar de puesto termina la práctica y conserva la campaña. La práctica no modifica los récords.
 
-## Repetir sin perder progreso
+Guardado local de campaña v2 con respaldo. El progreso v1 de las canicas se migra y su archivo original queda intacto. Las versiones antiguas siguen usando v1; para continuar ambos puestos utiliza v0.5.
 
-En el menú elige **Limpieza libre** para empezar la zona de nuevo. Tu partida anterior se conserva. Desde la pausa puedes usar **Volver a partida**. La limpieza libre no escribe sobre el guardado de campaña.
-
-Cuando el puesto esté encendido, mira la canica y pulsa **E**. En la vista cercana, pulsa **E** cuando la aguja esté en la franja dorada. Al terminar, **E o R** repite y **Esc** te devuelve a la feria. El récord se guarda localmente en la partida normal; la limpieza libre lo conserva.
-
-El [protocolo de sesión](docs/PRUEBA-DE-SESION.md) permite observar la comodidad y diversión durante un máximo orientativo de diez minutos.
-
-## Guardado y alcance
-
-Progreso local en JSON v1, con respaldo y recuperación; compatible con la primera prueba. Volumen, sensibilidad y récord de canicas en PlayerPrefs. No incluye campaña completa, economía, mejoras, multijugador ni integración de Steam todavía.
-
-Código y arte editable se versionan en el repositorio público del proyecto. Las partidas, cachés y registros locales no forman parte del repositorio.
+[Arquitectura](docs/ARQUITECTURA.md) · [Validación](docs/VALIDACION-v0.5.md) · [Arte](ART_PROVENANCE.md)

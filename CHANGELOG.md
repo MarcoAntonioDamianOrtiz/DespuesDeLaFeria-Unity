@@ -1,5 +1,16 @@
 # Cambios
 
+## 0.5.0 — La poza de los patitos y campaña local
+
+- Segunda zona con 480 residuos, distribución propia y mosaico de ondas.
+- Patitos tallados con alas, pico, ojos y gorro; aros de cuerda, canal y cartel original con SVG editable.
+- Agua estilizada animada mediante shader propio.
+- Tres lanzamientos a blancos móviles; aciertos, reacción del patito, pausa, revancha y récord local.
+- Catálogo de puestos, visita desde el menú o cartel y transición entre escenas.
+- Campaña JSON v2 con IDs de objetos y progreso independiente; migración de v1 sin modificar el archivo anterior.
+- Recuperación del respaldo y protección de campañas incompatibles o posteriores.
+- Pruebas de ambos ciclos de limpieza, minijuegos, campaña, viaje de ida/vuelta y continuación de Windows.
+
 ## 0.4.0 — Papel, escoba y canicas
 
 - Cinco formas de confeti original con curvatura y aleteo visual separado del guardado.

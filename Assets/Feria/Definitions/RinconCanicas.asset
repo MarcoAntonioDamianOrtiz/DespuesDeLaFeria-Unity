@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Feria.FairZoneDefinition
   zoneId: rincon-canicas
   displayName: "El rinc\xF3n de las canicas"
+  sceneName: PrimeraManana
+  nextZoneId: galeria-patitos
+  activity: 0
+  litterCount: 720
+  surfaceCount: 16
   placedSign: {x: -2.95, y: 1.3, z: 3.85}
   marbleWaypoints:
   - {x: 0.88, y: 1.915, z: 5.85}
@@ -29,8 +34,8 @@ MonoBehaviour:
   - {x: -0.88, y: 1.54, z: 4.75}
   - {x: 0.88, y: 1.54, z: 4.75}
   marbleSeconds: 5.8
-  marbleViewPosition: {x: 0, y: 2.4, z: 3}
-  marbleViewTarget: {x: 0, y: 1.65, z: 5.05}
+  activityViewPosition: {x: 0, y: 2.4, z: 3}
+  activityViewTarget: {x: 0, y: 1.65, z: 5.05}
   sweepRadius: 0.9
   sweepStrength: 3.4
   friction: 7
