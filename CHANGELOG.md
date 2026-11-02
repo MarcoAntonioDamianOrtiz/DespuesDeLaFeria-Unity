@@ -1,5 +1,14 @@
 # Cambios
 
+## 0.8.0 — Luz cálida y paisaje sonoro
+
+- Perfil URP con color cálido, contraste/saturación moderados y viñeta suave.
+- Capa de brisa procedural de bajo volumen, filtrada para evitar ruido áspero.
+- Roce de la escoba con variación tonal lenta y discreta.
+- Ambiente, movimiento y efectos ligeros sin físicas por hoja ni paquetes externos.
+- La escena, los minijuegos y el guardado permanecen intactos.
+
+
 ## 0.7.0 — Pulido de movimiento y ambiente
 
 - Efecto de polvo reutilizable en el punto real de contacto de la escoba.

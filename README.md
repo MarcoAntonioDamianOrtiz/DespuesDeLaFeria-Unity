@@ -2,7 +2,7 @@
 
 Juego indie para un jugador, Unity 6.3 LTS / C# / URP, con guardado completamente local.
 
-## Versión 0.7 — Movimiento y tacto
+## Versión 0.8 — Luz otoñal y sonido ambiental
 
 Las canicas y los patitos están en **ParquePrincipal**, unidos por la entrada, una plaza y un paseo circular. Se camina físicamente entre ellos con un único jugador, carrito y HUD. Cambiar de área actualiza los objetivos sin fundido, transporte ni carga de otra escena.
 
@@ -14,7 +14,7 @@ Las canicas y los patitos están en **ParquePrincipal**, unidos por la entrada, 
 - Guardado v3: una ubicación de jugador/carrito para todo el parque, tareas por atracción y migración del progreso anterior.
 - Limpieza libre del parque conserva la campaña y no cambia la ubicación al entrar o salir.
 
-El barrido añade polvo tenue en el contacto, la recogida responde con un destello corto y las copas se mecen con fases distintas. Hojas ligeras cruzan el parque con baja densidad. Estos efectos usan sistemas de partículas sin físicas individuales.
+El barrido añade polvo tenue y la recogida un destello breve. Hojas otoñales ligeras y copas con balanceo sutil dan movimiento al parque. Una brisa suave y un leve cambio tonal acompañan el recorrido y el barrido. La cámara aplica un ajuste cálido de color, con contraste y viñeta discretos.
 
 ![Entrada del parque](docs/images/parque-v06.png)
 
@@ -30,7 +30,7 @@ La escena no es el parque comercial completo. Las parcelas y definiciones permit
 2. Abre Assets/Feria/Scenes/ParquePrincipal.unity.
 3. Pulsa Play y Comenzar/Continuar. Camina por los paseos para llegar a las atracciones.
 
-La versión Windows se encuentra en la carpeta hermana Feria-Windows-v0.7. Conserva los archivos que acompañan al ejecutable. Una partida anterior conserva las tareas y aparece junto al último puesto visitado, ahora dentro del parque.
+La versión Windows se encuentra en la carpeta hermana Feria-Windows-v0.8. Conserva los archivos que acompañan al ejecutable. Una partida anterior conserva las tareas y aparece junto al último puesto visitado, ahora dentro del parque.
 
 | Acción | Control |
 |---|---|
@@ -48,7 +48,7 @@ La versión Windows se encuentra en la carpeta hermana Feria-Windows-v0.7. Conse
 
 ## Guardado y arquitectura
 
-feria-park.json usa formato v3. Guarda jugador, cámara, carrito y herramienta globales, junto al progreso identificado de cada puesto. Al crear la primera partida del parque importa feria-campaign.json de v0.5 o el v1 de las canicas. Los archivos anteriores permanecen disponibles. Para continuar en el parque utiliza v0.7.
+feria-park.json usa formato v3. Guarda jugador, cámara, carrito y herramienta globales, junto al progreso identificado de cada puesto. Al crear la primera partida del parque importa feria-campaign.json de v0.5 o el v1 de las canicas. Los archivos anteriores permanecen disponibles. Para continuar en el parque utiliza v0.8.
 
 ParkSession coordina la escena; cada FairGame conserva limpieza y actividad alrededor de un origen local. Mover o girar la raíz de un puesto no cambia el significado de sus posiciones guardadas. Los límites y la entrada de cada área son configurables.
 

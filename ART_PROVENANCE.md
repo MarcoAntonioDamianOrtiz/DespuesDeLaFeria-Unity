@@ -26,6 +26,7 @@ Autoría del proyecto: **MarcoAntonioDamianOrtiz**. Producción asistida por Cod
 | Aro de cuerda, flecha y poza | `FairDuckZoneBuilder` | Modelos originales y prefab de puesto |
 | Cartel de patitos | `ArtSources/cartel-patitos.svg` y generador | Ilustración original y PNG de juego |
 | Agua pintada | `Assets/Feria/Art/Original/AguaDeFeria.shader` | Shader propio de ondas estilizadas |
+| Brisa procedural y variación tonal del roce | `Scripts/World/FairParkAmbience` y `Presentation/FairAudio` | Síntesis local sin archivos externos v0.8 |
 | Polvo de escoba, hojas de viento y destello de recogida | `Scripts/Presentation/FairVfx.cs` y `FairParkAmbience` | Efectos nativos de partículas, sin físicas por hoja v0.7 |
 | Paseos, bordes, cubierta del kiosco y tarimas | `ContinuousParkBuilder` | Mallas y composiciones originales v0.6 |
 | Plano ilustrado, señales, entrada y merendero | `ContinuousParkBuilder` | Geometría, rotulación y kit propio |

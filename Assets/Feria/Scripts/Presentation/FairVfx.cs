@@ -44,6 +44,8 @@ namespace Feria
         struct Sway { public Transform target; public Quaternion rest; public float phase,amount; }
         readonly System.Collections.Generic.List<Sway> trees=new System.Collections.Generic.List<Sway>();
         ParticleSystem leaves;
+        AudioSource wind;
+        AudioClip windClip;
         void Awake()
         {
             foreach(var t in GetComponentsInChildren<Transform>(true))
@@ -67,7 +69,14 @@ namespace Feria
             var velocity=leaves.velocityOverLifetime;velocity.enabled=true;velocity.space=ParticleSystemSimulationSpace.World;velocity.x=new ParticleSystem.MinMaxCurve(-.18f,.18f);velocity.y=new ParticleSystem.MinMaxCurve(-.08f,-.02f);velocity.z=new ParticleSystem.MinMaxCurve(-.1f,.1f);
             var rotation=leaves.rotationOverLifetime;rotation.enabled=true;rotation.z=new ParticleSystem.MinMaxCurve(-1.2f,1.2f);
             var renderer=leaves.GetComponent<ParticleSystemRenderer>();var shader=Shader.Find("Universal Render Pipeline/Particles/Unlit");if(!shader)shader=Shader.Find("Sprites/Default");renderer.material=new Material(shader){name="Hojas de otoño (instancia)"};renderer.shadowCastingMode=ShadowCastingMode.Off;renderer.receiveShadows=false;
+            wind=host.AddComponent<AudioSource>();wind.loop=true;wind.playOnAwake=true;wind.spatialBlend=0;wind.volume=.018f;windClip=MakeWind();wind.clip=windClip;wind.Play();host.AddComponent<AudioLowPassFilter>().cutoffFrequency=900;
         }
-        void OnDestroy(){if(leaves&&leaves.GetComponent<ParticleSystemRenderer>().sharedMaterial)Destroy(leaves.GetComponent<ParticleSystemRenderer>().sharedMaterial);}
+        AudioClip MakeWind()
+        {
+            const int rate=22050,length=rate*6;var data=new float[length];var rng=new System.Random(2031);float filtered=0;
+            for(int i=0;i<length;i++){filtered=filtered*.985f+((float)rng.NextDouble()*2-1)*.015f;float fade=Mathf.Min(1,Mathf.Min((float)i/(rate*.25f),(length-i)/(rate*.25f)));data[i]=filtered*.55f*fade;}
+            var clip=AudioClip.Create("Brisa del parque · procedural",length,1,rate,false);clip.SetData(data,0);return clip;
+        }
+        void OnDestroy(){if(leaves&&leaves.GetComponent<ParticleSystemRenderer>().sharedMaterial)Destroy(leaves.GetComponent<ParticleSystemRenderer>().sharedMaterial);if(windClip)Destroy(windClip);}
     }
 }

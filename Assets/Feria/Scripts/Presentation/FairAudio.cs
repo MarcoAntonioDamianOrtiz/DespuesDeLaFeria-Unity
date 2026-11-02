@@ -6,6 +6,7 @@ namespace Feria
     {
         readonly AudioSource brush,fx;
         readonly AudioClip brushClip,pickup,bell;
+        float clock;
         public FairAudio(GameObject host)
         {
             brush=host.AddComponent<AudioSource>();brush.loop=true;brush.volume=0;
@@ -13,7 +14,7 @@ namespace Feria
             fx=host.AddComponent<AudioSource>();fx.volume=.22f;pickup=Sound("Recogida",.09f,660,false);bell=Sound("Campana",.9f,1046,false);
         }
         public void Brush(float volume){brush.volume=volume;}
-        public void Tick(float dt){brush.volume=Mathf.MoveTowards(brush.volume,0,dt*.2f);}
+        public void Tick(float dt){clock+=dt;brush.volume=Mathf.MoveTowards(brush.volume,0,dt*.2f);brush.pitch=1+.018f*Mathf.Sin(clock*2.1f)+.008f*Mathf.Sin(clock*3.7f);}
         public void Pickup(int count=1){fx.pitch=1;fx.PlayOneShot(pickup,Mathf.Min(.7f,.12f+count*.03f));}
         public void Bell(){fx.pitch=1;fx.PlayOneShot(bell);}
         public void MarbleNote(int step){fx.pitch=Mathf.Pow(1.059463f,Mathf.Clamp(step,0,12)-5);fx.PlayOneShot(pickup,.65f); }
