@@ -124,9 +124,9 @@ namespace Feria
         public int Sweep(Vector3 point,Vector3 movement,float dt)
         {
             if(MovingCart)return 0;
-            int count=floor.Sweep(point,movement,player.transform.forward,dt);if(count>0){sound.Brush(.13f);vfx.Sweep(point,movement,count);}return count;
+            int count=floor.Sweep(point,movement,player.transform.forward,dt);if(count>0){sound.Brush(.13f,false);vfx.Sweep(point,movement,count);}return count;
         }
-        public int CleanAt(Vector3 point,float dt){int count=counter.Clean(point,dt);if(count>0)sound.Brush(.09f);return count;}
+        public int CleanAt(Vector3 point,float dt){int count=counter.Clean(point,dt);if(count>0)sound.Brush(.09f,true);return count;}
         public bool TrySweepPoint(out Vector3 point)
         {
             point=default;if(park&&park.ActiveZone!=this)return false;var ray=player.view.ViewportPointToRay(new Vector3(.5f,.5f));var plane=new Plane(origin?origin.up:Vector3.up,World(new Vector3(0,.04f,0)));

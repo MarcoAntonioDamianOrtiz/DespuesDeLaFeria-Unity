@@ -1,5 +1,14 @@
 # Cambios
 
+## 0.9.0 — Tareas claras y respuesta de herramientas
+
+- Objetivos de suelo, mostrador y cartel con marcas de tarea y porcentajes visibles en HUD.
+- Panel de metas ampliado y textos principales más legibles, manteniendo la paleta crema y verde feria.
+- Roce procedural de escoba sobre hojas y paño sobre madera con timbres diferentes.
+- El filtro de madera queda aislado en la fuente de audio de herramienta; recogidas y campanillas conservan su tono.
+- Se conserva la estructura del parque, su progreso local y la arquitectura para añadir nuevos puestos.
+
+
 ## 0.8.0 — Luz cálida y paisaje sonoro
 
 - Perfil URP con color cálido, contraste/saturación moderados y viñeta suave.

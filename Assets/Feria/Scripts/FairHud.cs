@@ -26,9 +26,9 @@ namespace Feria
             var scaler = gameObject.AddComponent<CanvasScaler>(); scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize; scaler.referenceResolution = new Vector2(1600, 900); scaler.matchWidthOrHeight = 1f;
             gameObject.AddComponent<GraphicRaycaster>();
             var eventSystem = new GameObject("Input UI", typeof(EventSystem), typeof(InputSystemUIInputModule));
-            var top = Panel("Objetivos", transform, new Vector2(310, 116), new Vector2(28, -26), new Vector2(0, 1), new Vector2(0, 1), new Color(.96f, .94f, .85f, .94f));
-            zoneTitle=Label("Puesto", top, game.definition.displayName.ToUpperInvariant(), 18, ink, new Vector2(284, 26), new Vector2(14, -12), new Vector2(0, 1), new Vector2(0, 1));
-            progress = Label("Tareas", top, "", 18, ink, new Vector2(284, 75), new Vector2(14, -42), new Vector2(0, 1), new Vector2(0, 1));
+            var top = Panel("Objetivos", transform, new Vector2(350, 156), new Vector2(28, -26), new Vector2(0, 1), new Vector2(0, 1), new Color(.96f, .94f, .85f, .94f));
+            zoneTitle=Label("Puesto", top, game.definition.displayName.ToUpperInvariant(), 21, ink, new Vector2(320, 30), new Vector2(16, -14), new Vector2(0, 1), new Vector2(0, 1));
+            progress = Label("Tareas", top, "", 21, ink, new Vector2(320, 105), new Vector2(16, -48), new Vector2(0, 1), new Vector2(0, 1));
             var lower = Panel("Herramientas", transform, new Vector2(680, 58), new Vector2(0, 25), new Vector2(.5f, 0), new Vector2(.5f, 0), new Color(.08f, .16f, .18f, .9f));
             tool = Label("Herramienta", lower, "", 20, Color.white, new Vector2(650, 48), new Vector2(15, 0), new Vector2(0, .5f), new Vector2(0, .5f));
             tool.alignment = TextAlignmentOptions.Midline;
@@ -51,7 +51,7 @@ namespace Feria
             Button("Practica", card, "Limpieza libre", new Vector2(460, 78), game.TogglePractice,190);
             startLabel=card.Find("Comenzar/Texto").GetComponent<TextMeshProUGUI>();
             practiceLabel=card.Find("Practica/Texto").GetComponent<TextMeshProUGUI>();
-            sessionLabel=Label("Estado", card, "VERSIÓN 0.6 · Arte original · Guardado local automático", 16, new Color(.38f, .42f, .4f), new Vector2(610, 35), new Vector2(40, 22), new Vector2(0, 0), new Vector2(0, 0));
+            sessionLabel=Label("Estado", card, "VERSIÓN 0.9 · Arte original · Guardado local automático", 16, new Color(.38f, .42f, .4f), new Vector2(610, 35), new Vector2(40, 22), new Vector2(0, 0), new Vector2(0, 0));
             var marbleCard=Panel("Canicas",transform,new Vector2(540,126),new Vector2(0,-20),new Vector2(.5f,1),new Vector2(.5f,1),new Color(.97f,.94f,.85f,.97f));marblePanel=marbleCard.gameObject;
             marbleTitle=Label("Turno",marbleCard,"APUNTA AL CENTRO",21,ink,new Vector2(500,32),new Vector2(20,-10),new Vector2(0,1),new Vector2(0,1));marbleTitle.alignment=TextAlignmentOptions.Center;
             var meter=Panel("Medidor",marbleCard,new Vector2(440,16),new Vector2(50,-53),new Vector2(0,1),new Vector2(0,1),new Color(.28f,.5f,.5f));
@@ -74,10 +74,12 @@ namespace Feria
             startLabel.text=started?"Continuar · Enter":"Comenzar · Enter";
             menuTitle.text = started ? "Una pequeña pausa" : "Después de la feria";
             practiceLabel.text=game.InPractice?"Volver a partida":"Limpieza libre";
-            sessionLabel.text=game.InPractice?"LIMPIEZA LIBRE · Tu partida se conserva · "+game.Metrics.Summary:"VERSIÓN 0.6 · Arte original · Guardado local automático";
+            sessionLabel.text=game.InPractice?"LIMPIEZA LIBRE · Tu partida se conserva · "+game.Metrics.Summary:"VERSIÓN 0.9 · Arte original · Guardado local automático";
             if(park){sessionLabel.text=park.InPractice?"LIMPIEZA LIBRE · Tu partida se conserva":$"PARQUE · {park.RestoredCount}/{park.zones.Length} puestos recuperados · Guardado automático";zoneTitle.text=park.District.ToUpperInvariant();}
             int clean = Mathf.RoundToInt(game.CleanProgress * 100);
-            progress.text = $"Suelo: {Mathf.RoundToInt(100f * game.Collected / game.litter.Length)}% despejado\nMostrador: {clean}% limpio\nCartel: {(game.SignFixed ? "colocado" : "por colocar")}";
+            int floorPercent=Mathf.RoundToInt(100f*game.Collected/game.litter.Length);
+            string done="<color=#28756A>[OK]</color> ",active="<color=#B86448>[  ]</color> ";
+            progress.text=$"{(game.FloorDone?done:active)}Suelo · {floorPercent}%\n{(game.CounterDone?done:active)}Mostrador · {clean}%\n{(game.SignFixed?done:active)}Cartel";
             if(park&&!park.ActiveZone)progress.text=$"{park.RestoredCount} de {park.zones.Length} puestos recuperados\nSigue las señales del paseo\nTab · Orientación";
             tool.text = game.MovingCart ? "MOVIENDO CARRITO   ·   E para estacionar" : (game.Tool == 0 ? "1  ESCOBA   ·   2  Paño   ·   Tab  Ayuda" : "1  Escoba   ·   2  PAÑO   ·   Tab  Ayuda");
             if(game.MinigameActive)tool.text="CANICAS   ·   E Lanzar / Repetir   ·   Esc Volver";
