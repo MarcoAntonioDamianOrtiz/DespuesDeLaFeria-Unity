@@ -1,0 +1,18 @@
+{
+  "compilation": {
+    "result": "Succeeded",
+    "errors": 0,
+    "warnings": 0,
+    "bytes": 116070441,
+    "seconds": 15.0725119
+  },
+  "smoke": {
+    "exitCode": 0,
+    "result": "FERIA_SMOKE_PASS · 0.11.0 · ParquePrincipal · frames=152 · mean_ms=3.625798 · p95_ms=4.752098 · Direct3D12 · 1280x720",
+    "cameraCapture": true,
+    "screenshot": "../images/windows-v011.png",
+    "saveFilesUnchanged": true,
+    "protectedFiles": 6,
+    "conditions": "Práctica, 1200 residuos iniciales, cámara ante el puesto de patitos, ventana oculta, 30 frames de calentamiento y 120 muestras; NVIDIA RTX 3050 Laptop GPU 4 GB; comprobación breve de arranque, no benchmark prolongado."
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "unity": "6000.3.24f1",
+  "scene": "ParquePrincipal",
+  "suites": [
+    {
+      "suite": "ContinuousParkVerification",
+      "success": true,
+      "results": [
+        "PASS · Una escena, jugador/carrito compartidos y cuatro parcelas ampliables",
+        "PASS · Recorrido físico con CharacterController, carrito y vuelta completa; 5497 pasos sin saltos de posición",
+        "PASS · 1200 residuos, tareas, canica y tres aros con orígenes desplazados/girados; 4100 pasos de barrido",
+        "PASS · Limpieza libre conserva las atracciones sin mover jugador/carrito",
+        "PASS · Guardado v3 global, migración v2 intacta, respaldo y datos inválidos/versiones posteriores protegidos"
+      ]
+    },
+    {
+      "suite": "FairInteractionVerification",
+      "success": true,
+      "results": [
+        "PASS · 1152 rayos en centros y bordes, 3 distancias y 3 ángulos de ambos puestos",
+        "PASS · Fuera de alcance, oclusión, herramienta incorrecta y pausa rechazados",
+        "PASS · Clic continuo, cámara móvil, soltar, completar y recargar preservan progreso individual"
+      ]
+    },
+    {
+      "suite": "FairMovementVerification",
+      "success": true,
+      "results": [
+        "PASS · Caminata real con aceleración, frenado y pasos por distancia",
+        "PASS · Sin pasos en reposo, en el aire o en pausa"
+      ]
+    },
+    {
+      "suite": "FairPresentationVerification",
+      "success": true,
+      "results": [
+        "PASS · HUD dentro de 1096 × 660, Canvas/EventSystem únicos y clics libres",
+        "PASS · Audio en grupos, prefabs con mallas/colliders y LOD de árboles"
+      ]
+    },
+    {
+      "suite": "FairPolishVerification",
+      "success": true,
+      "results": [
+        "PASS · Dos mostradores con 16 manchas orgánicas separadas y escala recuperable",
+        "PASS · Relieve jugable, brisa y pájaros con filtros independientes",
+        "PASS · Foley generado sin saturación y herramientas silenciosas al pausar"
+      ]
+    },
+    {
+      "suite": "FairCampaignVerification",
+      "success": true,
+      "results": [
+        "PASS · Migración v1 a v2 sin alterar el archivo antiguo",
+        "PASS · Dos puestos conservan progreso independiente y zona activa",
+        "PASS · Residuos identificados conservan progreso al reordenar",
+        "PASS · Respaldo, duplicados, posiciones no finitas y versiones posteriores protegidas"
+      ]
+    }
+  ],
+  "resolutions": [
+    "1096x660",
+    "1280x720",
+    "1920x1080",
+    "2560x1080",
+    "720x1280"
+  ],
+  "renderCheck": {
+    "visible": 575,
+    "expected": 575,
+    "batches": 61
+  }
+}

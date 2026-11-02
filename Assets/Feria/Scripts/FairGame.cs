@@ -42,6 +42,16 @@ namespace Feria
         public int SweepContacts=>floor.Contacts;
         public bool FloorDone=>floor.Complete;
         public bool CounterDone=>counter.Complete;
+        public int CleanedSurfaces=>counter.CleanedCount;
+        public int SurfaceTotal=>counter.Count;
+        public int SurfaceTarget {get;private set;}=-1;
+        public float SurfaceProgress=>counter.At(SurfaceTarget);
+        public bool ToolContact {get;private set;}
+        public float ToolPhase=>sound.Phase(Tool==1);
+        public int FootstepCount=>sound.StepCount;
+        public Vector3 ContactPoint {get;private set;}
+        public int LastSurfaceCompleted {get;private set;}=-1;
+        public float SurfaceCompletedAt {get;private set;}=-100;
         public float CleanProgress=>counter.Progress;
         bool inPractice;
         public bool InPractice=>park?park.InPractice:inPractice;
@@ -69,10 +79,14 @@ namespace Feria
         FairAudio sound;
         FairFeedback feedback;
         FairVfx vfx;
+        FairLitterRenderer litterRenderer;
+        public int DrawnLitter=>litterRenderer?.VisibleCount??0;
+        public int LitterBatches=>litterRenderer?.BatchCount??0;
         FairSave initialState,practiceReturn;
         Vector3 lastSweep,lastPlayer;
         bool hasSweep,toolHeld;
         float autosave,noticeTime;
+        bool audioPaused;
 
         void Awake()
         {
@@ -84,6 +98,8 @@ namespace Feria
             if(!park)cartMotor=new CartMotor(cart,player.transform,definition);
             restoration=new RestorationState(sign,marble,fairLights,bulbs,litBulb,definition,origin);
             sound=new FairAudio(gameObject);feedback=new FairFeedback(this);vfx=new FairVfx(this);
+            litterRenderer=new FairLitterRenderer(litter);
+            counter.Completed+=index=>{sound.Pickup(1);vfx.Cleaned(dirtPatches[index].transform.position);};
             floor.PickedUp+=amount=>{sound.Pickup(amount);Metrics.Pickup(amount);vfx.PickedUp(cart.position+cart.forward*.8f,amount);};
             floor.FloorCompleted+=()=>Tell("¡Explanada despejada! Recuperaste los colores del suelo.");
             restoration.Chime+=sound.Bell;
@@ -95,38 +111,51 @@ namespace Feria
             initialState=Snapshot();if(!park){Load();SetPaused(true);}lastPlayer=player.transform.position;
         }
         void Start(){if(park)return;if(!Application.isEditor&&campaign!=null&&campaign.activeZone!=definition.zoneId)BeginTravel(campaign.activeZone,false);}
+        void LateUpdate(){DrawLitter();}
+        public void DrawLitter(){litterRenderer?.Draw();}
         void Update(){if(park)return;if(!ChangingZones)Fade=Mathf.MoveTowards(Fade,0,Time.unscaledDeltaTime*4);Tick(Time.deltaTime);}
         public void Tick(float elapsed)
         {
             if(noticeTime>0){noticeTime-=elapsed;if(noticeTime<=0)notice="";}
-            bool show=!park||park.CurrentGame==this;feedback.SetVisible(show);if(show)feedback.Tick(elapsed);vfx.Tick(elapsed);if(Paused){sound.SilenceTools();return;}
+            bool show=!park||park.CurrentGame==this;feedback.SetVisible(show);if(show)feedback.Tick(elapsed);vfx.Tick(elapsed);if(Paused){if(!audioPaused){sound.Pause();audioPaused=true;}ToolContact=false;SurfaceTarget=-1;return;}if(audioPaused){sound.Resume();audioPaused=false;}
             float dt=Mathf.Min(elapsed,.05f);
             if(!park||park.ActiveZone==this){PlaySeconds+=elapsed;Metrics.seconds+=elapsed;}
             Metrics.walkingMetres+=Vector3.Distance(player.transform.position,lastPlayer);lastPlayer=player.transform.position;
             if(!park)cartMotor.Tick(dt);floor.Tick(dt,cart.position+cart.forward*.95f,cart.forward);restoration.Tick(dt);if(Restored&&IsDucks)Ducks.Tick(dt);sound.Tick(dt);
             if(park)return;autosave+=elapsed;if(autosave>=definition.autosaveSeconds){autosave=0;Save(false);}
         }
-        public void UseTool(bool working)
+        public bool TrySurfaceTarget(Ray ray,out int index,out Vector3 point)=>counter.Raycast(ray,3.5f,out index,out point);
+        public void UseTool(bool working,float elapsed=-1)
         {
-            if(!working||Paused||MinigameActive||(park&&park.ActiveZone!=this)){hasSweep=false;toolHeld=false;return;}
-            bool first=!toolHeld;toolHeld=true;
+            ToolContact=false;SurfaceTarget=-1;
+            if(Paused||MinigameActive||MovingCart||(park&&park.ActiveZone!=this)){hasSweep=false;toolHeld=false;return;}
             var ray=player.view.ViewportPointToRay(new Vector3(.5f,.5f));
+            if(TrySurfaceTarget(ray,out int target,out var surfacePoint)){SurfaceTarget=target;ContactPoint=surfacePoint;}
+            if(!working){hasSweep=false;toolHeld=false;sound.SilenceTools();return;}
+            float dt=elapsed>=0?elapsed:Time.deltaTime;
+            bool first=!toolHeld;toolHeld=true;
             if(Tool==0)
             {
                 if(first)Metrics.sweepActions++;
                 if(!TrySweepPoint(out var p)){hasSweep=false;if(first)Metrics.emptySweeps++;return;}
-                int contacts=Sweep(p,hasSweep?p-lastSweep:player.transform.forward*.02f,Time.deltaTime);
+                int contacts=Sweep(p,hasSweep?p-lastSweep:player.transform.forward*.02f,dt);ToolContact=contacts>0;ContactPoint=p;
                 if(first&&contacts==0)Metrics.emptySweeps++;
                 Metrics.sweepingSeconds+=Time.deltaTime;lastSweep=p;hasSweep=true;
             }
-            else if(Physics.Raycast(ray,out var hit,3.5f)){CleanAt(hit.point,Time.deltaTime);Metrics.cleaningSeconds+=Time.deltaTime;}
+            else if(SurfaceTarget>=0&&counter.CleanIndex(SurfaceTarget,dt))
+            {
+                ToolContact=true;sound.Brush(.09f,true);Metrics.cleaningSeconds+=dt;
+                if(counter.At(SurfaceTarget)>=1){LastSurfaceCompleted=SurfaceTarget;SurfaceCompletedAt=Time.unscaledTime;}
+            }
+            if(!ToolContact)sound.SilenceTools();
         }
         public int Sweep(Vector3 point,Vector3 movement,float dt)
         {
             if(MovingCart)return 0;
             int count=floor.Sweep(point,movement,player.transform.forward,dt);if(count>0){sound.Brush(.13f,false);vfx.Sweep(point,movement,count);}return count;
         }
-        public void Footstep(bool pushingCart,float intensity){if(park&&park.ActiveZone&&park.ActiveZone!=this)return;sound.Step(pushingCart,intensity);}
+        public void Footstep(bool pushingCart,float intensity,WalkSurface surface=WalkSurface.Stone){if(Paused||MinigameActive||(park&&park.ActiveZone&&park.ActiveZone!=this))return;sound.Step(pushingCart,intensity,surface);}
+        public void SelectTool(int value){if(Tool==value)return;Tool=value;sound.SilenceTools();sound.ToolChanged();}
         public int CleanAt(Vector3 point,float dt){int count=counter.Clean(point,dt);if(count>0)sound.Brush(.09f,true);return count;}
         public bool TrySweepPoint(out Vector3 point)
         {
@@ -199,7 +228,7 @@ namespace Feria
             SaveValidation.Validate(data,litter.Length,dirtPatches.Length,definition);
             floor.Restore(data.litter,data.removed);counter.Restore(data.dirt);if(!park){cartMotor.Stop();
             cart.SetPositionAndRotation(data.cart,Quaternion.Euler(0,data.cartYaw,0));player.Place(data.player,data.playerYaw);}
-            restoration.Restore(data.signFixed,data.restored);Ducks.Reset();PlaySeconds=data.playSeconds;lastPlayer=player.transform.position;hasSweep=false;toolHeld=false;
+            restoration.Restore(data.signFixed,data.restored);Ducks.Reset();PlaySeconds=data.playSeconds;lastPlayer=player.transform.position;hasSweep=false;toolHeld=false;SurfaceTarget=-1;ToolContact=false;LastSurfaceCompleted=-1;SurfaceCompletedAt=-100;
         }
         public void TogglePractice()
         {
@@ -239,6 +268,6 @@ namespace Feria
         }
         void OnApplicationQuit(){if(!park&&floor!=null)Save(false);PlayerPrefs.Save();Cursor.lockState=CursorLockMode.None;}
         void OnApplicationFocus(bool focus){if(!park&&!focus&&!Paused)SetPaused(true);}
-        void OnDestroy(){feedback?.Dispose();sound?.Dispose();vfx?.Dispose();}
+        void OnDestroy(){litterRenderer?.Dispose();feedback?.Dispose();sound?.Dispose();vfx?.Dispose();}
     }
 }

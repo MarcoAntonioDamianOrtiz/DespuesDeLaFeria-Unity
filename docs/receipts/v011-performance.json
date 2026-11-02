@@ -1,0 +1,29 @@
+{
+  "conditions": "Editor, entrada del parque, yaw 0, pitch 8, 1096x660; 30 frames de calentamiento y 180 muestras; datos de UnityStats y ProfilerRecorder; incluye Editor y sus esperas",
+  "samples": [
+    {
+      "label": "antes",
+      "raw": "frames=180; frame_ms_mean=11.62741; frame_ms_p95=12.1506; main_thread_ms_mean=11.6167; drawcalls_mean=5717.75555555556; gc_bytes_mean=10906.3; resolution=1096x660"
+    },
+    {
+      "label": "modelos",
+      "raw": "frames=180; frame_ms_mean=16.66613; frame_ms_p95=16.9893; main_thread_ms_mean=16.6401; drawcalls_mean=5037.96666666667; gc_bytes_mean=10386.5055555556; resolution=1096x660"
+    },
+    {
+      "label": "lod",
+      "raw": "frames=180; frame_ms_mean=16.66574; frame_ms_p95=16.9973; main_thread_ms_mean=16.65878; drawcalls_mean=4959.61111111111; gc_bytes_mean=10240.4111111111; resolution=1096x660"
+    },
+    {
+      "label": "lotes",
+      "raw": "frames=180; frame_ms_mean=16.66559; frame_ms_p95=17.0033; main_thread_ms_mean=16.64931; drawcalls_mean=4200.18333333333; gc_bytes_mean=10242.8777777778; resolution=1096x660"
+    },
+    {
+      "label": "release-limites-por-atraccion",
+      "raw": "frames=180; frame_ms_mean=16.59777; frame_ms_p95=17.306; main_thread_ms_mean=16.59353; drawcalls_mean=4214.97222222222; gc_bytes_mean=10538.7388888889; resolution=1096x660"
+    },
+    {
+      "label": "release-mobiliario-corregido",
+      "raw": "frames=180; frame_ms_mean=16.44295; frame_ms_p95=17.0532; main_thread_ms_mean=16.43767; drawcalls_mean=4138.91666666667; gc_bytes_mean=10532.6888888889; resolution=1096x660"
+    }
+  ]
+}

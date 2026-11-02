@@ -1,6 +1,6 @@
-# Después de la feria · Versión 0.10
+# Después de la feria · Versión 0.11
 
-Abre ParquePrincipal.unity con Unity 6000.3.24f1, o el ejecutable de Feria-Windows-v0.10.
+Abre ParquePrincipal.unity con Unity 6000.3.24f1, o el ejecutable de Feria-Windows-v0.11.
 
 Ahora las dos atracciones pertenecen a un único parque. **Sal caminando del puesto y sigue las señales hasta la plaza o la otra atracción.** El menú ya no transporta entre zonas. E permite llevar el carrito contigo.
 
@@ -15,3 +15,5 @@ El paisaje suma lomas bajas en los bordes y vegetación de otoño; los caminos y
 El guardado v3 conserva el progreso anterior y guarda un único jugador/carrito para todo el parque. Las partidas antiguas no se eliminan. Limpieza libre reinicia las atracciones para ensayar sin escribir sobre la campaña; volver restaura su progreso manteniendo tu ubicación.
 
 [Arquitectura](docs/ARQUITECTURA.md) · [Ampliar el parque](docs/AMPLIAR-PARQUE.md) · [Validación](docs/VALIDACION-v0.6.md)
+
+La versión 0.11 incorpora barra individual al apuntar a cada mancha. Equipa el paño con 2 y mantén clic; el progreso se conserva al soltar y cargar. Hay tres diseños de banca, faroles artesanales, árboles con niveles de detalle y audio organizado en grupos. [Informe completo](docs/PULIDO-INTEGRAL-0.11.md).

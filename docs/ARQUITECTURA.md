@@ -93,3 +93,11 @@ Las mallas, materiales, shaders e ilustraciones son propios del proyecto; las fu
 ContinuousParkVerification mueve un CharacterController por el circuito, comprueba pasos de jugador/carrito, áreas y escena única; completa 1200 residuos mediante barrido/recogida, restaura los puestos y prueba las dos actividades giradas. Comprueba cámara, práctica, posición global, migración, respaldo y datos inválidos/versiones posteriores.
 
 Las pruebas de Play usan una carpeta aislada mediante FairSavePaths y SessionState del Editor. Se conservan las pruebas anteriores de v1/v2 y de las escenas fuente. Las medidas simuladas no equivalen a duración de juego humana ni demuestran diez minutos de diversión.
+
+## Pulido integral 0.11
+
+`SurfaceCleaning` conserva los arrays e IDs existentes. Intersecta el plano visible de cada mancha con una tolerancia de 5,5 cm, limita el alcance a través de `FairGame` y comprueba oclusión física. Expone progreso individual y eventos Changed/Completed; no añade un Update por mancha. `FairGame.UseTool` concentra reglas de pausa, herramienta, carrito y área activa.
+
+`FairHud` mantiene un Canvas, escala y zona segura; muestra el objetivo individual y refresca los contadores de objetivos a 6,7 Hz. `FairPlayer.Move` es el mismo recorrido utilizado por input y pruebas; clasifica el suelo solo al generar un paso mediante `FairGroundSurface`. `FairAudio` separa voz de herramientas, pasos e interacciones y enruta fuentes al mezclador; `FairParkAmbience` gestiona ambiente y pausas.
+
+`FairLitterRenderer` dibuja los Transform de la simulación existente con instancing, agrupa por malla/material y usa arrays reutilizados de hasta 1.023 instancias. Conserva los renderers originales y ofrece fallback si la GPU no soporta instancing. Las piezas conservan su movimiento, aleteo, actividad e identificadores. `FairBuildSmoke` solo se instala con -feria-smoke; prueba el arranque en práctica con escritura de campaña suprimida.

@@ -1,5 +1,15 @@
 # Cambios
 
+## 0.11.0 — Un parque hecho a mano
+
+- Interacción de manchas sobre el plano visible con tolerancia, alcance y oclusión; progreso individual contextual y contadores reales.
+- HUD con zona segura, tarjetas de herramientas y escalabilidad comprobada en varias resoluciones.
+- Trece prefabs propios: tres bancas, dos faroles, tres árboles con LOD, tres arbustos, papelera y paño de tela.
+- Pasos por distancia/superficie, mezcla nativa por grupos, contacto y animación sincronizados, pausa de herramientas y ambiente.
+- Residuos dibujados por lotes de GPU conservando sus Transform, simulación y persistencia.
+- Seis suites de regresión y diagnóstico optativo del ejecutable de Windows. [Informe](docs/PULIDO-INTEGRAL-0.11.md).
+
+
 ## 0.10.0 — Una mañana con más vida
 
 - Revisión posterior: manchas más pequeñas en dos filas separadas; pasos independientes de las campanillas y calculados después de limitar la posición al mapa.

@@ -42,29 +42,45 @@ namespace Feria
             view.transform.localRotation=Quaternion.Euler(pitch,0,0);
             Vector2 movement=Vector2.zero;
             if(kb.wKey.isPressed)movement.y++;if(kb.sKey.isPressed)movement.y--;if(kb.dKey.isPressed)movement.x++;if(kb.aKey.isPressed)movement.x--;
-            movement=Vector2.ClampMagnitude(movement,1);float dt=Time.deltaTime;float maxSpeed=game.MovingCart?2.6f:3.7f;
+            float dt=Time.deltaTime;Move(movement,dt);
+            if(kb.digit1Key.wasPressedThisFrame)game.SelectTool(0);if(kb.digit2Key.wasPressedThisFrame)game.SelectTool(1);
+            if(mouse.scroll.ReadValue().y!=0)game.SelectTool(1-game.Tool);
+            if(kb.eKey.wasPressedThisFrame)game.Interact();if(kb.f5Key.wasPressedThisFrame)game.Save();if(kb.tabKey.wasPressedThisFrame)game.RequestHint();
+            bool working=mouse.leftButton.isPressed&&!game.MovingCart;game.UseTool(working);AnimateTool(working&&game.ToolContact,moveVelocity.magnitude/3.7f,dt);
+        }
+        public void Move(Vector2 movement,float dt)
+        {
+            if(!Active||game.MinigameActive){moveVelocity=Vector2.zero;return;}
+            movement=Vector2.ClampMagnitude(movement,1);float maxSpeed=game.MovingCart?2.6f:3.7f;
             moveVelocity=Vector2.MoveTowards(moveVelocity,movement*maxSpeed,(movement.sqrMagnitude>.01f?13f:19f)*dt);
             bool grounded=controller.isGrounded;verticalSpeed=grounded?-2:verticalSpeed-18*dt;Vector3 before=transform.position;
             controller.Move(((transform.right*moveVelocity.x+transform.forward*moveVelocity.y)+Vector3.up*verticalSpeed)*dt);
             var min=game.park?game.park.definition.worldMin:game.definition.playerMin;var max=game.park?game.park.definition.worldMax:game.definition.playerMax;var p=transform.position;p.x=Mathf.Clamp(p.x,min.x,max.x);p.z=Mathf.Clamp(p.z,min.y,max.y);transform.position=p;
             Vector3 travelled=transform.position-before;travelled.y=0;float distance=travelled.magnitude;
-            if(grounded&&distance>.001f){stepDistance+=distance;float stride=game.MovingCart ? 1.25f : 1.45f;while(stepDistance>=stride){stepDistance-=stride;game.Footstep(game.MovingCart,Mathf.Clamp01(moveVelocity.magnitude/3.7f));}}
-            if(kb.digit1Key.wasPressedThisFrame)game.Tool=0;if(kb.digit2Key.wasPressedThisFrame)game.Tool=1;
-            if(mouse.scroll.ReadValue().y!=0)game.Tool=1-game.Tool;
-            if(kb.eKey.wasPressedThisFrame)game.Interact();if(kb.f5Key.wasPressedThisFrame)game.Save();if(kb.tabKey.wasPressedThisFrame)game.RequestHint();
-            bool working=mouse.leftButton.isPressed&&!game.MovingCart;game.UseTool(working);AnimateTool(working,moveVelocity.magnitude/3.7f,dt);
+            if(grounded&&distance>.001f){stepDistance+=distance;float stride=game.MovingCart ? 1.25f : 1.45f;while(stepDistance>=stride){stepDistance-=stride;game.Footstep(game.MovingCart,Mathf.Clamp01(moveVelocity.magnitude/3.7f),GroundSurface());}}
+        }
+        WalkSurface GroundSurface()
+        {
+            if(Physics.Raycast(transform.position+Vector3.up*.2f,Vector3.down,out var hit,.7f,Physics.DefaultRaycastLayers,QueryTriggerInteraction.Ignore))
+            {
+                var marker=hit.collider.GetComponent<FairGroundSurface>();if(marker)return marker.surface;
+                if(hit.collider.name.Contains("Explanada")||hit.collider.name.Contains("Tarima"))return WalkSurface.Wood;
+                if(hit.collider.name.Contains("Suelo continuo")||hit.collider.name.Contains("Loma"))return WalkSurface.Grass;
+            }
+            return WalkSurface.Stone;
         }
         public void AnimateTool(bool working,float walking,float dt)
         {
-            toolBlend=Mathf.MoveTowards(toolBlend,working?1:0,dt*7);stroke+=dt*(working?9:2);
+            toolBlend=Mathf.MoveTowards(toolBlend,working?1:0,dt*7);if(working)stroke=game.ToolPhase;else stroke+=dt*2;
             float swing=Mathf.Sin(stroke)*toolBlend;
             var offset=new Vector3(swing*.115f,Mathf.Abs(swing)*.022f,-Mathf.Cos(stroke)*.045f*toolBlend);
             offset+=new Vector3(Mathf.Sin(Time.time*5)*.008f,Mathf.Cos(Time.time*10)*.006f,0)*walking;
+            offset+=new Vector3(.12f,-.10f,.06f)*(1-toolBlend);
             broom.localPosition=Vector3.Lerp(broom.localPosition,broomRest+offset,1-Mathf.Exp(-dt*18));
             broom.localRotation=broomRotation*Quaternion.Euler(toolBlend*5,swing*9,-swing*6);
             if(fibres)fibres.localRotation=Quaternion.Euler(toolBlend*8,0,-swing*9);
             broom.gameObject.SetActive(game.Tool==0&&!game.MovingCart&&!game.MinigameActive);
-            if(cloth){cloth.gameObject.SetActive(game.Tool==1&&!game.MovingCart&&!game.MinigameActive);cloth.localPosition=new Vector3(.42f+swing*.04f,-.34f,.65f);cloth.localRotation=Quaternion.Euler(-12,-15,swing*8);}
+            if(cloth){cloth.gameObject.SetActive(game.Tool==1&&!game.MovingCart&&!game.MinigameActive);var rest=new Vector3(.42f,-.34f,.65f);var contact=view.transform.InverseTransformPoint(game.ContactPoint);contact=new Vector3(Mathf.Clamp(contact.x,.05f,.35f),Mathf.Clamp(contact.y,-.34f,-.08f),Mathf.Clamp(contact.z,.55f,1.05f));cloth.localPosition=Vector3.Lerp(cloth.localPosition,Vector3.Lerp(rest,contact,toolBlend)+new Vector3(swing*.06f,Mathf.Cos(stroke)*toolBlend*.025f,0),1-Mathf.Exp(-dt*16));cloth.localRotation=Quaternion.Euler(-12,-15,swing*9);}
         }
         void LateUpdate()
         {

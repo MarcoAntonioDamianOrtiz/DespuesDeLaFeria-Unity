@@ -47,3 +47,7 @@ Las ilustraciones son diseños geométricos originales y reproducibles, no imág
 - Los materiales usan los shaders de Universal Render Pipeline.
 
 No se han incorporado packs de ilustraciones, sprites o modelos de Asset Store ni imágenes de los juegos de referencia.
+
+## Pulido integral 0.11
+
+Modelos originales generados localmente mediante `FairEnvironmentPolish.cs`: tres bancas con listones biselados y estructura curva, dos faroles octogonales, tres árboles ramificados con LOD, tres arbustos, papelera y paño de lino con pliegues. Prefabs en `Assets/Feria/Prefabs/ParqueArtesanal`; mallas y materiales en `Assets/Feria/Art/Original/ParqueArtesanal`. No se incorporaron modelos ni sonidos de proveedores externos. Las muestras de pasos, escoba y paño se sintetizan en `FairAudio.cs`. El mezclador `Resources/FeriaAudio.mixer` usa grupos Herramientas, Pasos, Interacciones y Ambiente.

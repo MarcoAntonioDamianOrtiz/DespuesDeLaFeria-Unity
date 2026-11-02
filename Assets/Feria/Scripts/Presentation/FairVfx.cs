@@ -34,6 +34,7 @@ namespace Feria
             dust.transform.position=point+Vector3.up*.035f;dust.transform.rotation=Quaternion.LookRotation(direction);dust.Emit(Mathf.Clamp(contacts/3,2,5));
         }
         public void PickedUp(Vector3 point,int count){pickup.transform.position=point+Vector3.up*.12f;pickup.Emit(Mathf.Clamp(count,2,6));}
+        public void Cleaned(Vector3 point){var emit=new ParticleSystem.EmitParams{position=point+Vector3.up*.04f,startColor=new Color(.61f,.81f,.65f,.8f),startSize=.035f,startLifetime=.4f};pickup.Emit(emit,5);}
         public void Tick(float dt){cooldown=Mathf.Max(0,cooldown-dt);}
         public void Dispose(){if(dustMaterial)Object.Destroy(dustMaterial);}
     }
@@ -47,18 +48,25 @@ namespace Feria
         AudioSource wind,birds;
         AudioClip windClip,birdClip;
         float nextBird;
+        ParkSession park;
+        bool audioPaused;
+        float breezeTime;
         void Awake()
         {
+            park=GetComponent<ParkSession>();
             foreach(var t in GetComponentsInChildren<Transform>(true))
             {
-                float amount=t.name.Contains("Copa")||t.name.Contains("Árbol")?.025f:0;
+                if(!t.gameObject.activeInHierarchy)continue;
+                float amount=t.name.Contains("Copa")?.025f:t.name.Contains("Banderín")?.06f:0;
                 if(amount>0)trees.Add(new Sway{target=t,rest=t.localRotation,phase=(t.position.x*1.71f+t.position.z*.63f),amount=amount});
             }
             MakeLeaves();
         }
         void Update()
         {
-            float time=Time.time;
+            if(park&&park.Paused){if(!audioPaused){wind.Pause();birds.Pause();leaves.Pause();audioPaused=true;}return;}
+            if(audioPaused){wind.UnPause();birds.UnPause();leaves.Play();audioPaused=false;}
+            breezeTime+=Time.deltaTime;float time=breezeTime;
             for(int i=0;i<trees.Count;i++){var s=trees[i];if(!s.target)continue;float wave=Mathf.Sin(time*.47f+s.phase)+.35f*Mathf.Sin(time*.83f+s.phase*1.7f);s.target.localRotation=s.rest*Quaternion.Euler(wave*s.amount*32,0,wave*s.amount*44);}
             if(wind)wind.volume=.014f+(.007f+.006f*Mathf.Sin(time*.19f))*(.5f+.5f*Mathf.Sin(time*.11f+1.4f));
             if(birds&&Time.time>=nextBird){birds.panStereo=Random.Range(-.68f,.68f);birds.pitch=Random.Range(.9f,1.08f);birds.PlayOneShot(birdClip,Random.Range(.42f,.68f));nextBird=Time.time+Random.Range(16f,27f);}
@@ -77,6 +85,7 @@ namespace Feria
             var birdHost=new GameObject("Trinos del parque");birdHost.SetActive(false);birdHost.transform.SetParent(host.transform,false);
             birds=birdHost.AddComponent<AudioSource>();birds.playOnAwake=false;birds.spatialBlend=0;birds.volume=.10f;birdClip=MakeBirdsong();nextBird=Time.time+Random.Range(4f,8f);
             windHost.SetActive(true);birdHost.SetActive(true);wind.Play();
+            FairAudio.Route(wind,"Ambiente");FairAudio.Route(birds,"Ambiente");
         }
         AudioClip MakeWind()
         {
