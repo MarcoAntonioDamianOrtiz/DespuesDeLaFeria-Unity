@@ -1,0 +1,338 @@
+{
+  "date": "2026-11-02",
+  "models": [
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/bike_rack.fbx",
+      "sha256": "4f7ccb1692361bc542eeef2a898b0738f49a62eae81deca53ab641538e4125cf",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/climbing_frame.fbx",
+      "sha256": "38179dde3d43e40475a98a1ed66086ecfea2a65a5df07fa8677da554a069f920",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/drinking_fountain.fbx",
+      "sha256": "57be933cda47d19679288995e2857d3eaf86e74725ac7e4e50709946bb2ea27c",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/flower_bed.fbx",
+      "sha256": "598bc134dad488d49400890777291b5aaac10b5730ffd77b1ea9b934ffb32aa1",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/fountain.fbx",
+      "sha256": "01d2a448b7e80822a49e2339baec61c261c6637311f4a05031dc99df0c3cb8f3",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/gazebo.fbx",
+      "sha256": "205c85b90a96a7d190a588c6dd4d36e27b725eddb941f45344d18f6337508289",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/hedge.fbx",
+      "sha256": "dbc2c85f2e9254cc3b626a1ebb388abaa6c5527607c5bbce2f07de6a4384ab23",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/hedge_round.fbx",
+      "sha256": "8e9dd1b79e773564fb9b9937eba8fe15b69aaed79c63db78e541964f77af6e2e",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/hot_dog_stand.fbx",
+      "sha256": "fa23881033e8e95c99a6037e3d3ded621f417fea9a21b0c47a2021ebc30550dd",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/ice_cream_cart.fbx",
+      "sha256": "ce110ef5d1f7f0631fdf0dede4683a965820c9c7c4694ba3b1b69f377191c7cf",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/jungle_dome.fbx",
+      "sha256": "d350e20f97e63bd84af55ced56b7ff172fd21175e0ec574e29f6b7d9767da42a",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/merry_go_round.fbx",
+      "sha256": "a6e88608debcf0d082094fa0efccef304c2e64cbdb08ef17dd4d2dadec31cb04",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/monkey_bars.fbx",
+      "sha256": "e320901401af0fdb08e0b27a16f121686eba45db549face55725733ac203fade",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/park_bench.fbx",
+      "sha256": "7925a84cebd539c67ce4fb2d2c32254fd656805c4a29449be7a2ab48579c5bf2",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/park_lamp.fbx",
+      "sha256": "47ae8f1ef6c5389969a8d6a8b86b5cb1c994bb4386bf1d19b5a77b4428f95024",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/park_sign.fbx",
+      "sha256": "ac32a6094ab70be3b787cf47fd82f1a8b88f40b4130ef079d1bd74065628ecfa",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/picnic_table.fbx",
+      "sha256": "e2125ad99fb43a5884b2098dfd90480302d37ad80c30953ed33cfe0d21f4aed2",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/playhouse.fbx",
+      "sha256": "a9d40bf99681f6bd99358b4501322055d9af5b85b97eeba5c22c152b634111f3",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/pond_ducks.fbx",
+      "sha256": "d8f62e0d0d941ec2c2e0c5310212e0fb789a6402ab9a86a71957561f521492b1",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/round_tree.fbx",
+      "sha256": "00d5e863508f4711b1accd80bea5f5f8beaa1a7a9f07611bef1629941dfb9d5c",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/sandbox.fbx",
+      "sha256": "11ba3768d0219520c593f7418a0f3f1bb6e3aa041853b56ae2ea696414091643",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/seesaw.fbx",
+      "sha256": "f433f525d7293b597c3c3aa2b21fdcb0c6320785f25cc24833c5429ba4af72b5",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/slide.fbx",
+      "sha256": "1544bc52cfa747b60dd4586cb7f94a33a25d25fc5ad105664c50f7fe86938402",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/small_bridge.fbx",
+      "sha256": "306975567430d8f5d80547d6e10ffec25c330ef9bfd10c1332b7e991c94f4217",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/soccer_ball_toys.fbx",
+      "sha256": "b666f849012d204c5851779273acc6c22ff32c4b57c6d7ded3d8fc7eb8c83980",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/spring_rider.fbx",
+      "sha256": "ef57ce35b463217aa00e709b7cbef5a70d524785f308459ec6bc8d566e0b292e",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/statue_pedestal.fbx",
+      "sha256": "14de65a84c88463f569eb6efed98954fcc3cc976bce54558d37af53aa585498c",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/swing_set.fbx",
+      "sha256": "8b2cbd45946ebe1d426cc30c502ef8381ba34569d43b93ed25b27c6c99582755",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/tire_swing.fbx",
+      "sha256": "4ffdd75099d6c91b86d1f8b3266201630a93bad5335ae3a60df2485ad15b467a",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/trash_can.fbx",
+      "sha256": "18176386ab29c4e27a26d73d534a7cc6c5b084cea565f9eca499181cd8c2467b",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-playground-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/balloon_dart_game.fbx",
+      "sha256": "f324c7fe3fe8a916e4d54ef4080be2910341e3ae5b9848d2c27d21d8f476a26d",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/bumper_cars_ring.fbx",
+      "sha256": "4eccdabc277603fc4d5dbed8a0a60e0fdb86774850590cc4d4d66534894b8e2b",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/carousel_horse_ride.fbx",
+      "sha256": "d0fd475af3e4b3bd016ccd8e8b8c70f1a80a4867748d8f3ca31e5a5b34a68875",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/coaster_car.fbx",
+      "sha256": "a36b5754387e92674ea5633a6367839aef00ff47c8f7492816c36564818c268c",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/drop_tower.fbx",
+      "sha256": "300a2dbaf3515520dd9428f154d30e1b3c82cd50961bc550d98e3c15c7c13e1f",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/entrance_arch.fbx",
+      "sha256": "5836a6e911ba898a19ea4e34a58faaebb8f1f3dee33e62d92c26c5c74f21da66",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/ferris_wheel.fbx",
+      "sha256": "1dcb74666ffe405cf654e26647b1941bb2c717ae98c8569bfeecbe9e215acfce",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/food_kiosk.fbx",
+      "sha256": "0adb9ec8dd0e0be1153d91f260d111c05b2ad92e19ed5f1538b587ff5122cf37",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/free_fall_arm_ride.fbx",
+      "sha256": "25a7793dfa6a4ab71af18d92ce808db3d410bf4676da13c6d2a51675bd0beb42",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/haunted_house.fbx",
+      "sha256": "c837c9821ad0af64f37551e2b6ef3fec73130685928fdb3e53f085633c919e29",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/kiddie_train.fbx",
+      "sha256": "80393668ed40ab21312a7bef5d1214bacdc3a1cd88b827936014cf06cc13f005",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/log_flume_boat.fbx",
+      "sha256": "95a2f78367de144e63480f7fc784de501f3eb1cbdf3a28791552f74f36b7fdef",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/park_bench.fbx",
+      "sha256": "0ed52b3285ee74ee9dab615162d6e0525bd91d16dec3e31641467becf6b2a3be",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/park_lamp.fbx",
+      "sha256": "74439e92c33d8735c15d291b501cd5064d83427bf075ae531c65f4699cfc59e4",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/pirate_ship_swing.fbx",
+      "sha256": "3451b006d3d4c3f224628c2d6698ec3bb0a8dedce31ce6396636613d61900a4a",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/queue_rails.fbx",
+      "sha256": "d12738f7f297c80064aca8f85ebf441a7e2cbf8e2ef7fecd9dfc33173b6e0bd0",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/ride_sign.fbx",
+      "sha256": "4598b000c2b2cee0eeda99094d2f88e7a5dddda12d2b0bdff4a290d5d00d63d0",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/roller_coaster_track.fbx",
+      "sha256": "2d226b56c8939745b8c738a9646dd05f92bc6477b81b7366edd9f6210f42ae8f",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/spinning_teacups.fbx",
+      "sha256": "6958e434004ad1586c42a7faa1d6e2a1f66f906de48364dcababd44219c4be75",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/strength_tester.fbx",
+      "sha256": "ff0b38e28a9400eb794cfdace6205f12a240e7ed1f21c9228d1bffdaed74763e",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/swing_chair_ride.fbx",
+      "sha256": "3b716d26d90c70caf5a2b535a937189d7d9eec6ea32b0aa04e2bd2c69d8f7290",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/ticket_balloon_cart.fbx",
+      "sha256": "2e82d80a331e21adf7d14093a8d2ba5163b8d23d3b0dc9b94d1ea33d5ce8b0af",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/ticket_gate.fbx",
+      "sha256": "100754ebf0574a6a2b98c7509ae60edea383b9929912d5426be86822d6123359",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/trash_bin.fbx",
+      "sha256": "f088e0817fa72280e0575001461792a1347b28914ab5c2e0bae2dcff49427786",
+      "license": "reodesuxz custom; commercial embedded use; exclude raw sources from public repository",
+      "source": "https://reodesuxz.itch.io/low-poly-amusement-park-pack"
+    }
+  ],
+  "nature": {
+    "path": "Assets/EmbersStorm -  Free Nature Pack",
+    "license": "Unity Asset Store EULA; embedded game use only"
+  },
+  "audio": {
+    "path": "Assets/_Game/audio/KenneyUI",
+    "license": "CC0",
+    "source": "https://kenney.nl/assets/ui-audio"
+  }
+}
