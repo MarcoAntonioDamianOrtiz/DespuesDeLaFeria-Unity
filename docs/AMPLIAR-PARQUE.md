@@ -4,7 +4,7 @@ La base v0.6 está preparada para ampliar el mismo lugar, conservando los dos pu
 
 ## Plano y capacidad actual
 
-ParquePrincipal.asset define el ID del parque, límites globales, entrada, inicio del carrito, catálogo y parcelas futuras. La envolvente inicial es de 200 × 200 m. El recinto construido tiene unos 104 × 98 m. El suelo y la composición exterior se prolongan más allá de las puertas, con jardines y vegetación.
+ParquePrincipal.asset define el ID del parque, límites globales, entrada, inicio del carrito, catálogo y parcelas futuras. La envolvente recorrible inicial es de 200 × 200 m. El recinto construido tiene unos 104 × 98 m. La superficie visual se prolonga más allá de esa envolvente y las lomas del borde mantienen despejadas las cuatro parcelas de ampliación.
 
 | Parcela | Centro aproximado X/Z | Acceso actual X/Z | Reserva |
 |---|---|---|---|
@@ -42,6 +42,6 @@ Si resulta necesario cargar sectores, conservar la sesión global, registrar los
 
 ## Generadores y edición
 
-ContinuousParkBuilder.Build reconstruye ParquePrincipal usando las escenas anteriores como kits. Sustituye la escena generada; se usa deliberadamente y no es necesario para jugar. Después de ampliar manualmente el mapa, no ejecutarlo esperando que conserve esas ediciones.
+ContinuousParkBuilder.Build reconstruye ParquePrincipal usando las escenas anteriores como kits. Aplica las manchas irregulares conservando el orden de sus 16 IDs, genera el relieve del borde y deja vacías las parcelas futuras. Sustituye la escena generada; se usa deliberadamente y no es necesario para jugar. Después de ampliar manualmente el mapa, no ejecutarlo esperando que conserve esas ediciones.
 
 PolishPaths actúa sobre los caminos y la arboleda del circuito original. Para una ampliación real, ampliar también la fuente del trazado o editar sus prefabs/mallas conscientemente. Los assets del plano, las definiciones y el catálogo son editables; la geometría, cercas y accesos deben acompañar esos cambios.

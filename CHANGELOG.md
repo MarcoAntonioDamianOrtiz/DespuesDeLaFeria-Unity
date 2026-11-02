@@ -1,5 +1,13 @@
 # Cambios
 
+## 0.10.0 — Una mañana con más vida
+
+- Caminata con aceleración y frenado suaves, balanceo de cámara pequeño y pasos discretos según el recorrido.
+- Sonido de escoba propio con pasadas rítmicas de cerdas; el paño mantiene un roce de madera más apagado.
+- Brisa con variación lenta y trinos lejanos, todos generados para el juego.
+- Las manchas del mostrador tienen bordes orgánicos, tamaños y posiciones variados; sus 16 avances se conservan por separado.
+- Lomas bajas y árboles en los bordes dan relieve al parque, y se amplía el horizonte de terreno. Las cuatro parcelas reservadas quedan libres.
+
 ## 0.9.0 — Tareas claras y respuesta de herramientas
 
 - Objetivos de suelo, mostrador y cartel con marcas de tarea y porcentajes visibles en HUD.

@@ -16,7 +16,7 @@ Autoría del proyecto: **MarcoAntonioDamianOrtiz**. Producción asistida por Cod
 | Recogedor trapezoidal | `FairArtPass.Tray` | Carrito |
 | Rueda facetada, mango y vaso hueco | `FairArtPass` | Objetos de la escena |
 | Carrito, escoba y paño | `Assets/Feria/Prefabs/` | Composición visual reutilizable |
-| Audio de roce, recogida y campanilla | `Presentation/FairAudio.Sound` | Síntesis local |
+| Audio de roce, recogida y campanilla | `Scripts/Presentation/FairAudio.cs` | Síntesis local en tiempo de ejecución |
 | Cielo de amanecer | `Assets/Feria/Art/Original/Amanecer.shader` | Gradiente y sol procedurales |
 | Rótulo arqueado, follaje, faroles y tejados | `FairVisualPolish.cs` | Mallas originales del entorno |
 | Papel curvado, rombo, círculo, estrella y cinta | `FairDetailPolish.Paper` | Confeti con mallas de doble cara |
@@ -26,8 +26,12 @@ Autoría del proyecto: **MarcoAntonioDamianOrtiz**. Producción asistida por Cod
 | Aro de cuerda, flecha y poza | `FairDuckZoneBuilder` | Modelos originales y prefab de puesto |
 | Cartel de patitos | `ArtSources/cartel-patitos.svg` y generador | Ilustración original y PNG de juego |
 | Agua pintada | `Assets/Feria/Art/Original/AguaDeFeria.shader` | Shader propio de ondas estilizadas |
+| Escoba con cerdas rítmicas, paño de madera y pasos | `Scripts/Presentation/FairAudio.cs` | Síntesis propia en tiempo de ejecución v0.10 |
+| Trinos distantes, brisa variable y hojas al viento | `Scripts/Presentation/FairVfx.cs` | Síntesis local y partículas ligeras v0.10 |
+| Manchas orgánicas del mostrador | `FairSceneBuilder` y `ContinuousParkBuilder` | Mallas irregulares originales con IDs estables v0.10 |
+| Lomas bajas y hierba/hojarasca en los bordes | `ContinuousParkBuilder` | Mallas originales, sin texturas externas v0.10 |
 | Roce procedural separado de escoba y paño con filtro aislado | Scripts/Presentation/FairAudio | Síntesis propia en tiempo de ejecución v0.9 |
-| Brisa procedural y variación tonal del roce | `Scripts/World/FairParkAmbience` y `Presentation/FairAudio` | Síntesis local sin archivos externos v0.8 |
+| Brisa procedural y variación tonal del roce | `Scripts/Presentation/FairVfx.cs` y `Presentation/FairAudio` | Síntesis local sin archivos externos v0.8 |
 | Polvo de escoba, hojas de viento y destello de recogida | `Scripts/Presentation/FairVfx.cs` y `FairParkAmbience` | Efectos nativos de partículas, sin físicas por hoja v0.7 |
 | Paseos, bordes, cubierta del kiosco y tarimas | `ContinuousParkBuilder` | Mallas y composiciones originales v0.6 |
 | Plano ilustrado, señales, entrada y merendero | `ContinuousParkBuilder` | Geometría, rotulación y kit propio |

@@ -44,8 +44,9 @@ namespace Feria
         struct Sway { public Transform target; public Quaternion rest; public float phase,amount; }
         readonly System.Collections.Generic.List<Sway> trees=new System.Collections.Generic.List<Sway>();
         ParticleSystem leaves;
-        AudioSource wind;
-        AudioClip windClip;
+        AudioSource wind,birds;
+        AudioClip windClip,birdClip;
+        float nextBird;
         void Awake()
         {
             foreach(var t in GetComponentsInChildren<Transform>(true))
@@ -59,6 +60,8 @@ namespace Feria
         {
             float time=Time.time;
             for(int i=0;i<trees.Count;i++){var s=trees[i];if(!s.target)continue;float wave=Mathf.Sin(time*.47f+s.phase)+.35f*Mathf.Sin(time*.83f+s.phase*1.7f);s.target.localRotation=s.rest*Quaternion.Euler(wave*s.amount*32,0,wave*s.amount*44);}
+            if(wind)wind.volume=.014f+(.007f+.006f*Mathf.Sin(time*.19f))*(.5f+.5f*Mathf.Sin(time*.11f+1.4f));
+            if(birds&&Time.time>=nextBird){birds.panStereo=Random.Range(-.68f,.68f);birds.pitch=Random.Range(.9f,1.08f);birds.PlayOneShot(birdClip,Random.Range(.42f,.68f));nextBird=Time.time+Random.Range(16f,27f);}
         }
         void MakeLeaves()
         {
@@ -70,6 +73,7 @@ namespace Feria
             var rotation=leaves.rotationOverLifetime;rotation.enabled=true;rotation.z=new ParticleSystem.MinMaxCurve(-1.2f,1.2f);
             var renderer=leaves.GetComponent<ParticleSystemRenderer>();var shader=Shader.Find("Universal Render Pipeline/Particles/Unlit");if(!shader)shader=Shader.Find("Sprites/Default");renderer.material=new Material(shader){name="Hojas de otoño (instancia)"};renderer.shadowCastingMode=ShadowCastingMode.Off;renderer.receiveShadows=false;
             wind=host.AddComponent<AudioSource>();wind.loop=true;wind.playOnAwake=true;wind.spatialBlend=0;wind.volume=.018f;windClip=MakeWind();wind.clip=windClip;wind.Play();host.AddComponent<AudioLowPassFilter>().cutoffFrequency=900;
+            birds=host.AddComponent<AudioSource>();birds.playOnAwake=false;birds.spatialBlend=0;birds.volume=.10f;birdClip=MakeBirdsong();nextBird=Time.time+Random.Range(4f,8f);
         }
         AudioClip MakeWind()
         {
@@ -77,6 +81,21 @@ namespace Feria
             for(int i=0;i<length;i++){filtered=filtered*.985f+((float)rng.NextDouble()*2-1)*.015f;float fade=Mathf.Min(1,Mathf.Min((float)i/(rate*.25f),(length-i)/(rate*.25f)));data[i]=filtered*.55f*fade;}
             var clip=AudioClip.Create("Brisa del parque · procedural",length,1,rate,false);clip.SetData(data,0);return clip;
         }
-        void OnDestroy(){if(leaves&&leaves.GetComponent<ParticleSystemRenderer>().sharedMaterial)Destroy(leaves.GetComponent<ParticleSystemRenderer>().sharedMaterial);if(windClip)Destroy(windClip);}
+        AudioClip MakeBirdsong()
+        {
+            const int rate=22050,length=rate;var data=new float[length];float[] starts={.08f,.27f,.48f,.70f};float[] durations={.12f,.13f,.15f,.12f};float[] pitches={2180,2460,2760,2320};
+            for(int i=0;i<length;i++)
+            {
+                float t=(float)i/rate,sample=0;
+                for(int chirp=0;chirp<starts.Length;chirp++)
+                {
+                    float local=t-starts[chirp];if(local<0||local>durations[chirp])continue;float u=local/durations[chirp];float env=Mathf.Sin(Mathf.PI*u);
+                    float frequency=pitches[chirp]*(1.18f-.34f*u);sample+=Mathf.Sin(2*Mathf.PI*frequency*local)*env;
+                }
+                data[i]=sample*.105f;
+            }
+            var clip=AudioClip.Create("Trinos lejanos de la mañana · procedural",length,1,rate,false);clip.SetData(data,0);return clip;
+        }
+        void OnDestroy(){if(leaves&&leaves.GetComponent<ParticleSystemRenderer>().sharedMaterial)Destroy(leaves.GetComponent<ParticleSystemRenderer>().sharedMaterial);if(windClip)Destroy(windClip);if(birdClip)Destroy(birdClip);}
     }
 }

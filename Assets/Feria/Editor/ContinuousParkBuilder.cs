@@ -14,9 +14,10 @@ public static class ContinuousParkBuilder
 {
     const string Art="Assets/Feria/Art/Original",Output="Assets/Feria/Scenes/ParquePrincipal.unity";
     static Transform decor;
-    static Material cream,teal,coral,gold,wood,ink,grass,leaves,path;
+    static Material cream,teal,coral,gold,wood,ink,grass,leaves,path,grassLight,soil,leafLitter;
     static TMP_FontAsset font;
-    [MenuItem("Feria/Construir parque continuo v0.6")]
+    static readonly Vector2[] CounterStains={new Vector2(-2.42f,3.76f),new Vector2(-1.18f,3.76f),new Vector2(.18f,3.76f),new Vector2(1.46f,3.76f),new Vector2(2.48f,3.76f),new Vector2(-2.02f,4.08f),new Vector2(-.82f,4.08f),new Vector2(.52f,4.08f),new Vector2(1.78f,4.08f),new Vector2(2.58f,4.08f),new Vector2(-2.42f,4.40f),new Vector2(-1.45f,4.40f),new Vector2(-.25f,4.40f),new Vector2(.95f,4.40f),new Vector2(1.95f,4.40f),new Vector2(2.54f,4.40f)};
+    [MenuItem("Feria/Construir parque continuo v0.10")]
     public static void Build()
     {
         if(EditorApplication.isPlaying)throw new InvalidOperationException("Sal de Play antes de construir el parque.");
@@ -39,9 +40,9 @@ public static class ContinuousParkBuilder
         session.zones=new[]{first,ducks};session.player.game=first;session.hud.game=first;session.hud.park=session;
         session.player.Place(layout.entrance,0,8);session.cart.SetPositionAndRotation(layout.cartStart,Quaternion.Euler(0,180,0));session.player.view.farClipPlane=300;
         decor=new GameObject("Paseos, plaza y jardines").transform;decor.SetParent(session.transform,false);font=session.hud.font;Materials();
-        Ground();Roads(first,ducks);Plaza();Entrance();Merendero();Perimeter();Garden();Trees();Signs();
-        RenderSettings.skybox=sky;RenderSettings.ambientMode=AmbientMode.Trilight;RenderSettings.ambientSkyColor=C("BBCED4");RenderSettings.ambientEquatorColor=C("DCCCB0");RenderSettings.ambientGroundColor=C("8F8B7C");RenderSettings.fog=true;RenderSettings.fogMode=FogMode.Linear;RenderSettings.fogColor=C("D6C1AA");RenderSettings.fogStartDistance=75;RenderSettings.fogEndDistance=230;
-        PlayerSettings.bundleVersion="0.6.0";PlayerSettings.runInBackground=true;EditorUtility.SetDirty(layout);EditorUtility.SetDirty(session);
+        Ground();Roads(first,ducks);Plaza();Entrance();Merendero();Perimeter();Terrain();MeadowEdges(first,ducks);Garden();Trees();Signs();
+        RenderSettings.skybox=sky;RenderSettings.ambientMode=AmbientMode.Trilight;RenderSettings.ambientSkyColor=C("B7D0DA");RenderSettings.ambientEquatorColor=C("E1C9A9");RenderSettings.ambientGroundColor=C("96947D");RenderSettings.fog=true;RenderSettings.fogMode=FogMode.Linear;RenderSettings.fogColor=C("DFC7B1");RenderSettings.fogStartDistance=68;RenderSettings.fogEndDistance=220;
+        PlayerSettings.bundleVersion="0.10.0";PlayerSettings.runInBackground=true;EditorUtility.SetDirty(layout);EditorUtility.SetDirty(session);
         EditorSceneManager.SaveScene(scene,Output);EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(Output,true)};AssetDatabase.SaveAssets();
         Debug.Log("FERIA_PARK_READY: parque continuo, sesión única y cuatro parcelas de ampliación.");
     }
@@ -57,17 +58,136 @@ public static class ContinuousParkBuilder
         {
             if(!t)continue;if(remove.Contains(t.name)||(t.name=="Puesto"&&Mathf.Abs(t.position.x)>.5f))UnityEngine.Object.DestroyImmediate(t.gameObject);
         }
-        root.SetPositionAndRotation(position,Quaternion.Euler(0,yaw,0));game.park=session;game.origin=root;game.player=session.player;game.cart=session.cart;game.hud=session.hud;game.travelSign=null;game.name=name+" · tareas";
+        root.SetPositionAndRotation(position,Quaternion.Euler(0,yaw,0));game.park=session;game.origin=root;ApplyCounterStains(game,root);game.player=session.player;game.cart=session.cart;game.hud=session.hud;game.travelSign=null;game.name=name+" · tareas";
+    }
+    [MenuItem("Feria/Pulir paisaje y mostradores v0.10")]
+    public static void PolishExistingPark()
+    {
+        if(EditorApplication.isPlaying)throw new InvalidOperationException("Sal de Play antes de pulir el parque.");
+        EditorSceneManager.OpenScene(Output,OpenSceneMode.Single);var session=UnityEngine.Object.FindFirstObjectByType<ParkSession>();if(!session)throw new Exception("Abre ParquePrincipal.");
+        decor=session.transform.Find("Paseos, plaza y jardines");if(!decor)throw new Exception("Falta la raíz del paisaje del parque.");font=session.hud.font;Materials();
+        var ground=decor.Find("Suelo continuo del parque");if(ground){ground.localPosition=new Vector3(0,-.18f,75);ground.localScale=new Vector3(290,.30f,290);}
+        RepositionGardenTrees();Terrain();MeadowEdges(session.zones[0],session.zones[1]);
+        foreach(var zone in session.zones)if(zone&&zone.origin)ApplyCounterStains(zone,zone.origin);
+        RenderSettings.ambientMode=AmbientMode.Trilight;RenderSettings.ambientSkyColor=C("B7D0DA");RenderSettings.ambientEquatorColor=C("E1C9A9");RenderSettings.ambientGroundColor=C("96947D");RenderSettings.fog=true;RenderSettings.fogMode=FogMode.Linear;RenderSettings.fogColor=C("DFC7B1");RenderSettings.fogStartDistance=68;RenderSettings.fogEndDistance=220;
+        var sun=GameObject.Find("Sol de amanecer");if(sun){var light=sun.GetComponent<Light>();if(light){light.color=C("FFE3C1");light.intensity=1.5f;}}
+        PlayerSettings.bundleVersion="0.10.0";EditorSceneManager.MarkSceneDirty(session.gameObject.scene);EditorSceneManager.SaveScene(session.gameObject.scene);AssetDatabase.SaveAssets();
+        Debug.Log("FERIA_AMBIENCE_READY: lomas, horizonte, árboles despejados y manchas orgánicas en los dos puestos.");
+    }
+    static void RepositionGardenTrees()
+    {
+        var trunks=new List<Transform>();var crowns=new List<Transform>();foreach(Transform child in decor){if(child.name=="Tronco del jardín")trunks.Add(child);else if(child.name=="Copa de salvia")crowns.Add(child);}
+        int count=Mathf.Min(trunks.Count,crowns.Count);var random=new System.Random(32061);
+        for(int i=0;i<count;i++)
+        {
+            float side=i%2==0?-1:1;float x=side*(59+(float)random.NextDouble()*31);float z;
+            if(i<50){int band=(i/2)%4;z=band==0?-14+(float)random.NextDouble()*34:band==1?66+(float)random.NextDouble()*30:band==2?96+(float)random.NextDouble()*37:137+(float)random.NextDouble()*38;}
+            else z=82+(float)random.NextDouble()*94;
+            float h=2.7f+(float)random.NextDouble()*2.5f;trunks[i].localPosition=new Vector3(x,h*.4f,z);crowns[i].localPosition=new Vector3(x,h,z);
+        }
+    }
+    static void ApplyCounterStains(FairGame game,Transform root)
+    {
+        if(game.dirtPatches==null||game.dirtPatches.Length!=CounterStains.Length||(game.definition.zoneId!="rincon-canicas"&&game.definition.zoneId!="galeria-patitos"))return;
+        for(int i=0;i<game.dirtPatches.Length;i++)
+        {
+            var patch=game.dirtPatches[i];patch.name="Mancha orgánica "+(i+1);patch.transform.SetParent(root,false);patch.transform.localPosition=new Vector3(CounterStains[i].x,1.135f,CounterStains[i].y);patch.transform.localRotation=Quaternion.Euler(0,(i*37)%180,0);patch.transform.localScale=new Vector3(.30f+(i%3)*.035f,.008f,.16f+(i%4)*.018f);
+            patch.GetComponent<MeshFilter>().sharedMesh=StainMesh(i);
+        }
+    }
+    static Mesh StainMesh(int index)
+    {
+        string pathName=Art+"/Meshes/Mancha orgánica "+index.ToString("00")+".asset";var mesh=AssetDatabase.LoadAssetAtPath<Mesh>(pathName);if(mesh)return mesh;
+        const int sides=11;var vertices=new List<Vector3>{new(0,.5f,0)};var triangles=new List<int>();var random=new System.Random(931+index);
+        for(int i=0;i<sides;i++){float angle=Mathf.PI*2*i/sides;float lobe=.78f+(float)random.NextDouble()*.30f;float ripple=.10f*Mathf.Sin(angle*3+index*.7f)+.06f*Mathf.Sin(angle*5-index*.31f);float radius=Mathf.Clamp(lobe+ripple,.62f,1.14f);vertices.Add(new Vector3(Mathf.Cos(angle)*radius,.5f,Mathf.Sin(angle)*radius));}
+        for(int i=0;i<sides;i++){triangles.Add(0);triangles.Add(1+(i+1)%sides);triangles.Add(1+i);}
+        mesh=new Mesh{name="Mancha irregular "+index.ToString("00")};mesh.SetVertices(vertices);mesh.SetTriangles(triangles,0);mesh.RecalculateNormals();mesh.RecalculateBounds();AssetDatabase.CreateAsset(mesh,pathName);return mesh;
     }
     static Color C(string h){ColorUtility.TryParseHtmlString("#"+h,out var c);return c;}
     static Material Mat(string name,string color){string p=Art+"/Materials/"+name+".mat";var m=AssetDatabase.LoadAssetAtPath<Material>(p);if(!m){m=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(m,p);}m.color=C(color);m.SetFloat("_Smoothness",.14f);m.enableInstancing=true;EditorUtility.SetDirty(m);return m;}
-    static void Materials(){cream=Mat("Piedra marfil del parque","E9D9B8");teal=Mat("Petróleo del parque","326D72");coral=Mat("Coral del parque","CB806B");gold=Mat("Latón del parque","DFC171");wood=Mat("Madera de paseo","A07B58");ink=Mat("Tinta del parque","304C50");grass=Mat("Pradera del parque","A1B29B");leaves=Mat("Jardín de salvia","729985");path=Mat("Arena del paseo","C9BCA4");}
+    static void Materials(){cream=Mat("Piedra marfil del parque","E9D9B8");teal=Mat("Petróleo del parque","326D72");coral=Mat("Coral del parque","CB806B");gold=Mat("Latón del parque","DFC171");wood=Mat("Madera de paseo","A07B58");ink=Mat("Tinta del parque","304C50");grass=Mat("Pradera del parque","A1B29B");grassLight=Mat("Hierba dorada del parque","B2B18A");soil=Mat("Tierra oscura del parque","877960");leafLitter=Mat("Hojarasca del parque","A18F77");leaves=Mat("Jardín de salvia","729985");path=Mat("Arena del paseo","C9BCA4");}
     static GameObject Box(string name,Vector3 p,Vector3 size,Material material,bool collider=false,Transform parent=null)
     {
         var go=GameObject.CreatePrimitive(PrimitiveType.Cube);go.name=name;if(!collider)UnityEngine.Object.DestroyImmediate(go.GetComponent<Collider>());go.transform.SetParent(parent?parent:decor,false);go.transform.localPosition=p;go.transform.localScale=size;go.GetComponent<Renderer>().sharedMaterial=material;return go;
     }
     static GameObject Shape(string name,Mesh mesh,Material material,Vector3 p,Vector3 scale,Transform parent=null){var go=new GameObject(name,typeof(MeshFilter),typeof(MeshRenderer));go.transform.SetParent(parent?parent:decor,false);go.transform.localPosition=p;go.transform.localScale=scale;go.GetComponent<MeshFilter>().sharedMesh=mesh;go.GetComponent<MeshRenderer>().sharedMaterial=material;return go;}
-    static void Ground(){Box("Suelo continuo del parque",new Vector3(0,-.18f,75),new Vector3(205,.30f,210),grass,true);}
+    static void Ground(){Box("Suelo continuo del parque",new Vector3(0,-.18f,75),new Vector3(290,.30f,290),grass,true);}
+    static void Terrain()
+    {
+        // Soft, walkable berms give the park a natural edge while keeping every future attraction plot empty.
+        var previous=decor.Find("Relieve suave del borde");if(previous)UnityEngine.Object.DestroyImmediate(previous.gameObject);var terrain=new GameObject("Relieve suave del borde").transform;terrain.SetParent(decor,false);
+        Vector4[] mounds={new(-64,0,9,1.05f),new(64,0,9,1.15f),new(-66,0,78,1.20f),new(66,0,78,1.15f),new(-88,0,-5,1.45f),new(88,0,-5,1.35f),new(-91,0,80,1.45f),new(91,0,80,1.25f),new(-90,0,102,1.45f),new(90,0,102,1.35f),new(-86,0,144,1.8f),new(86,0,144,1.65f),new(-72,0,168,1.55f),new(72,0,168,1.55f),new(-35,0,190,2.0f),new(35,0,190,1.8f)};
+        float[] radii={6.5f,6.5f,7f,7f,9f,9f,8f,8f,8f,8f,11f,11f,10f,10f,15f,15f};
+        for(int i=0;i<mounds.Length;i++)
+        {
+            var mound=new GameObject("Loma suave del borde",typeof(MeshFilter),typeof(MeshRenderer),typeof(MeshCollider));mound.transform.SetParent(terrain,false);mound.transform.localPosition=new Vector3(mounds[i].x,0,mounds[i].z);mound.transform.localScale=new Vector3(radii[i],mounds[i].w,radii[i]);
+            var mesh=MoundMesh(i%4);mound.GetComponent<MeshFilter>().sharedMesh=mesh;mound.GetComponent<MeshRenderer>().sharedMaterials=new[]{grass,grassLight,soil};mound.GetComponent<MeshCollider>().sharedMesh=mesh;
+            if(i%2==0){var foliage=AssetDatabase.LoadAssetAtPath<Mesh>(Art+"/Meshes/Follaje tallado.asset");var bush=Shape("Matorral de la loma",foliage,leaves,new Vector3(mounds[i].x, mounds[i].w*.63f,mounds[i].z),new Vector3(1.3f,.8f,1.2f),terrain);bush.transform.rotation=Quaternion.Euler(0,i*37,0);}
+        }
+    }
+    static void MeadowEdges(FairGame first,FairGame second)
+    {
+        var terrain=decor.Find("Relieve suave del borde");if(!terrain)return;var group=terrain.Find("Islas de hierba y hojarasca");if(group)UnityEngine.Object.DestroyImmediate(group.gameObject);group=new GameObject("Islas de hierba y hojarasca").transform;group.SetParent(terrain,false);
+        var roads=new (Vector3[] points,float width)[]
+        {
+            (new[]{new Vector3(0,0,-7),new Vector3(0,0,12),new Vector3(0,0,20)},5),
+            (new[]{new Vector3(0,0,18),new Vector3(-10,0,24),new Vector3(-22,0,29),first.Entrance},4.8f),
+            (new[]{new Vector3(0,0,18),new Vector3(10,0,24),new Vector3(22,0,29),second.Entrance},4.8f),
+            (new[]{first.Entrance,new Vector3(-40,0,42),new Vector3(-40,0,60),new Vector3(-21,0,76),new Vector3(0,0,79),new Vector3(21,0,76),new Vector3(40,0,60),new Vector3(40,0,42),second.Entrance},4.8f),
+            (new[]{new Vector3(-21,0,76),new Vector3(-28,0,88),new Vector3(-28,0,97)},4.8f),
+            (new[]{new Vector3(21,0,76),new Vector3(28,0,88),new Vector3(28,0,97)},4.8f),
+            (new[]{new Vector3(-40,0,45),new Vector3(-61,0,45)},4.8f),
+            (new[]{new Vector3(40,0,45),new Vector3(61,0,45)},4.8f)
+        };
+        var session=decor.GetComponentInParent<ParkSession>();var placed=new List<Vector3>();var random=new System.Random(8412);int index=0;
+        foreach(var road in roads)for(int segment=0;segment<road.points.Length-1;segment++)
+        {
+            Vector3 delta=road.points[segment+1]-road.points[segment];delta.y=0;float length=delta.magnitude;int steps=Mathf.Max(1,Mathf.CeilToInt(length/4.2f));Vector3 side=Vector3.Cross(Vector3.up,delta.normalized);
+            for(int step=1;step<steps;step++)
+            {
+                Vector3 center=Vector3.Lerp(road.points[segment],road.points[segment+1],(float)step/steps);
+                foreach(int sign in new[]{-1,1})
+                {
+                    Vector3 point=center+side*(road.width*.5f+1.25f)*sign;point.y=-.028f;if(ForbiddenMeadow(point,session)||placed.Exists(p=>(p-point).sqrMagnitude<7.5f))continue;placed.Add(point);
+                    int variant=index%4;float patchWidth=.95f+(float)random.NextDouble()*.55f,patchDepth=.64f+(float)random.NextDouble()*.35f;if(variant==2){patchWidth*=.58f;patchDepth*=.68f;}var patch=Shape("Isla baja de hierba",MeadowMesh(variant),variant==0?grassLight:variant==1?leaves:variant==2?leafLitter:grass,point,new Vector3(patchWidth,.006f,patchDepth),group);patch.transform.rotation=Quaternion.Euler(0,(float)random.NextDouble()*180,0);var patchRenderer=patch.GetComponent<MeshRenderer>();patchRenderer.shadowCastingMode=ShadowCastingMode.Off;patchRenderer.receiveShadows=false;
+                    if(index%4==0){var foliage=AssetDatabase.LoadAssetAtPath<Mesh>(Art+"/Meshes/Follaje tallado.asset");var tuft=Shape("Hierba de otoño tallada",foliage,leaves,point+Vector3.up*.035f,new Vector3(.20f,.28f,.19f),group);tuft.transform.rotation=Quaternion.Euler(0,(float)random.NextDouble()*360,0);}
+                    index++;
+                }
+            }
+        }
+    }
+    static bool ForbiddenMeadow(Vector3 p,ParkSession session)
+    {
+        if(new Vector2(p.x,p.z-20).magnitude<13)return true;
+        foreach(var zone in session.zones){var local=zone.Local(p);if(Mathf.Abs(local.x)<9&&local.z>-11&&local.z<13)return true;}
+        foreach(var plot in session.definition.futurePlots)if(Mathf.Abs(p.x-plot.center.x)<plot.size.x*.5f+1&&Mathf.Abs(p.z-plot.center.z)<plot.size.y*.5f+1)return true;
+        return false;
+    }
+    static Mesh MeadowMesh(int variant)
+    {
+        string pathName=Art+"/Meshes/Pradera irregular "+variant+".asset";var existing=AssetDatabase.LoadAssetAtPath<Mesh>(pathName);if(existing)return existing;
+        const int sides=9;var vertices=new List<Vector3>{new(0,.5f,0)};var triangles=new List<int>();var random=new System.Random(6370+variant);
+        for(int i=0;i<sides;i++){float angle=Mathf.PI*2*i/sides;float radius=.42f+((float)random.NextDouble()*.16f)+.035f*Mathf.Sin(angle*3+variant);vertices.Add(new Vector3(Mathf.Cos(angle)*radius,.5f,Mathf.Sin(angle)*radius));}
+        for(int i=0;i<sides;i++){triangles.Add(0);triangles.Add(1+(i+1)%sides);triangles.Add(1+i);}
+        var mesh=new Mesh{name="Pradera irregular "+variant};mesh.SetVertices(vertices);mesh.SetTriangles(triangles,0);mesh.RecalculateNormals();mesh.RecalculateBounds();AssetDatabase.CreateAsset(mesh,pathName);return mesh;
+    }
+    static Mesh MoundMesh(int variant)
+    {
+        string pathName=Art+"/Meshes/Loma natural "+variant+".asset";var existing=AssetDatabase.LoadAssetAtPath<Mesh>(pathName);if(existing)return existing;
+        const int sides=10;float[] radii={.23f,.52f,.80f,1f},heights={.98f,.79f,.43f,.025f};var vertices=new List<Vector3>{new(0,1,0)};var sub=new[]{new List<int>(),new List<int>(),new List<int>()};var random=new System.Random(4200+variant);
+        for(int ring=0;ring<radii.Length;ring++)for(int i=0;i<sides;i++)
+        {
+            float angle=Mathf.PI*2*i/sides;float jagged=.88f+(float)random.NextDouble()*.22f;float wave=1+.045f*Mathf.Sin(angle*3+variant);float r=radii[ring]*jagged*wave;
+            vertices.Add(new Vector3(Mathf.Cos(angle)*r,heights[ring]*(.90f+(float)random.NextDouble()*.20f),Mathf.Sin(angle)*r));
+        }
+        for(int i=0;i<sides;i++)Tri(vertices,sub[0],vertices[0],vertices[1+(i+1)%sides],vertices[1+i]);
+        for(int ring=1;ring<radii.Length;ring++)for(int i=0;i<sides;i++)
+        {
+            int inner=1+(ring-1)*sides+i,innerNext=1+(ring-1)*sides+(i+1)%sides,outer=1+ring*sides+i,outerNext=1+ring*sides+(i+1)%sides;int material=ring==radii.Length-1?2:ring==1?0:1;
+            Tri(vertices,sub[material],vertices[inner],vertices[outerNext],vertices[outer]);Tri(vertices,sub[material],vertices[inner],vertices[innerNext],vertices[outerNext]);
+        }
+        var mesh=new Mesh{name="Loma natural "+variant};mesh.SetVertices(vertices);mesh.subMeshCount=sub.Length;for(int i=0;i<sub.Length;i++)mesh.SetTriangles(sub[i],i);mesh.RecalculateNormals();mesh.RecalculateBounds();AssetDatabase.CreateAsset(mesh,pathName);return mesh;
+    }
     static void Roads(FairGame a,FairGame b)
     {
         Road("Paseo de entrada",new[]{new Vector3(0,0,-7),new Vector3(0,0,12),new Vector3(0,0,20)},5);
@@ -167,8 +287,10 @@ public static class ContinuousParkBuilder
         var mesh=AssetDatabase.LoadAssetAtPath<Mesh>(Art+"/Meshes/Follaje tallado.asset");var random=new System.Random(32061);
         for(int i=0;i<90;i++)
         {
-            bool side=i<50;float x=side?(i%2==0?-1:1)*(56+(float)random.NextDouble()*28):-86+(float)random.NextDouble()*172;float z=side?-6+(float)random.NextDouble()*116:96+(float)random.NextDouble()*64;float h=2.7f+(float)random.NextDouble()*2.5f;
-            Box("Tronco del jardín",new Vector3(x,h*.4f,z),new Vector3(.25f,h*.8f,.25f),wood);Shape("Copa de salvia",mesh,leaves,new Vector3(x,h,z),new Vector3(2.4f,h*.7f,2.3f));
+            float side=i%2==0?-1:1;float x=side*(59+(float)random.NextDouble()*31);float z;
+            if(i<50){int band=(i/2)%4;z=band==0?-14+(float)random.NextDouble()*34:band==1?66+(float)random.NextDouble()*30:band==2?96+(float)random.NextDouble()*37:137+(float)random.NextDouble()*38;}
+            else z=82+(float)random.NextDouble()*94;
+            float h=2.7f+(float)random.NextDouble()*2.5f;Box("Tronco del jardín",new Vector3(x,h*.4f,z),new Vector3(.25f,h*.8f,.25f),wood);Shape("Copa de salvia",mesh,leaves,new Vector3(x,h,z),new Vector3(2.4f,h*.7f,2.3f));
         }
         Vector3[] shrubs={new Vector3(-12,0,8),new Vector3(12,0,8),new Vector3(-17,0,19),new Vector3(17,0,19),new Vector3(-12,0,50),new Vector3(12,0,50),new Vector3(-17,0,61),new Vector3(17,0,61)};
         foreach(var p in shrubs){Shape("Isla de jardín",Disc(12),leaves,p+Vector3.down*.01f,new Vector3(8,.06f,6));for(int j=0;j<4;j++)Shape("Arbusto tallado",mesh,leaves,p+new Vector3(-2+j*1.3f,.65f,Mathf.Sin(j)*1.3f),new Vector3(1.2f,.85f,1));}

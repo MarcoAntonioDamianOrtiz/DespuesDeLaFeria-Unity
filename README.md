@@ -2,7 +2,7 @@
 
 Juego indie para un jugador, Unity 6.3 LTS / C# / URP, con guardado completamente local.
 
-## Versión 0.9 — Objetivos legibles y sonidos propios de cada herramienta
+## Versión 0.10 — Una mañana con más vida
 
 Las canicas y los patitos están en **ParquePrincipal**, unidos por la entrada, una plaza y un paseo circular. Se camina físicamente entre ellos con un único jugador, carrito y HUD. Cambiar de área actualiza los objetivos sin fundido, transporte ni carga de otra escena.
 
@@ -14,7 +14,9 @@ Las canicas y los patitos están en **ParquePrincipal**, unidos por la entrada, 
 - Guardado v3: una ubicación de jugador/carrito para todo el parque, tareas por atracción y migración del progreso anterior.
 - Limpieza libre del parque conserva la campaña y no cambia la ubicación al entrar o salir.
 
-El barrido añade polvo tenue y la recogida un destello breve. Hojas otoñales ligeras y copas con balanceo sutil dan movimiento al parque. Una brisa suave y un leve cambio tonal acompañan el recorrido y el barrido. La cámara aplica un ajuste cálido de color, con contraste y viñeta discretos. El HUD marca las tareas pendientes y completadas con un panel ampliado. Escoba y paño tienen roces procedurales distintos; el filtro de la madera solo afecta a la herramienta.
+El barrido añade polvo tenue y la recogida un destello breve. La caminata acelera y se detiene con suavidad, con un balanceo de cámara leve y pasos acompasados; al mover el carrito, el paso cambia. Hojas otoñales ligeras y copas con balanceo sutil dan movimiento al parque. La brisa varía despacio y se oyen trinos distantes. La escoba tiene un roce rítmico de cerdas sobre el adoquín; el paño conserva un roce más apagado para la madera. Los 16 rastros del mostrador son irregulares y están repartidos para poder limpiarlos uno por uno.
+
+Lomas bajas, vegetación otoñal y un horizonte de terreno más amplio enmarcan el recorrido. Los caminos transitables siguen despejados y los cuatro espacios reservados para futuras atracciones permanecen disponibles. No se añadieron paquetes de arte externos.
 
 ![Entrada del parque](docs/images/parque-v06.png)
 
@@ -30,7 +32,7 @@ La escena no es el parque comercial completo. Las parcelas y definiciones permit
 2. Abre Assets/Feria/Scenes/ParquePrincipal.unity.
 3. Pulsa Play y Comenzar/Continuar. Camina por los paseos para llegar a las atracciones.
 
-La versión Windows se encuentra en la carpeta hermana Feria-Windows-v0.9. Conserva los archivos que acompañan al ejecutable. Una partida anterior conserva las tareas y aparece junto al último puesto visitado, ahora dentro del parque.
+La versión Windows se encuentra en la carpeta hermana Feria-Windows-v0.10. Conserva los archivos que acompañan al ejecutable. Una partida anterior conserva las tareas y aparece junto al último puesto visitado, ahora dentro del parque.
 
 | Acción | Control |
 |---|---|
@@ -48,7 +50,7 @@ La versión Windows se encuentra en la carpeta hermana Feria-Windows-v0.9. Conse
 
 ## Guardado y arquitectura
 
-feria-park.json usa formato v3. Guarda jugador, cámara, carrito y herramienta globales, junto al progreso identificado de cada puesto. Al crear la primera partida del parque importa feria-campaign.json de v0.5 o el v1 de las canicas. Los archivos anteriores permanecen disponibles. Para continuar en el parque utiliza v0.8.
+feria-park.json usa formato v3. Guarda jugador, cámara, carrito y herramienta globales, junto al progreso identificado de cada puesto. Al crear la primera partida del parque importa feria-campaign.json de v0.5 o el v1 de las canicas. Los archivos anteriores permanecen disponibles. Para continuar en el parque utiliza v0.10.
 
 ParkSession coordina la escena; cada FairGame conserva limpieza y actividad alrededor de un origen local. Mover o girar la raíz de un puesto no cambia el significado de sus posiciones guardadas. Los límites y la entrada de cada área son configurables.
 

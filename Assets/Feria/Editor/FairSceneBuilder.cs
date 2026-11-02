@@ -64,7 +64,12 @@ public static class FairSceneBuilder
         Text("Interruptor texto", "ENCENDER", new Vector3(2.65f, 1.43f, 3.62f), .95f, .2f, .10f, dark);
         var lever = Box("Palanca", new Vector3(2.65f, 1.07f, 3.59f), new Vector3(.1f, .22f, .1f), coral);
         var patches = new List<Renderer>(); var grime = Mat("Manchas", "#706356");
-        for (int x = 0; x < 8; x++) for (int z = 0; z < 2; z++) patches.Add(Box("Mancha mostrador", new Vector3(-1.4f + x * .4f, 1.135f, 3.85f + z * .35f), new Vector3(.34f, .008f, .32f), grime, false).GetComponent<Renderer>());
+        Vector2[] stainPoints={new(-2.42f,3.76f),new(-1.18f,3.76f),new(.18f,3.76f),new(1.46f,3.76f),new(2.48f,3.76f),new(-2.02f,4.08f),new(-.82f,4.08f),new(.52f,4.08f),new(1.78f,4.08f),new(2.58f,4.08f),new(-2.42f,4.40f),new(-1.45f,4.40f),new(-.25f,4.40f),new(.95f,4.40f),new(1.95f,4.40f),new(2.54f,4.40f)};
+        for(int i=0;i<stainPoints.Length;i++)
+        {
+            var stain=new GameObject("Mancha orgánica "+(i+1),typeof(MeshFilter),typeof(MeshRenderer));stain.transform.position=new Vector3(stainPoints[i].x,1.135f,stainPoints[i].y);stain.transform.localScale=new Vector3(.30f+(i%3)*.035f,.008f,.16f+(i%4)*.018f);stain.transform.rotation=Quaternion.Euler(0,(i*37)%180,0);
+            stain.GetComponent<MeshFilter>().sharedMesh=StainMesh(i);stain.GetComponent<MeshRenderer>().sharedMaterial=grime;patches.Add(stain.GetComponent<Renderer>());
+        }
         game.dirtPatches = patches.ToArray();
         // A bounded tabletop marble track is the single reactivation reward.
         Box("Tablero canicas", new Vector3(0, 1.33f, 5.15f), new Vector3(2.55f, .15f, 2), wood);
@@ -163,6 +168,18 @@ public static class FairSceneBuilder
     {
         for (int z = -8; z <= 8; z++) Box("Valla", new Vector3(x, .6f, z), new Vector3(.12f, 1.2f, .1f), wood);
         Box("Pasamanos", new Vector3(x, .9f, 0), new Vector3(.1f, .09f, 17), rail);
+    }
+    static Mesh StainMesh(int index)
+    {
+        string path=Root+"/Art/Original/Meshes/Mancha orgánica "+index.ToString("00")+".asset";var mesh=AssetDatabase.LoadAssetAtPath<Mesh>(path);if(mesh)return mesh;
+        const int sides=11;var vertices=new List<Vector3>{new(0,.5f,0)};var triangles=new List<int>();var random=new System.Random(931+index);
+        for(int i=0;i<sides;i++)
+        {
+            float angle=Mathf.PI*2*i/sides;float lobe=.78f+(float)random.NextDouble()*.30f;float ripple=.10f*Mathf.Sin(angle*3+index*.7f)+.06f*Mathf.Sin(angle*5-index*.31f);float radius=Mathf.Clamp(lobe+ripple,.62f,1.14f);
+            vertices.Add(new Vector3(Mathf.Cos(angle)*radius,.5f,Mathf.Sin(angle)*radius));
+        }
+        for(int i=0;i<sides;i++){triangles.Add(0);triangles.Add(1+(i+1)%sides);triangles.Add(1+i);}
+        mesh=new Mesh{name="Mancha irregular "+index.ToString("00")};mesh.SetVertices(vertices);mesh.SetTriangles(triangles,0);mesh.RecalculateNormals();mesh.RecalculateBounds();AssetDatabase.CreateAsset(mesh,path);return mesh;
     }
     static void Bench(Vector3 p, Material wood, Material metal)
     {

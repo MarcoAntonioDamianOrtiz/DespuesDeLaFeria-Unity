@@ -99,7 +99,7 @@ namespace Feria
         public void Tick(float elapsed)
         {
             if(noticeTime>0){noticeTime-=elapsed;if(noticeTime<=0)notice="";}
-            bool show=!park||park.CurrentGame==this;feedback.SetVisible(show);if(show)feedback.Tick(elapsed);vfx.Tick(elapsed);if(Paused){sound.Brush(0);return;}
+            bool show=!park||park.CurrentGame==this;feedback.SetVisible(show);if(show)feedback.Tick(elapsed);vfx.Tick(elapsed);if(Paused){sound.Brush(0);sound.Tick(elapsed);return;}
             float dt=Mathf.Min(elapsed,.05f);
             if(!park||park.ActiveZone==this){PlaySeconds+=elapsed;Metrics.seconds+=elapsed;}
             Metrics.walkingMetres+=Vector3.Distance(player.transform.position,lastPlayer);lastPlayer=player.transform.position;
@@ -126,6 +126,7 @@ namespace Feria
             if(MovingCart)return 0;
             int count=floor.Sweep(point,movement,player.transform.forward,dt);if(count>0){sound.Brush(.13f,false);vfx.Sweep(point,movement,count);}return count;
         }
+        public void Footstep(bool pushingCart,float intensity){if(park&&park.ActiveZone&&park.ActiveZone!=this)return;sound.Step(pushingCart,intensity);}
         public int CleanAt(Vector3 point,float dt){int count=counter.Clean(point,dt);if(count>0)sound.Brush(.09f,true);return count;}
         public bool TrySweepPoint(out Vector3 point)
         {

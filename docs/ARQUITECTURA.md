@@ -82,7 +82,7 @@ Añadir otro tipo de minijuego requiere su lógica y presentación. Esta fase pr
 
 ## Construcción y arte
 
-ContinuousParkBuilder utiliza los dos kits existentes, extrae jugador/cart/HUD únicos, elimina sus cercas y fondos duplicados y coloca las raíces en el nuevo mapa. Construye entrada, caminos de malla continua, plaza, kiosco, señalética, vegetación, descanso y accesos de ampliación.
+ContinuousParkBuilder utiliza los dos kits existentes, extrae jugador/cart/HUD únicos, elimina sus cercas y fondos duplicados y coloca las raíces en el nuevo mapa. Construye entrada, caminos de malla continua, plaza, kiosco, señalética, vegetación, descanso y accesos de ampliación. El relieve bajo se genera fuera de las parcelas y no altera la envolvente de juego de 200 × 200 m; la superficie visual llega más lejos para cerrar el horizonte.
 
 El generador reconstruye la escena y se ejecuta deliberadamente. PolishPaths actúa sobre los caminos y la arboleda originales. La ampliación manual debe mantenerse en los assets/fuentes correspondientes; no se promete conservar ediciones manuales al reconstruir.
 
