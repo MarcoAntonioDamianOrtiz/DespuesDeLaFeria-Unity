@@ -1,0 +1,167 @@
+{
+  "note": "References from the tested local project; source files outside V012 variants remain local. Restore original packages with original .meta GUIDs. Includes transitive imported material references, not a new grant to redistribute.",
+  "dependencies": [
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 4.prefab",
+      "guid": "507e6be0fca9ce44496df687c5a8d1f9",
+      "sha256": "855f43e1a691681ae200e459ad935c568c3e876d1f7e4a1de06704db6a578f4f",
+      "sourceIncluded": true
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/PlaygroundPark/flower_bed.fbx",
+      "guid": "512a74d035803cc41ba2e1a18fd8892b",
+      "sha256": "598bc134dad488d49400890777291b5aaac10b5730ffd77b1ea9b934ffb32aa1",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/_Game/audio/KenneyUI/switch2.ogg",
+      "guid": "27d5b6c97654b8446b990f428b4ffdc4",
+      "sha256": "aa8ad6e4745e87c84c24a0335e0e0f8629ccbbc474ccfd544fe07d7f3a1b2280",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/EmbersStorm -  Free Nature Pack/Prefabs/Trees/Oak/oak.037.prefab",
+      "guid": "743846807c652064cab54b3e5d4c04a4",
+      "sha256": "04d0b9a83631017a944690f439dbdd04788b555f23a3c48e685dff55b9f4ee2e",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 7.prefab",
+      "guid": "093546385a004064896e6dc86278d7b8",
+      "sha256": "1ca5b1aaf72a388ee219d25075c2ca45ed692f20aad901946729fc203a2b4a11",
+      "sourceIncluded": true
+    },
+    {
+      "path": "Assets/EmbersStorm-Magic Fantazy Armors Pack/Texture/Magic Pack Texture.png",
+      "guid": "fe3649cfc940a834a970fe65a84db13e",
+      "sha256": "336df8f0d904657d7dce559488896a12100c95ec59c102bcdc471b045c13b8f7",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/_Game/Art/ExternalAssets/AmusementPark/queue_rails.fbx",
+      "guid": "09dc923ae4cc46346b752dd8e5576dd5",
+      "sha256": "d12738f7f297c80064aca8f85ebf441a7e2cbf8e2ef7fecd9dfc33173b6e0bd0",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/_Game/audio/KenneyUI/switch1.ogg",
+      "guid": "7dc4f0ad2e8cf2b4a90fec0cd8fe420b",
+      "sha256": "efdd1d1e2904fb2d81259cd96bb80101caceae94be02baa4b5310714a6708b19",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 10.prefab",
+      "guid": "a92700e1224508840987f4b1151e3310",
+      "sha256": "e423e32c8ba97500f73ae0d42d5ee453c90ebef5f813e18af0faf7dc5849b53a",
+      "sourceIncluded": true
+    },
+    {
+      "path": "Assets/_Game/audio/KenneyUI/click1.ogg",
+      "guid": "2aae5f1677c12e44da7831a6a9ac39a7",
+      "sha256": "59175ac17cd49a68dd736285738441287636112a84a6f7ce0d89921bda5a5360",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 6.prefab",
+      "guid": "18e3c436f70fc73498d35b42347e8d42",
+      "sha256": "0b47c6a5581bc6f4ae42ab3c6a1a43c1d1b845339c191aa9bc1b2d37bcb74290",
+      "sourceIncluded": true
+    },
+    {
+      "path": "Assets/EmbersStorm -  Free Nature Pack/Prefabs/Trees/Oak/oak.033.prefab",
+      "guid": "99a5b5a7c0755474a9b8957c557e5df1",
+      "sha256": "97534054c0b69cd68198e297e6b54faf30ff3d2e0ea0d36076a203cf8b05fe0f",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 11.prefab",
+      "guid": "c0a7450a387e899469390e19d26b99e9",
+      "sha256": "60636b4f9945ba8100a3cc232a078801b30c5d59a722a6b01087bd58e7853b3b",
+      "sourceIncluded": true
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 1.prefab",
+      "guid": "74e8da71b1f2feb478a569fc932bd2bf",
+      "sha256": "266bd5f29de2324a3908c58427672e522ab73aca8a04c9e535b1fe9d7ce717c6",
+      "sourceIncluded": true
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 2.prefab",
+      "guid": "f33400e1aa794d24688ea3e8551a2c68",
+      "sha256": "6a6db2a05332f0646baaf6ccd7261b2f85f26f0b7eeaee9789e5d2e38b4a4706",
+      "sourceIncluded": true
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 9.prefab",
+      "guid": "f20302b214e7b574aa04e523314abf0e",
+      "sha256": "06bde3601e6663ac0eb49aba0804548af3b41bd0ac2cada5b071eed24657eb2a",
+      "sourceIncluded": true
+    },
+    {
+      "path": "Assets/EmbersStorm -  Free Nature Pack/Prefabs/Trees/Oak/oak.036.prefab",
+      "guid": "2ffc18ddfca48d447adcb808f7be7619",
+      "sha256": "e6f553e87eada5cacdb09d89dbca25b67f7a061ba141919bad035692b487c3ee",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 8.prefab",
+      "guid": "608cab503751c1f40beb34c7077ef3c3",
+      "sha256": "31dd98073f5f58b182bd07ca560c3536a9ffc660c91bb88a83647ed4feb21e08",
+      "sourceIncluded": true
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 3.prefab",
+      "guid": "63af4cb22801cb245b477e45e4a86997",
+      "sha256": "8bcc56579797f1111d1435048f9ac54510904b9e681e801b23f3b7da0cdcc87f",
+      "sourceIncluded": true
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 0.prefab",
+      "guid": "6c23a3b6bbfeadf458474a93a5200e62",
+      "sha256": "b45d313125aa03bd83fb3b97ddcf0518c73b3e4c54c2a5841ad67500f09b8398",
+      "sourceIncluded": true
+    },
+    {
+      "path": "Assets/EmbersStorm -  Free Nature Pack/Prefabs/Trees/Oak/oak.035.prefab",
+      "guid": "4749b292b1d35f740a59578ed52f0b94",
+      "sha256": "1dff11ca98b79c392fc4ff1f323d03486f10da5b6ab4d343f0694061afb1a434",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/EmbersStorm -  Free Nature Pack/Prefabs/Trees/Oak/oak.032.prefab",
+      "guid": "846dc3c893b68b848bb475d0813058c1",
+      "sha256": "e6ebb126058febe280e6d21fbc900d943da547d4d5531d5c086f70214f49733e",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/EmbersStorm -  Free Nature Pack/Prefabs/Trees/Oak/oak.034.prefab",
+      "guid": "4a932fd151fe1394ab47a9f3c62b6aac",
+      "sha256": "e2480d3bf002fdce157d09db5cb218aee907795f3b5bbd4940fdbc09a98235e1",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/EmbersStorm -  Free Nature Pack/Meshes/EmbersStorm-Forest Pack.fbx",
+      "guid": "d3283069ad4611b4b9cf2fdbf471af89",
+      "sha256": "e43b99da842e7aa6b305044f8f8d021763ebbd1111e8fe141b1b17b309bc854f",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/EmbersStorm -  Free Nature Pack/Texture/Texture.png",
+      "guid": "9fe9c7c3a1cf97a4b8f84d25fee4cccc",
+      "sha256": "336df8f0d904657d7dce559488896a12100c95ec59c102bcdc471b045c13b8f7",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/EmbersStorm -  Free Nature Pack/Materials/Texture.mat",
+      "guid": "1266c231ae21b164b8bdd690cd99dd54",
+      "sha256": "42dd4fed1bd4e16a69f93aac7c1e8ef9396bde21e3dda3ecf89a9b0e321fa7a3",
+      "sourceIncluded": false
+    },
+    {
+      "path": "Assets/_Game/Prefabs/Environment/V012/Arbol externo 5.prefab",
+      "guid": "0ba784048d5e4be41a91fc52d1534ae7",
+      "sha256": "d6e3edf4fdbcc00419238fea684dfc06975f43d8341410991c986571df36a0c1",
+      "sourceIncluded": true
+    }
+  ]
+}

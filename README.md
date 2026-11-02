@@ -2,7 +2,15 @@
 
 Juego indie para un jugador, Unity 6.3 LTS / C# / URP, con guardado completamente local.
 
-## Versión 0.11 — Un parque hecho a mano
+## Versión 0.12 — Herramientas y limpieza
+
+Escoba y paño originales modelados en Blender, siete familias de manchas con materiales URP, alcance de barrido de 2,8 m, frotado sobre el plano del mostrador y HUD por tipo de mancha. Se incorporan variantes de vegetación, jardineras y barandas sobre las ubicaciones existentes. [Informe, capturas y pruebas](docs/PULIDO-0.12.md).
+
+**Dependencias de arte al clonar:** los paquetes externos fuente permanecen locales por sus condiciones de redistribución. Este repositorio contiene los modelos propios, scripts y variantes, pero no es una copia autónoma de todos los recursos del proyecto local. Para reproducir la escena completa hacen falta los recursos externos originales y sus referencias de importación. Conservar los `.meta` originales al restaurarlos; las rutas, GUID y hashes esperados están en [el manifiesto de dependencias](docs/receipts/v012-project-dependencies.json). [Procedencia y condiciones](docs/THIRD-PARTY-ASSETS-v012.md).
+
+En particular se utilizan EmbersStorm Free Nature, elementos de Playground/Amusement y tres clips Kenney UI Audio. El manifiesto registra además las referencias transitivas presentes en los materiales importados. No se publican estos paquetes fuente ni los ajustes locales del usuario.
+
+## Versión anterior 0.11 — Un parque hecho a mano
 
 Interacción de manchas sobre su plano visible, progreso individual contextual, contadores reales y selector compacto. Mobiliario y vegetación propios con prefabs reutilizables; audio por superficies, mezclador nativo y dibujo de residuos por lotes. [Informe de implementación y comprobación](docs/PULIDO-INTEGRAL-0.11.md).
 
