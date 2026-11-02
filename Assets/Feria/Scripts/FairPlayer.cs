@@ -46,9 +46,9 @@ namespace Feria
             moveVelocity=Vector2.MoveTowards(moveVelocity,movement*maxSpeed,(movement.sqrMagnitude>.01f?13f:19f)*dt);
             bool grounded=controller.isGrounded;verticalSpeed=grounded?-2:verticalSpeed-18*dt;Vector3 before=transform.position;
             controller.Move(((transform.right*moveVelocity.x+transform.forward*moveVelocity.y)+Vector3.up*verticalSpeed)*dt);
+            var min=game.park?game.park.definition.worldMin:game.definition.playerMin;var max=game.park?game.park.definition.worldMax:game.definition.playerMax;var p=transform.position;p.x=Mathf.Clamp(p.x,min.x,max.x);p.z=Mathf.Clamp(p.z,min.y,max.y);transform.position=p;
             Vector3 travelled=transform.position-before;travelled.y=0;float distance=travelled.magnitude;
             if(grounded&&distance>.001f){stepDistance+=distance;float stride=game.MovingCart ? 1.25f : 1.45f;while(stepDistance>=stride){stepDistance-=stride;game.Footstep(game.MovingCart,Mathf.Clamp01(moveVelocity.magnitude/3.7f));}}
-            var min=game.park?game.park.definition.worldMin:game.definition.playerMin;var max=game.park?game.park.definition.worldMax:game.definition.playerMax;var p=transform.position;p.x=Mathf.Clamp(p.x,min.x,max.x);p.z=Mathf.Clamp(p.z,min.y,max.y);transform.position=p;
             if(kb.digit1Key.wasPressedThisFrame)game.Tool=0;if(kb.digit2Key.wasPressedThisFrame)game.Tool=1;
             if(mouse.scroll.ReadValue().y!=0)game.Tool=1-game.Tool;
             if(kb.eKey.wasPressedThisFrame)game.Interact();if(kb.f5Key.wasPressedThisFrame)game.Save();if(kb.tabKey.wasPressedThisFrame)game.RequestHint();

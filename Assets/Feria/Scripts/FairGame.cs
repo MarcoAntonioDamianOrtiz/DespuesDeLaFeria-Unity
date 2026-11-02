@@ -99,7 +99,7 @@ namespace Feria
         public void Tick(float elapsed)
         {
             if(noticeTime>0){noticeTime-=elapsed;if(noticeTime<=0)notice="";}
-            bool show=!park||park.CurrentGame==this;feedback.SetVisible(show);if(show)feedback.Tick(elapsed);vfx.Tick(elapsed);if(Paused){sound.Brush(0);sound.Tick(elapsed);return;}
+            bool show=!park||park.CurrentGame==this;feedback.SetVisible(show);if(show)feedback.Tick(elapsed);vfx.Tick(elapsed);if(Paused){sound.SilenceTools();return;}
             float dt=Mathf.Min(elapsed,.05f);
             if(!park||park.ActiveZone==this){PlaySeconds+=elapsed;Metrics.seconds+=elapsed;}
             Metrics.walkingMetres+=Vector3.Distance(player.transform.position,lastPlayer);lastPlayer=player.transform.position;

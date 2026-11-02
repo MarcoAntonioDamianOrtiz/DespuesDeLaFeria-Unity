@@ -14,7 +14,7 @@ public static class ContinuousParkVerification
     {
         if(!EditorApplication.isPlaying)throw new Exception("Entra en Play en ParquePrincipal.");
         var park=UnityEngine.Object.FindFirstObjectByType<ParkSession>();if(!park||park.InPractice)throw new Exception("Hace falta el parque, fuera de práctica.");
-        var original=park.Snapshot();bool paused=park.Paused,enabled=park.player.enabled;park.suppressSave=true;park.player.enabled=false;
+        var original=park.Snapshot();bool paused=park.Paused,enabled=park.player.enabled,suppressed=park.suppressSave;park.suppressSave=true;park.player.enabled=false;
         var reports=new List<string>();
         try
         {
@@ -58,7 +58,7 @@ public static class ContinuousParkVerification
             reports.AddRange(Persistence(park,campaign));
             return reports.ToArray();
         }
-        finally{park.suppressSave=true;if(park.InPractice)park.TogglePractice();park.Apply(original);park.player.enabled=enabled;park.SetPaused(paused);}
+        finally{park.suppressSave=true;if(park.InPractice)park.TogglePractice();park.Apply(original);park.player.enabled=enabled;park.SetPaused(paused);park.suppressSave=suppressed;}
     }
     static int Walk(ParkSession park,Vector3[] points)
     {

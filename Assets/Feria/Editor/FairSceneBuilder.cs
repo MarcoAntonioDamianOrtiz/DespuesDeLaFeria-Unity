@@ -64,10 +64,10 @@ public static class FairSceneBuilder
         Text("Interruptor texto", "ENCENDER", new Vector3(2.65f, 1.43f, 3.62f), .95f, .2f, .10f, dark);
         var lever = Box("Palanca", new Vector3(2.65f, 1.07f, 3.59f), new Vector3(.1f, .22f, .1f), coral);
         var patches = new List<Renderer>(); var grime = Mat("Manchas", "#706356");
-        Vector2[] stainPoints={new(-2.42f,3.76f),new(-1.18f,3.76f),new(.18f,3.76f),new(1.46f,3.76f),new(2.48f,3.76f),new(-2.02f,4.08f),new(-.82f,4.08f),new(.52f,4.08f),new(1.78f,4.08f),new(2.58f,4.08f),new(-2.42f,4.40f),new(-1.45f,4.40f),new(-.25f,4.40f),new(.95f,4.40f),new(1.95f,4.40f),new(2.54f,4.40f)};
+        Vector2[] stainPoints={new Vector2(-2.5f,3.84f),new Vector2(-1.8f,3.86f),new Vector2(-1.1f,3.82f),new Vector2(-0.4f,3.85f),new Vector2(0.35f,3.83f),new Vector2(1.05f,3.86f),new Vector2(1.78f,3.84f),new Vector2(2.5f,3.82f),new Vector2(-2.46f,4.31f),new Vector2(-1.74f,4.33f),new Vector2(-1.04f,4.29f),new Vector2(-0.34f,4.32f),new Vector2(0.4f,4.3f),new Vector2(1.1f,4.33f),new Vector2(1.83f,4.31f),new Vector2(2.54f,4.29f)};
         for(int i=0;i<stainPoints.Length;i++)
         {
-            var stain=new GameObject("Mancha orgánica "+(i+1),typeof(MeshFilter),typeof(MeshRenderer));stain.transform.position=new Vector3(stainPoints[i].x,1.135f,stainPoints[i].y);stain.transform.localScale=new Vector3(.30f+(i%3)*.035f,.008f,.16f+(i%4)*.018f);stain.transform.rotation=Quaternion.Euler(0,(i*37)%180,0);
+            var stain=new GameObject("Mancha orgánica "+(i+1),typeof(MeshFilter),typeof(MeshRenderer));stain.transform.position=new Vector3(stainPoints[i].x,1.135f,stainPoints[i].y);stain.transform.localScale=new Vector3(.20f+(i%3)*.02f,.008f,.10f+(i%4)*.008f);stain.transform.rotation=Quaternion.Euler(0,(i*37)%29-14,0);
             stain.GetComponent<MeshFilter>().sharedMesh=StainMesh(i);stain.GetComponent<MeshRenderer>().sharedMaterial=grime;patches.Add(stain.GetComponent<Renderer>());
         }
         game.dirtPatches = patches.ToArray();

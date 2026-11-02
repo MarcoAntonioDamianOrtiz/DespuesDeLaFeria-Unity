@@ -72,8 +72,11 @@ namespace Feria
             var velocity=leaves.velocityOverLifetime;velocity.enabled=true;velocity.space=ParticleSystemSimulationSpace.World;velocity.x=new ParticleSystem.MinMaxCurve(-.18f,.18f);velocity.y=new ParticleSystem.MinMaxCurve(-.08f,-.02f);velocity.z=new ParticleSystem.MinMaxCurve(-.1f,.1f);
             var rotation=leaves.rotationOverLifetime;rotation.enabled=true;rotation.z=new ParticleSystem.MinMaxCurve(-1.2f,1.2f);
             var renderer=leaves.GetComponent<ParticleSystemRenderer>();var shader=Shader.Find("Universal Render Pipeline/Particles/Unlit");if(!shader)shader=Shader.Find("Sprites/Default");renderer.material=new Material(shader){name="Hojas de otoño (instancia)"};renderer.shadowCastingMode=ShadowCastingMode.Off;renderer.receiveShadows=false;
-            wind=host.AddComponent<AudioSource>();wind.loop=true;wind.playOnAwake=true;wind.spatialBlend=0;wind.volume=.018f;windClip=MakeWind();wind.clip=windClip;wind.Play();host.AddComponent<AudioLowPassFilter>().cutoffFrequency=900;
-            birds=host.AddComponent<AudioSource>();birds.playOnAwake=false;birds.spatialBlend=0;birds.volume=.10f;birdClip=MakeBirdsong();nextBird=Time.time+Random.Range(4f,8f);
+            var windHost=new GameObject("Brisa suave");windHost.SetActive(false);windHost.transform.SetParent(host.transform,false);
+            wind=windHost.AddComponent<AudioSource>();wind.loop=true;wind.playOnAwake=false;wind.spatialBlend=0;wind.volume=.018f;windClip=MakeWind();wind.clip=windClip;windHost.AddComponent<AudioLowPassFilter>().cutoffFrequency=900;
+            var birdHost=new GameObject("Trinos del parque");birdHost.SetActive(false);birdHost.transform.SetParent(host.transform,false);
+            birds=birdHost.AddComponent<AudioSource>();birds.playOnAwake=false;birds.spatialBlend=0;birds.volume=.10f;birdClip=MakeBirdsong();nextBird=Time.time+Random.Range(4f,8f);
+            windHost.SetActive(true);birdHost.SetActive(true);wind.Play();
         }
         AudioClip MakeWind()
         {

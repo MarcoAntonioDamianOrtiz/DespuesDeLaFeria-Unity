@@ -5,7 +5,7 @@ namespace Feria
     /// <summary>Original, lightweight foley made from generated audio for the quiet morning fair.</summary>
     public sealed class FairAudio : System.IDisposable
     {
-        readonly AudioSource broom,cloth,fx;
+        readonly AudioSource broom,cloth,fx,steps;
         readonly AudioClip broomBrush,clothBrush,pickup,bell,footstep,cartStep;
         readonly AudioLowPassFilter clothFilter;
         readonly GameObject toolHost;
@@ -13,17 +13,20 @@ namespace Feria
 
         public FairAudio(GameObject host)
         {
-            toolHost=new GameObject("Audio · Herramientas artesanales");toolHost.transform.SetParent(host.transform,false);
+            toolHost=new GameObject("Audio · Herramientas artesanales");toolHost.SetActive(false);toolHost.transform.SetParent(host.transform,false);
             var broomHost=new GameObject("Cerdas · barrido corto");broomHost.transform.SetParent(toolHost.transform,false);
             broom=broomHost.AddComponent<AudioSource>();broom.loop=true;broom.spatialBlend=0;broom.volume=0;
-            broomBrush=MakeBrush("Escoba · cerdas sobre las tablas",1.12f,74,.34f,.19f);broom.clip=broomBrush;broom.Play();
+            broomBrush=MakeBrush("Escoba · cerdas sobre las tablas",1.12f,74,.34f,.19f);broom.clip=broomBrush;broom.playOnAwake=false;
             var clothHost=new GameObject("Paño · roce suave");clothHost.transform.SetParent(toolHost.transform,false);
             cloth=clothHost.AddComponent<AudioSource>();cloth.loop=true;cloth.spatialBlend=0;cloth.volume=0;
-            clothBrush=MakeBrush("Paño · madera encerada",.96f,231,.22f,.11f);cloth.clip=clothBrush;cloth.Play();
+            clothBrush=MakeBrush("Paño · madera encerada",.96f,231,.22f,.11f);cloth.clip=clothBrush;cloth.playOnAwake=false;
             clothFilter=clothHost.AddComponent<AudioLowPassFilter>();clothFilter.cutoffFrequency=3900;
             fx=host.AddComponent<AudioSource>();fx.spatialBlend=0;fx.volume=.24f;
             pickup=MakeTone("Recogida",.11f,690,false);bell=MakeTone("Campana de feria",.9f,1046,true);
             footstep=MakeFootstep("Paso · suela en adoquín",.12f,81);cartStep=MakeFootstep("Paso · suela al empujar",.14f,113);
+            var stepsHost=new GameObject("Pasos del paseo");stepsHost.transform.SetParent(toolHost.transform,false);
+            steps=stepsHost.AddComponent<AudioSource>();steps.playOnAwake=false;steps.spatialBlend=0;steps.volume=.24f;
+            toolHost.SetActive(true);broom.Play();cloth.Play();
         }
 
         public void Brush(float volume,bool softSurface=false)
@@ -42,8 +45,10 @@ namespace Feria
 
         public void Step(bool pushingCart,float intensity)
         {
-            fx.pitch=Random.Range(.94f,1.05f);fx.PlayOneShot(pushingCart?cartStep:footstep,Mathf.Clamp(intensity,0,1)*.58f);
+            steps.pitch=Random.Range(.94f,1.05f);steps.PlayOneShot(pushingCart?cartStep:footstep,Mathf.Clamp(intensity,0,1)*.58f);
         }
+
+        public void SilenceTools(){broomTarget=clothTarget=0;broom.volume=cloth.volume=0;}
 
         public void Pickup(int count=1){fx.pitch=1;fx.PlayOneShot(pickup,Mathf.Min(.7f,.12f+count*.03f));}
         public void Bell(){fx.pitch=1;fx.PlayOneShot(bell);}

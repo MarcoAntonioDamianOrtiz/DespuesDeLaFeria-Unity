@@ -16,7 +16,7 @@ public static class ContinuousParkBuilder
     static Transform decor;
     static Material cream,teal,coral,gold,wood,ink,grass,leaves,path,grassLight,soil,leafLitter;
     static TMP_FontAsset font;
-    static readonly Vector2[] CounterStains={new Vector2(-2.42f,3.76f),new Vector2(-1.18f,3.76f),new Vector2(.18f,3.76f),new Vector2(1.46f,3.76f),new Vector2(2.48f,3.76f),new Vector2(-2.02f,4.08f),new Vector2(-.82f,4.08f),new Vector2(.52f,4.08f),new Vector2(1.78f,4.08f),new Vector2(2.58f,4.08f),new Vector2(-2.42f,4.40f),new Vector2(-1.45f,4.40f),new Vector2(-.25f,4.40f),new Vector2(.95f,4.40f),new Vector2(1.95f,4.40f),new Vector2(2.54f,4.40f)};
+    static readonly Vector2[] CounterStains={new Vector2(-2.5f,3.84f),new Vector2(-1.8f,3.86f),new Vector2(-1.1f,3.82f),new Vector2(-0.4f,3.85f),new Vector2(0.35f,3.83f),new Vector2(1.05f,3.86f),new Vector2(1.78f,3.84f),new Vector2(2.5f,3.82f),new Vector2(-2.46f,4.31f),new Vector2(-1.74f,4.33f),new Vector2(-1.04f,4.29f),new Vector2(-0.34f,4.32f),new Vector2(0.4f,4.3f),new Vector2(1.1f,4.33f),new Vector2(1.83f,4.31f),new Vector2(2.54f,4.29f)};
     [MenuItem("Feria/Construir parque continuo v0.10")]
     public static void Build()
     {
@@ -91,7 +91,7 @@ public static class ContinuousParkBuilder
         if(game.dirtPatches==null||game.dirtPatches.Length!=CounterStains.Length||(game.definition.zoneId!="rincon-canicas"&&game.definition.zoneId!="galeria-patitos"))return;
         for(int i=0;i<game.dirtPatches.Length;i++)
         {
-            var patch=game.dirtPatches[i];patch.name="Mancha orgánica "+(i+1);patch.transform.SetParent(root,false);patch.transform.localPosition=new Vector3(CounterStains[i].x,1.135f,CounterStains[i].y);patch.transform.localRotation=Quaternion.Euler(0,(i*37)%180,0);patch.transform.localScale=new Vector3(.30f+(i%3)*.035f,.008f,.16f+(i%4)*.018f);
+            var patch=game.dirtPatches[i];patch.name="Mancha orgánica "+(i+1);patch.transform.SetParent(root,false);patch.transform.localPosition=new Vector3(CounterStains[i].x,1.135f,CounterStains[i].y);patch.transform.localRotation=Quaternion.Euler(0,(i*37)%29-14,0);patch.transform.localScale=new Vector3(.20f+(i%3)*.02f,.008f,.10f+(i%4)*.008f);
             patch.GetComponent<MeshFilter>().sharedMesh=StainMesh(i);
         }
     }

@@ -2,6 +2,9 @@
 
 ## 0.10.0 — Una mañana con más vida
 
+- Revisión posterior: manchas más pequeñas en dos filas separadas; pasos independientes de las campanillas y calculados después de limitar la posición al mapa.
+- Brisa y pájaros usan fuentes independientes; se evita el aviso de reproducción sin clip y las herramientas se silencian al pausar.
+- Verificación del parque, migraciones y pulido en Play; el verificador recupera también el estado de guardado al terminar.
 - Caminata con aceleración y frenado suaves, balanceo de cámara pequeño y pasos discretos según el recorrido.
 - Sonido de escoba propio con pasadas rítmicas de cerdas; el paño mantiene un roce de madera más apagado.
 - Brisa con variación lenta y trinos lejanos, todos generados para el juego.
