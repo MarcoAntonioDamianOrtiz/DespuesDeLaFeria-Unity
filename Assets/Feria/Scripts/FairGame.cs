@@ -68,6 +68,7 @@ namespace Feria
         RestorationState restoration;
         FairAudio sound;
         FairFeedback feedback;
+        FairVfx vfx;
         FairSave initialState,practiceReturn;
         Vector3 lastSweep,lastPlayer;
         bool hasSweep,toolHeld;
@@ -82,8 +83,8 @@ namespace Feria
             floor=new LitterSimulation(litter,definition,origin);counter=new SurfaceCleaning(dirtPatches);
             if(!park)cartMotor=new CartMotor(cart,player.transform,definition);
             restoration=new RestorationState(sign,marble,fairLights,bulbs,litBulb,definition,origin);
-            sound=new FairAudio(gameObject);feedback=new FairFeedback(this);
-            floor.PickedUp+=amount=>{sound.Pickup(amount);Metrics.Pickup(amount);};
+            sound=new FairAudio(gameObject);feedback=new FairFeedback(this);vfx=new FairVfx(this);
+            floor.PickedUp+=amount=>{sound.Pickup(amount);Metrics.Pickup(amount);vfx.PickedUp(cart.position+cart.forward*.8f,amount);};
             floor.FloorCompleted+=()=>Tell("¡Explanada despejada! Recuperaste los colores del suelo.");
             restoration.Chime+=sound.Bell;
             Marble.RailTouched+=sound.MarbleNote;
@@ -98,7 +99,7 @@ namespace Feria
         public void Tick(float elapsed)
         {
             if(noticeTime>0){noticeTime-=elapsed;if(noticeTime<=0)notice="";}
-            bool show=!park||park.CurrentGame==this;feedback.SetVisible(show);if(show)feedback.Tick(elapsed);if(Paused){sound.Brush(0);return;}
+            bool show=!park||park.CurrentGame==this;feedback.SetVisible(show);if(show)feedback.Tick(elapsed);vfx.Tick(elapsed);if(Paused){sound.Brush(0);return;}
             float dt=Mathf.Min(elapsed,.05f);
             if(!park||park.ActiveZone==this){PlaySeconds+=elapsed;Metrics.seconds+=elapsed;}
             Metrics.walkingMetres+=Vector3.Distance(player.transform.position,lastPlayer);lastPlayer=player.transform.position;
@@ -123,7 +124,7 @@ namespace Feria
         public int Sweep(Vector3 point,Vector3 movement,float dt)
         {
             if(MovingCart)return 0;
-            int count=floor.Sweep(point,movement,player.transform.forward,dt);if(count>0)sound.Brush(.13f);return count;
+            int count=floor.Sweep(point,movement,player.transform.forward,dt);if(count>0){sound.Brush(.13f);vfx.Sweep(point,movement,count);}return count;
         }
         public int CleanAt(Vector3 point,float dt){int count=counter.Clean(point,dt);if(count>0)sound.Brush(.09f);return count;}
         public bool TrySweepPoint(out Vector3 point)
@@ -237,6 +238,6 @@ namespace Feria
         }
         void OnApplicationQuit(){if(!park&&floor!=null)Save(false);PlayerPrefs.Save();Cursor.lockState=CursorLockMode.None;}
         void OnApplicationFocus(bool focus){if(!park&&!focus&&!Paused)SetPaused(true);}
-        void OnDestroy(){feedback?.Dispose();sound?.Dispose();}
+        void OnDestroy(){feedback?.Dispose();sound?.Dispose();vfx?.Dispose();}
     }
 }

@@ -31,6 +31,7 @@ namespace Feria
         void Awake()
         {
             if(!definition||!definition.catalog)throw new InvalidOperationException("Falta el plano del parque.");
+            if(!GetComponent<FairParkAmbience>())gameObject.AddComponent<FairParkAmbience>();
             zones=GetComponentsInChildren<FairGame>(true);if(zones.Length==0)throw new InvalidOperationException("El parque no tiene atracciones.");
             foreach(var zone in zones){zone.park=this;zone.player=player;zone.cart=cart;zone.hud=hud;zone.catalog=definition.catalog;}
             CurrentGame=zones[0];player.game=CurrentGame;hud.game=CurrentGame;hud.park=this;

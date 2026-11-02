@@ -1,5 +1,14 @@
 # Cambios
 
+## 0.7.0 — Pulido de movimiento y ambiente
+
+- Efecto de polvo reutilizable en el punto real de contacto de la escoba.
+- Recogida de residuos con pequeñas partículas cálidas.
+- Hojas otoñales con densidad limitada y sin colisiones individuales.
+- Balanceo sutil de copas con fase distinta por árbol.
+- Reutiliza los modelos originales, el sistema de barrido y el recorrido del parque.
+
+
 ## 0.6.0 — Parque continuo y base ampliable
 
 - Entrada, plaza con kiosco, plano, señales físicas, circuito posterior, merendero y jardines.

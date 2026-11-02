@@ -1,6 +1,6 @@
-# Después de la feria · Versión 0.6
+# Después de la feria · Versión 0.7
 
-Abre ParquePrincipal.unity con Unity 6000.3.24f1, o el ejecutable de Feria-Windows-v0.6.
+Abre ParquePrincipal.unity con Unity 6000.3.24f1, o el ejecutable de Feria-Windows-v0.7.
 
 Ahora las dos atracciones pertenecen a un único parque. **Sal caminando del puesto y sigue las señales hasta la plaza o la otra atracción.** El menú ya no transporta entre zonas. E permite llevar el carrito contigo.
 
@@ -8,7 +8,7 @@ Hay entrada, plaza, jardines, circuito posterior y merendero, más cuatro parcel
 
 WASD caminar; ratón mirar; clic mantenido usar herramienta; 1/2 herramientas; E interactuar; Tab orientación; Esc pausa; Enter continuar; F5 guardar.
 
-Canicas: E para lanzar al pasar por la franja dorada. Patitos: ratón para apuntar, clic o E para lanzar; tres aros por ronda. E o R repite y Esc vuelve a la vista normal. Las actividades se habilitan al recuperar sus puestos.
+Canicas: E para lanzar al pasar por la franja dorada. Patitos: ratón para apuntar, clic o E para lanzar; tres aros por ronda. E o R repite y Esc vuelve a la vista normal. Las actividades se habilitan al recuperar sus puestos. El parque incorpora polvo discreto al barrer, respuesta luminosa al recoger, hojas al viento y balanceo suave de copas.
 
 El guardado v3 conserva el progreso anterior y guarda un único jugador/carrito para todo el parque. Las partidas antiguas no se eliminan. Limpieza libre reinicia las atracciones para ensayar sin escribir sobre la campaña; volver restaura su progreso manteniendo tu ubicación.
 
