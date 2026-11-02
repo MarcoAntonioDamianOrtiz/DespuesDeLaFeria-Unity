@@ -17,6 +17,9 @@ public static class FairInteractionVerification
                 zone.Apply(zone.InitialState);Physics.SyncTransforms();
                 for(int i=0;i<zone.dirtPatches.Length;i++)
                 {
+                    foreach(float progress in new[]{0f,.45f})
+                    {
+                    var partial=zone.Snapshot();partial.dirt[i]=progress;zone.Apply(partial);
                     var patch=zone.dirtPatches[i];var mesh=patch.GetComponent<MeshFilter>().sharedMesh;var center=patch.transform.TransformPoint(mesh.bounds.center);
                     foreach(float distance in new[]{.85f,1.6f,2.8f})foreach(float side in new[]{-.4f,0,.4f})
                     {
@@ -30,6 +33,8 @@ public static class FairInteractionVerification
                         }
                     }
                 }
+                    }
+                zone.Apply(zone.InitialState);
                 var target=zone.dirtPatches[0].bounds.center;var from=target+Vector3.up*.8f-zone.origin.forward*1.3f;var aim=new Ray(from,(target-from).normalized);
                 Check(!zone.TrySurfaceTarget(new Ray(target+Vector3.up*4,Vector3.down),out _,out _),"Fuera de alcance");
                 wall=GameObject.CreatePrimitive(PrimitiveType.Cube);wall.transform.position=(from+target)*.5f;wall.transform.localScale=Vector3.one*.25f;Physics.SyncTransforms();

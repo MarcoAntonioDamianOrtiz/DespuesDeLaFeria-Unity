@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "script eval",
+    "parameters": {
+      "code": "var r=UnityEditor.BuildPipeline.BuildPlayer(new UnityEditor.BuildPlayerOptions{scenes=new[]{\"Assets/Feria/Scenes/ParquePrincipal.unity\"},locationPathName=\"../Feria-Windows-v0.12/DespuesDeLaFeria.exe\",target=UnityEditor.BuildTarget.StandaloneWindows64,options=UnityEditor.BuildOptions.None});var s=r.summary;return new {result=s.result.ToString(),errors=s.totalErrors,warnings=s.totalWarnings,bytes=s.totalSize,seconds=s.totalTime.TotalSeconds};"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": {
+        "result": "Succeeded",
+        "errors": 0,
+        "warnings": 0,
+        "bytes": 118713268,
+        "seconds": 64.6140077
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "C:\\Users\\mo27m\\Documents\\Codex\\2026-10-29\\qu\\outputs\\DespuesDeLaFeria"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

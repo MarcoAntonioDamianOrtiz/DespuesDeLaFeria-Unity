@@ -1,0 +1,5 @@
+{
+  "conditions": "Windows D3D12, 1280x720, mismo FairBuildSmoke, cámara/escena equivalentes, Editor en edición. Lanzamientos secuenciales;30 frames calentamiento y120 muestras. Una muestra breve por versión; no representa FPS sostenidos durante juego.",
+  "baseline": "FERIA_SMOKE_PASS · 0.11.0 · ParquePrincipal · frames=152 · mean_ms=4.648654 · p95_ms=5.817701 · Direct3D12 · 1280x720\r",
+  "candidate": "FERIA_SMOKE_PASS · 0.12.0 · ParquePrincipal · frames=152 · mean_ms=1.749872 · p95_ms=2.274199 · Direct3D12 · 1280x720\r"
+}

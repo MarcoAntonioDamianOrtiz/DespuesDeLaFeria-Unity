@@ -9,6 +9,7 @@ namespace Feria
         readonly AudioClip broomBrush,clothBrush,pickup,bell,footstep,cartStep;
         readonly AudioLowPassFilter clothFilter;
         readonly GameObject toolHost;
+        readonly FairUiAudio ui=Resources.Load<FairUiAudio>("AudioV012");
         float clock,broomTarget,clothTarget;
         readonly AudioClip[,] surfaceSteps=new AudioClip[4,3];
         int nextStep;
@@ -62,10 +63,11 @@ namespace Feria
         public void SilenceTools(){broomTarget=clothTarget=0;broom.volume=cloth.volume=0;}
         public void Pause(){SilenceTools();steps.Stop();fx.Pause();}
         public void Resume(){fx.UnPause();}
-        public void ToolChanged(){fx.pitch=1;fx.PlayOneShot(pickup,.12f);}
+        public void ToolChanged(){fx.pitch=1;fx.PlayOneShot(ui&&ui.select?ui.select:pickup,.18f);}
+        public void ObjectiveComplete(){fx.pitch=1;fx.PlayOneShot(ui&&ui.confirm?ui.confirm:pickup,.25f);}
 
         public void Pickup(int count=1){fx.pitch=1;fx.PlayOneShot(pickup,Mathf.Min(.7f,.12f+count*.03f));}
-        public void Bell(){fx.pitch=1;fx.PlayOneShot(bell);}
+        public void Bell(){fx.pitch=1;fx.PlayOneShot(ui&&ui.complete?ui.complete:bell,.6f);}
         public void MarbleNote(int step){fx.pitch=Mathf.Pow(1.059463f,Mathf.Clamp(step,0,12)-5);fx.PlayOneShot(pickup,.65f);}
 
         static AudioClip MakeBrush(string name,float seconds,int seed,float softness,float grit)

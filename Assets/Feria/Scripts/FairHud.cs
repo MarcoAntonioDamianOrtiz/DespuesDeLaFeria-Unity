@@ -50,6 +50,7 @@ namespace Feria
             prompt.outlineWidth=.18f;prompt.outlineColor=new Color32(27,53,51,180);
             var context=Panel("Limpieza individual",uiRoot,new Vector2(286,82),new Vector2(0,-145),new Vector2(.5f,.5f),new Vector2(.5f,.5f),new Color(.97f,.95f,.87f,.96f));contextGroup=context.gameObject.AddComponent<CanvasGroup>();contextGroup.blocksRaycasts=false;contextGroup.interactable=false;contextGroup.alpha=0;
             contextTitle=Label("Mancha",context,"",18,ink,new Vector2(250,25),new Vector2(18,-10),new Vector2(0,1),new Vector2(0,1));
+            contextTitle.enableAutoSizing=true;contextTitle.fontSizeMin=12;contextTitle.fontSizeMax=18;contextTitle.overflowMode=TextOverflowModes.Ellipsis;
             var contextTrack=Panel("Barra",context,new Vector2(250,5),new Vector2(18,-42),new Vector2(0,1),new Vector2(0,1),new Color(.80f,.81f,.72f));
             contextFill=Panel("Avance",contextTrack,new Vector2(0,5),Vector2.zero,new Vector2(0,1),new Vector2(0,1),new Color(.17f,.43f,.40f));
             contextHint=Label("Herramienta requerida",context,"2 · Paño",15,ink,new Vector2(250,22),new Vector2(18,-53),new Vector2(0,1),new Vector2(0,1));
@@ -183,7 +184,7 @@ namespace Feria
             contextGroup.alpha=Mathf.MoveTowards(contextGroup.alpha,show?1:0,Time.unscaledDeltaTime*7);
             if(!show)return;
             float value=completed?1:game.SurfaceProgress;if(target!=lastTarget){shownProgress=value;lastTarget=target;}else shownProgress=Mathf.Lerp(shownProgress,value,1-Mathf.Exp(-Time.unscaledDeltaTime*20));
-            contextTitle.SetText(completed?"Mancha {0:0} · ¡Limpia!":"Mancha {0:0} · {1:0}%",target+1,shownProgress*100);
+            string label=game.SurfaceLabelFor(target);contextTitle.text=completed?label+" · ¡Limpia!":label+" · "+Mathf.RoundToInt(shownProgress*100)+"%";
             contextFill.sizeDelta=new Vector2(250*shownProgress,5);
             contextHint.text=completed?"El mostrador recupera su color":game.Tool==1?"Mantén clic · Frotar":"2 · Equipa el paño";
         }

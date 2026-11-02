@@ -1,0 +1,117 @@
+{
+  "red": {
+    "label": {
+      "success": false,
+      "command": "command",
+      "data": null,
+      "errors": [
+        {
+          "code": "COMMAND_FAILED",
+          "message": "Runtime Error\n  FAIL · Confirmación nombra la mancha siguiente sin limpiar"
+        }
+      ],
+      "warnings": []
+    },
+    "cloth": {
+      "success": false,
+      "command": "command",
+      "data": null,
+      "errors": [
+        {
+          "code": "COMMAND_FAILED",
+          "message": "Runtime Error\n  FAIL · Paño abandona el plano: pitch=25 altura=0.001434565"
+        }
+      ],
+      "warnings": []
+    },
+    "range": {
+      "success": false,
+      "command": "command",
+      "data": null,
+      "errors": [
+        {
+          "code": "COMMAND_FAILED",
+          "message": "Runtime Error\n  FAIL · Falta aviso de acercamiento fuera de alcance"
+        }
+      ],
+      "warnings": []
+    }
+  },
+  "green": {
+    "label": {
+      "success": true,
+      "command": "command",
+      "data": {
+        "command": "script eval",
+        "parameters": {
+          "code": "return FairV012ReviewVerification.Run(\"label\");"
+        },
+        "result": {
+          "output": null,
+          "diagnostics": [],
+          "success": true,
+          "result": [
+            "PASS · Revisión label"
+          ]
+        },
+        "target": {
+          "host": "127.0.0.1",
+          "port": 7801,
+          "projectPath": "C:\\Users\\mo27m\\Documents\\Codex\\2026-10-29\\qu\\outputs\\DespuesDeLaFeria"
+        }
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "cloth": {
+      "success": true,
+      "command": "command",
+      "data": {
+        "command": "script eval",
+        "parameters": {
+          "code": "return FairV012ReviewVerification.Run(\"cloth\");"
+        },
+        "result": {
+          "output": null,
+          "diagnostics": [],
+          "success": true,
+          "result": [
+            "PASS · Revisión cloth"
+          ]
+        },
+        "target": {
+          "host": "127.0.0.1",
+          "port": 7801,
+          "projectPath": "C:\\Users\\mo27m\\Documents\\Codex\\2026-10-29\\qu\\outputs\\DespuesDeLaFeria"
+        }
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "range": {
+      "success": true,
+      "command": "command",
+      "data": {
+        "command": "script eval",
+        "parameters": {
+          "code": "return FairV012ReviewVerification.Run(\"range\");"
+        },
+        "result": {
+          "output": null,
+          "diagnostics": [],
+          "success": true,
+          "result": [
+            "PASS · Revisión range"
+          ]
+        },
+        "target": {
+          "host": "127.0.0.1",
+          "port": 7801,
+          "projectPath": "C:\\Users\\mo27m\\Documents\\Codex\\2026-10-29\\qu\\outputs\\DespuesDeLaFeria"
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  }
+}

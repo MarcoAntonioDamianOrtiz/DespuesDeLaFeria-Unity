@@ -156,4 +156,4 @@ Autorrevisión realizada: requisitos de la solicitud cubiertos por los siete blo
 
 ## Estado
 
-Inspección completada; implementación pendiente de revisión del plan y elección del método de ejecución que exige el skill writing-plans de Superpowers.
+Plan aprobado y ejecutado directamente. Entrega local v0.12 compilada y comprobada; decisiones de alcance, pruebas y límites en ../../PULIDO-0.12.md y ../../receipts/v012-execution.md. Las casillas originales se conservan como especificación del plan; el registro de ejecución indica las comprobaciones efectivamente realizadas.

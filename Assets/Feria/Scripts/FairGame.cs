@@ -24,6 +24,11 @@ namespace Feria
         public FairZoneCatalog catalog;
         public string[] litterIds,surfaceIds;
         public Renderer[] dirtPatches;
+        public FairStainCatalog stainCatalog;
+        public const float SweepReach=2.8f;
+        public string SurfaceLabelFor(int index)=>stainCatalog?stainCatalog.Get(index).displayName:"Mancha";
+        public string SurfaceLabel=>SurfaceLabelFor(SurfaceTarget>=0?SurfaceTarget:LastSurfaceCompleted);
+        public bool SweepOutOfReach {get;private set;}
         public Light[] fairLights;
         public Renderer[] bulbs;
         public Material litBulb,feedbackMaterial;
@@ -99,7 +104,7 @@ namespace Feria
             restoration=new RestorationState(sign,marble,fairLights,bulbs,litBulb,definition,origin);
             sound=new FairAudio(gameObject);feedback=new FairFeedback(this);vfx=new FairVfx(this);
             litterRenderer=new FairLitterRenderer(litter);
-            counter.Completed+=index=>{sound.Pickup(1);vfx.Cleaned(dirtPatches[index].transform.position);};
+            counter.Completed+=index=>{sound.ObjectiveComplete();vfx.Cleaned(dirtPatches[index].transform.position);};
             floor.PickedUp+=amount=>{sound.Pickup(amount);Metrics.Pickup(amount);vfx.PickedUp(cart.position+cart.forward*.8f,amount);};
             floor.FloorCompleted+=()=>Tell("¡Explanada despejada! Recuperaste los colores del suelo.");
             restoration.Chime+=sound.Bell;
@@ -127,17 +132,18 @@ namespace Feria
         public bool TrySurfaceTarget(Ray ray,out int index,out Vector3 point)=>counter.Raycast(ray,3.5f,out index,out point);
         public void UseTool(bool working,float elapsed=-1)
         {
-            ToolContact=false;SurfaceTarget=-1;
-            if(Paused||MinigameActive||MovingCart||(park&&park.ActiveZone!=this)){hasSweep=false;toolHeld=false;return;}
+            ToolContact=false;SurfaceTarget=-1;SweepOutOfReach=false;
+            if(Paused||MinigameActive||MovingCart||(park&&park.ActiveZone!=this)){hasSweep=false;toolHeld=false;sound.SilenceTools();return;}
             var ray=player.view.ViewportPointToRay(new Vector3(.5f,.5f));
             if(TrySurfaceTarget(ray,out int target,out var surfacePoint)){SurfaceTarget=target;ContactPoint=surfacePoint;}
+            var sweepPoint=Vector3.zero;bool sweepValid=Tool==0&&TrySweepPoint(out sweepPoint);
             if(!working){hasSweep=false;toolHeld=false;sound.SilenceTools();return;}
             float dt=elapsed>=0?elapsed:Time.deltaTime;
             bool first=!toolHeld;toolHeld=true;
             if(Tool==0)
             {
                 if(first)Metrics.sweepActions++;
-                if(!TrySweepPoint(out var p)){hasSweep=false;if(first)Metrics.emptySweeps++;return;}
+                if(!sweepValid){hasSweep=false;sound.SilenceTools();if(first)Metrics.emptySweeps++;return;}var p=sweepPoint;
                 int contacts=Sweep(p,hasSweep?p-lastSweep:player.transform.forward*.02f,dt);ToolContact=contacts>0;ContactPoint=p;
                 if(first&&contacts==0)Metrics.emptySweeps++;
                 Metrics.sweepingSeconds+=Time.deltaTime;lastSweep=p;hasSweep=true;
@@ -159,10 +165,12 @@ namespace Feria
         public int CleanAt(Vector3 point,float dt){int count=counter.Clean(point,dt);if(count>0)sound.Brush(.09f,true);return count;}
         public bool TrySweepPoint(out Vector3 point)
         {
-            point=default;if(park&&park.ActiveZone!=this)return false;var ray=player.view.ViewportPointToRay(new Vector3(.5f,.5f));var plane=new Plane(origin?origin.up:Vector3.up,World(new Vector3(0,.04f,0)));
-            if(!plane.Raycast(ray,out float distance)||distance<0||distance>5)return false;
+            point=default;SweepOutOfReach=false;if(park&&park.ActiveZone!=this)return false;var ray=player.view.ViewportPointToRay(new Vector3(.5f,.5f));var plane=new Plane(origin?origin.up:Vector3.up,World(new Vector3(0,.04f,0)));
+            if(!plane.Raycast(ray,out float distance)||distance<0)return false;
+            var candidate=ray.GetPoint(distance);var local=Local(candidate);if(!(local.x>definition.litterMin.x-.2f&&local.x<definition.litterMax.x+.2f&&local.z>definition.litterMin.y-.2f&&local.z<definition.litterMax.y+.1f))return false;
             if(Physics.Raycast(ray,out var hit,distance)&&hit.collider.gameObject.name!="Explanada")return false;
-            point=ray.GetPoint(distance);var local=Local(point);return local.x>definition.litterMin.x-.2f&&local.x<definition.litterMax.x+.2f&&local.z>definition.litterMin.y-.2f&&local.z<definition.litterMax.y+.1f;
+            if(distance+Vector3.Distance(ray.origin,player.view.transform.position)>SweepReach){SweepOutOfReach=true;return false;}
+            point=candidate;return true;
         }
         public Vector3 RequestHint()
         {
@@ -192,7 +200,7 @@ namespace Feria
             if(LookingAt(switchBox,3.5f))return Restored?"El puesto vuelve a brillar":(FloorDone&&CounterDone&&SignFixed?"E · ¡Encender el puesto!":"Termina las tres tareas para encender");
             if(Restored&&LookingAt(ActivityTarget,4))return IsDucks?"E · Jugar a los patitos":"E · Jugar a las canicas";
             if(LookingAt(cart,3.4f))return "E · Mover carrito";
-            return Tool==0?"Mantén clic · Barrer hacia el recogedor":"Mantén clic · Limpiar el mostrador";
+            return Tool==0?(SweepOutOfReach?"Acércate · La escoba no llega hasta ahí":"Mantén clic · Barrer hacia el recogedor"):"Mantén clic · Limpiar el mostrador";
         }
         public void Interact()
         {

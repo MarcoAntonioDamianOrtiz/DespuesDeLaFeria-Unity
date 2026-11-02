@@ -76,11 +76,20 @@ namespace Feria
             var offset=new Vector3(swing*.115f,Mathf.Abs(swing)*.022f,-Mathf.Cos(stroke)*.045f*toolBlend);
             offset+=new Vector3(Mathf.Sin(Time.time*5)*.008f,Mathf.Cos(Time.time*10)*.006f,0)*walking;
             offset+=new Vector3(.12f,-.10f,.06f)*(1-toolBlend);
-            broom.localPosition=Vector3.Lerp(broom.localPosition,broomRest+offset,1-Mathf.Exp(-dt*18));
+            var broomContact=view.transform.InverseTransformPoint(game.ContactPoint)-new Vector3(0,.05f,.20f)+offset;
+            broom.localPosition=Vector3.Lerp(broom.localPosition,Vector3.Lerp(broomRest+offset,broomContact,toolBlend),1-Mathf.Exp(-dt*18));
             broom.localRotation=broomRotation*Quaternion.Euler(toolBlend*5,swing*9,-swing*6);
             if(fibres)fibres.localRotation=Quaternion.Euler(toolBlend*8,0,-swing*9);
             broom.gameObject.SetActive(game.Tool==0&&!game.MovingCart&&!game.MinigameActive);
-            if(cloth){cloth.gameObject.SetActive(game.Tool==1&&!game.MovingCart&&!game.MinigameActive);var rest=new Vector3(.42f,-.34f,.65f);var contact=view.transform.InverseTransformPoint(game.ContactPoint);contact=new Vector3(Mathf.Clamp(contact.x,.05f,.35f),Mathf.Clamp(contact.y,-.34f,-.08f),Mathf.Clamp(contact.z,.55f,1.05f));cloth.localPosition=Vector3.Lerp(cloth.localPosition,Vector3.Lerp(rest,contact,toolBlend)+new Vector3(swing*.06f,Mathf.Cos(stroke)*toolBlend*.025f,0),1-Mathf.Exp(-dt*16));cloth.localRotation=Quaternion.Euler(-12,-15,swing*9);}
+            if(cloth)
+            {
+                cloth.gameObject.SetActive(game.Tool==1&&!game.MovingCart&&!game.MinigameActive);
+                var rest=new Vector3(.42f,-.34f,.65f);var normal=game.origin?game.origin.up:Vector3.up;var right=game.origin?game.origin.right:Vector3.right;var forward=game.origin?game.origin.forward:Vector3.forward;
+                var world=game.ContactPoint+normal*.025f+right*(Mathf.Sin(stroke)*.06f)+forward*(Mathf.Cos(stroke)*.025f);
+                var contact=cloth.parent.InverseTransformPoint(world);
+                cloth.localPosition=Vector3.Lerp(cloth.localPosition,Vector3.Lerp(rest,contact,toolBlend),1-Mathf.Exp(-dt*16));
+                cloth.rotation=Quaternion.Slerp(view.transform.rotation*Quaternion.Euler(-12,-15,0),Quaternion.LookRotation(forward,normal)*Quaternion.Euler(0,swing*9,0),toolBlend);
+            }
         }
         void LateUpdate()
         {

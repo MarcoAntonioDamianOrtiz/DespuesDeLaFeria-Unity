@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dca679929fd4364ca9b1a72bb5d54f8, type: 3}
+  m_Name: AudioV012
+  m_EditorClassIdentifier: Assembly-CSharp::Feria.FairUiAudio
+  select: {fileID: 8300000, guid: 2aae5f1677c12e44da7831a6a9ac39a7, type: 3}
+  confirm: {fileID: 8300000, guid: 7dc4f0ad2e8cf2b4a90fec0cd8fe420b, type: 3}
+  complete: {fileID: 8300000, guid: 27d5b6c97654b8446b990f428b4ffdc4, type: 3}

@@ -8,6 +8,7 @@ namespace Feria
         readonly float[] progress;
         readonly Vector3[] originalScale;
         readonly Bounds[] localBounds;
+        readonly MaterialPropertyBlock visual=new MaterialPropertyBlock();
         public event System.Action<int,float> Changed;
         public event System.Action<int> Completed;
         public int Count=>progress.Length;
@@ -49,7 +50,12 @@ namespace Feria
             {if(CleanIndex(i,dt))count++;}
             return count;
         }
-        void Refresh(int i){patches[i].gameObject.SetActive(progress[i]<1);patches[i].transform.localScale=originalScale[i]*(1-progress[i]);}
+        void Refresh(int i)
+        {
+            patches[i].gameObject.SetActive(progress[i]<1);
+            patches[i].transform.localScale=originalScale[i]*(1-progress[i]);
+            patches[i].GetPropertyBlock(visual);visual.SetFloat("_Clean",progress[i]);patches[i].SetPropertyBlock(visual);
+        }
         public Vector3 Pending(){for(int i=0;i<progress.Length;i++)if(progress[i]<1)return patches[i].transform.position;return Vector3.zero;}
         public float[] Capture()=>(float[])progress.Clone();
         public void Restore(float[] data){for(int i=0;i<data.Length;i++){progress[i]=data[i];Refresh(i);}}
